@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#14110f">
+<link rel="icon" href="data:,">
+<title>Wiatr z Morza — RÓD, Gra 2 (1268–1281)</title>
+<style>
+:root{--bg:#14110f;--card:#1e1a17;--card2:#29231f;--line:#3a322b;--tx:#eee6d8;--mut:#a39a8c;--acc:#c9a227;--good:#7aa36a;--bad:#d0654d;--blue:#6b8fb3;--vio:#b5523b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) calc(76px + env(safe-area-inset-bottom)) env(safe-area-inset-left)}
+header{position:sticky;top:0;z-index:5;background:rgba(20,17,15,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 10px}
+.hrow{display:flex;align-items:center;gap:4px}
+.logo{font-weight:800;letter-spacing:.08em;font-size:11px;color:var(--acc);margin-right:auto;white-space:nowrap}
+.stat{font-size:12px;background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:3px 6px;white-space:nowrap}
+.stat b{font-variant-numeric:tabular-nums}
+.qs{border:1px solid var(--acc);color:var(--acc);background:none;border-radius:999px;padding:3px 8px;font-size:12px}
+main{padding:12px;max-width:640px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+h1{font-size:25px;margin:4px 0 6px;letter-spacing:.02em;font-family:Georgia,"Times New Roman",serif}
+h2{font-size:17px;margin:0 0 8px}
+h3{font-size:13px;margin:12px 0 6px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+p{margin:6px 0}
+.mut{color:var(--mut)}.sm{font-size:13px}.xs{font-size:12px}.acc{color:var(--acc)}.good{color:var(--good)}.bad{color:var(--bad)}
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{display:block;width:100%;background:var(--acc);color:#1d1606;border:0;border-radius:12px;padding:14px;font-weight:800;font-size:16px;margin-top:10px}
+.btn2{display:block;width:100%;background:var(--card2);color:var(--tx);border:1px solid var(--line);border-radius:12px;padding:12px;font-weight:600;margin-top:8px;text-align:left}
+.btn2:disabled,.btn:disabled,.choice:disabled{opacity:.4}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{border:1px solid var(--line);background:var(--card2);border-radius:999px;padding:8px 11px;font-size:13px;min-height:36px}
+.chip.on{background:var(--acc);color:#1d1606;border-color:var(--acc);font-weight:700}
+.chip.pri.on{background:var(--vio);border-color:var(--vio);color:#fff}
+.mem{border-top:1px solid var(--line);padding-top:10px;margin-top:10px}.mem:first-child{border:0;margin:0;padding:0}
+.bar{height:6px;background:#332b25;border-radius:6px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--good)}
+.tag{display:inline-block;font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:4px;color:var(--mut)}
+.graph{overflow:hidden}
+.prin{border-left:3px solid var(--vio);padding:6px 0 6px 10px;margin:8px 0}
+.log p{margin:4px 0;font-size:14px}
+.choice{display:block;width:100%;text-align:left;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:13px;margin-top:8px;font-size:15px}
+.choice small{display:block;color:var(--mut);margin-top:3px}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;background:rgba(24,20,17,.97);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;background:none;border:0;padding:9px 2px 11px;color:var(--mut);font-size:11px;font-weight:600}
+nav button span{display:block;font-size:20px;line-height:1.2}nav button.on{color:var(--acc)}
+#toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#352d27;color:var(--tx);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:9;max-width:90vw;text-align:center}
+#toast.show{opacity:1}
+textarea,input[type=text]{width:100%;background:var(--card2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:16px}
+textarea{min-height:80px}
+.grid{display:grid;gap:5px;margin:10px auto;touch-action:manipulation}
+.cell{aspect-ratio:1;border-radius:8px;background:#2c2622;border:1px solid var(--line)}
+.cell.lit{background:#e07b39;box-shadow:0 0 14px rgba(224,123,57,.7)}
+.cell.flash{background:var(--blue);box-shadow:0 0 16px rgba(107,143,179,.8)}
+.peg{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;font-weight:800;color:#111;margin-right:4px}
+.fb{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 2px}
+.tray{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.piece{padding:6px;border:2px solid transparent;border-radius:10px;background:var(--card2)}.piece.sel{border-color:var(--acc)}
+.pg{display:grid;gap:2px}.pg i{width:16px;height:16px;border-radius:3px;display:block}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}.check:first-of-type{border:0}
+.box{width:26px;height:26px;flex:0 0 26px;border-radius:8px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800}
+.box.on{background:var(--good);border-color:var(--good);color:#0c1a12}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.kpi div{background:var(--card2);border-radius:10px;padding:8px 4px}.kpi b{display:block;font-size:20px}
+.warn{background:rgba(208,101,77,.12);border:1px solid rgba(208,101,77,.4);border-radius:10px;padding:8px 10px;font-size:13px;margin-top:8px}
+.ok{background:rgba(122,163,106,.12);border:1px solid rgba(122,163,106,.4);border-radius:10px;padding:8px 10px;font-size:13px;margin-top:8px}
+svg text{user-select:none}
+.th{font-style:italic;color:#e3d6bf;border-left:2px solid var(--acc);padding:2px 0 2px 10px;margin:10px 0}
+img.scene,img.cover{display:block;width:100%;border-radius:10px;margin:6px 0 10px;background:#221d19}
+img.cover{aspect-ratio:2/3;object-fit:cover}img.scene{aspect-ratio:3/2;object-fit:cover}
+.pt{width:56px;height:56px;flex:0 0 56px;border-radius:50%;object-fit:cover;background:var(--card2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:22px;color:var(--acc)}
+.pt.dead{filter:grayscale(1);opacity:.75}
+.tmr{height:6px;background:#332b25;border-radius:6px;overflow:hidden;margin:10px 0 2px}.tmr i{display:block;height:100%;width:100%;background:var(--bad);transition:width .1s linear}
+.echo{border-color:#5a4a3a;background:#1a1613}.echo p{font-style:italic;color:#d9cdb8}
+.chap{margin-top:4px}.crow{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}.carr{text-align:center;color:var(--mut);font-size:12px;line-height:1.2}
+.cn{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:4px 8px;color:var(--mut);background:var(--card2);max-width:100%}
+.cn.my{background:var(--acc);color:#1d1606;border-color:var(--acc);font-weight:700}.cn.fd{color:var(--tx)}
+.hearts{color:var(--bad);letter-spacing:2px;font-size:13px}
+.wi{font-size:13px;margin:3px 0}.wi .good,.wi .bad{font-weight:800}
+</style>
+</head>
+<body>
+<header id="hd"></header>
+<main id="main"></main>
+<nav id="tabs">
+ <button data-a="tab" data-v="gra"><span>🌾</span>Pora</button>
+ <button data-a="tab" data-v="mapa"><span>🗺️</span>Mapy</button>
+ <button data-a="tab" data-v="rod"><span>🏮</span>Ród</button>
+ <button data-a="tab" data-v="pam"><span>🕯️</span>Pamięć</button>
+ <button data-a="tab" data-v="life"><span>🌅</span>Życie</button>
+ <button data-a="tab" data-v="hq"><span>💾</span>Zapis</button>
+</nav>
+<div id="toast"></div>
+<script>
+'use strict';
+const GEO={"jp":{"W":400,"H":274,"d":"M406 -6L403 -6L399 -6L401 1L400 16L399 21L396 24L393 27L391 32L387 42L387 47L386 50L385 53L386 57L387 61L392 70L394 72L396 75L388 77L381 84L380 89L380 94L378 98L371 101L367 104L364 107L360 109L360 105L359 102L360 95L359 93L362 91L363 87L366 85L368 82L367 79L362 77L359 78L358 79L357 82L353 88L354 92L356 95L354 99L350 95L347 93L343 93L339 94L336 96L335 99L335 107L333 112L331 116L327 121L323 120L324 110L324 106L327 104L324 101L321 100L316 102L313 106L311 109L308 112L304 116L302 122L295 120L291 120L287 120L280 119L272 121L263 123L271 118L270 115L264 115L261 113L259 117L256 116L257 113L256 109L256 106L257 104L254 103L250 106L246 114L245 119L248 123L255 128L257 131L256 134L245 136L238 140L235 143L229 157L223 166L215 169L207 166L205 163L203 159L200 155L197 152L196 147L196 140L195 135L201 131L205 126L206 121L204 120L198 120L193 121L189 119L184 116L177 115L173 115L169 117L165 117L159 122L155 125L152 126L145 127L142 128L138 129L133 131L129 133L127 135L122 133L114 137L110 137L106 135L102 132L98 134L95 138L94 146L92 150L92 154L79 145L69 146L63 149L60 149L57 148L55 146L52 147L49 148L48 136L51 133L52 131L57 130L61 131L64 130L67 128L70 124L73 121L78 119L82 117L86 113L89 109L92 107L96 104L101 99L109 92L111 88L119 84L127 82L131 82L135 86L139 84L143 84L147 84L152 84L156 84L164 82L168 81L172 79L187 77L197 74L201 75L201 77L199 80L203 83L212 83L215 84L219 82L223 80L227 76L229 73L227 68L226 64L228 58L231 54L235 51L239 48L245 39L250 32L252 23L251 13L255 5L260 4L268 0L272 -1L273 3L266 9L262 12L258 14L261 20L262 23L261 25L265 31L269 31L273 31L278 24L293 18L299 15L303 14L307 12L315 5L318 1L320 -3L323 -6L326 -6L339 -6L343 -6L346 -6L349 -6L353 -6L356 -6L361 -6L364 -6L367 -6L363 -6L359 -6L362 -6L366 -6L363 -6L366 -6L370 -6L374 -6L377 -6L381 -6L385 -6L388 -6L391 -6L395 -6L398 -6L404 -6L393 -6L396 -6L402 -6L406 -6ZM169 136L174 138L179 138L179 145L179 148L181 150L180 154L182 155L176 159L170 164L167 167L165 171L164 175L163 179L161 177L155 170L151 169L146 168L132 174L130 179L127 186L125 188L122 190L121 196L117 200L111 199L112 193L108 193L104 193L104 189L102 187L104 184L105 180L105 177L101 175L101 171L97 172L90 175L97 170L100 168L106 163L109 160L111 156L112 153L113 151L114 148L120 143L124 147L126 150L132 149L138 148L142 147L144 144L144 142L143 137L146 137L150 134L155 133L159 132L164 134L169 136ZM58 164L63 165L67 165L70 163L72 162L76 164L77 168L74 173L71 178L77 179L83 179L82 182L82 184L85 187L84 190L87 193L86 196L78 207L75 212L73 218L72 222L71 227L70 231L68 236L69 241L68 245L64 256L61 256L57 255L53 258L56 263L49 269L41 273L42 270L44 267L45 262L44 257L42 251L43 248L45 245L42 243L39 246L37 250L36 254L37 259L40 262L38 266L28 262L24 261L22 256L27 255L28 253L29 248L27 244L24 241L25 238L24 234L24 228L29 225L31 222L34 219L37 212L40 205L37 205L35 204L37 201L36 196L33 191L31 185L27 183L23 183L23 189L23 192L23 196L27 195L30 197L29 202L26 203L23 200L19 199L16 201L12 205L9 207L11 204L11 201L10 199L7 195L6 190L6 187L10 190L11 194L14 196L17 196L15 190L10 186L6 182L3 179L4 175L7 174L12 176L12 172L15 169L20 167L22 165L27 164L30 163L33 158L34 154L41 151L47 151L51 153L53 157L54 161L58 164ZM-6 -6L406 -6L400 -6L393 -6L389 -6L382 -6L365 -6L360 -6L352 -6L348 -6L337 -6L329 -6L319 -6L303 -6L301 -6L285 -6L281 -6L274 -6L267 -6L261 -6L254 -6L242 -6L238 -6L232 -6L217 -6L210 -6L200 -6L207 -6L221 -6L234 -6L246 -6L251 -6L254 -6L250 -6L254 -6L257 -6L262 -6L266 -6L270 -6L267 -6L264 -6L274 -6L279 -6L284 -6L279 -6L275 -6L277 -6L283 -6L290 -6L283 -6L279 -6L272 -6L269 -6L272 -6L287 -6L294 -6L304 -6L309 -6L313 -6L315 -6L310 -6L306 -6L311 -6L319 -6L334 -6L342 -6L355 -6L358 -6L371 -6L377 -6L389 -6L400 -6L406 -6L396 -6L403 -6L406 -6L398 -6L394 -6L389 -6L383 -6L387 -6L381 -6L378 -6L373 -6L369 -6L365 -6L357 -6L354 -6L349 -6L343 -6L336 -6L331 -6L316 -6L313 -6L309 -6L303 -6L299 -6L288 -6L285 -6L276 -6L266 -6L254 -6L247 -6L242 -6L235 -6L231 -6L226 -6L222 -6L210 -6L200 -6L196 -6L188 -6L181 -6L162 -6L157 -6L146 -6L142 -6L133 -6L127 -6L124 -6L119 -6L112 -6L107 -6L104 -6L97 -6L88 -6L85 -6L82 -6L87 -6L85 -6L80 -6L77 -6L70 -6L66 -6L62 -6L58 -6L53 -6L50 -6L44 -6L46 -6L43 -6L40 -6L33 -6L28 -6L26 -6L20 -6L15 -6L9 -6L6 -6L9 -6L-6 -6L-6 9L-3 19L-3 24L-1 32L-2 36L-2 43L-3 47L-4 50L-4 55L-3 57L-3 61L-1 63L3 61L2 65L-1 76L-3 84L-6 91L-6 98L-6 101L-6 105L-6 108L-6 111L-6 108L-6 104L-6 107L-6 110L-6 114L-6 117L-6 112L-6 116L-6 121L-6 124L-6 128L-6 124L-6 119L-6 115L-6 122L-6 129L-6 126L-6 130L-6 134L-6 129L-6 127L-6 122L-6 119L-6 116L-6 113L-6 108L-6 103L-6 99L-6 96L-6 92L-6 86L-6 83L-6 80L-6 77L-6 73L-6 69L-6 64L-6 62L-6 59L-6 56L-6 53L-6 49L-6 45L-6 38L-6 34L-6 31L-6 26L-6 23L-6 20L-6 23L-6 28L-6 25L-6 22L-6 17L-6 13L-6 9L-6 4L-6 -2L-6 -5L-6 0L-6 7L-6 13L-6 15L-6 10L-6 6L-6 0L-6 -5L-6 -1L-6 2L-6 -1L-6 2L-6 8L-6 13L-6 18L-6 21L-6 25L-6 28L-6 24L-6 28L-6 32L-6 35L-6 38L-6 43L-6 46L-6 49L-6 56L-6 61L-6 55L-6 58L-6 62L-6 66L-6 69L-6 72L-6 76L-6 79L-6 85L-6 90L-6 100L-6 105L-6 112L-6 116L-6 123L-6 126L-6 134L-6 140L-6 153L-6 159L-6 163L-6 169L-6 179L-6 189L-6 196L-6 199L-6 204L-6 208L-6 212L-6 216L-6 223L-6 226L-6 229L-6 236L-6 239L-6 244L-6 237L-6 230L-6 227L-6 233L-6 239L-6 242L-6 247L-6 253L-6 260L-6 267L-6 271L-6 277L-6 280L-6 271L-6 256L-6 244L-6 228L-6 221L-6 211L-6 207L-6 193L-6 181L-6 179L-6 174L-6 162L-6 154L-6 149L-6 142L-6 115L-6 77L-6 72L-6 69L-6 66L-6 69L-6 74L-6 79L-6 86L-6 93L-6 96L-6 93L-6 96L-6 92L-6 88L-6 92L-6 98L-6 101L-6 98L-6 92L-6 90L-6 84L-6 81L-6 77L-6 69L-6 60L-6 56L-6 52L-6 48L-6 44L-6 41L-6 37L-6 32L-6 25L-6 29L-6 35L-6 29L-6 27L-6 24L-6 19L-6 24L-6 17L-6 21L-6 26L-6 21L-6 14L-6 7L-6 10L-6 15L-6 12L-6 20L-6 27L-6 30L-6 26L-6 19L-6 22L-6 26L-6 32L-6 42L-6 45L-6 50L-6 52L-6 56L-6 62L-6 68L-6 72L-6 79L-6 82L-6 86L-6 91L-6 95L-6 104L-6 110L-6 119L-6 124L-6 133L-6 136L-6 138L-6 141L-6 145L-6 154L-6 159L-6 162L-6 168L-6 163L-6 166L-6 174L-6 176L-6 179L-6 182L-6 184L-6 195L-6 198L-6 202L-6 208L-6 215L-6 218L-6 225L-6 233L-6 238L-6 246L-6 251L-6 256L-6 258L-6 262L-6 270L-6 277L-6 280L-6 275L-6 270L-6 265L-6 261L-6 256L-6 250L-6 239L-6 231L-6 227L-6 222L-6 213L-6 207L-6 199L-6 192L-6 198L-6 202L-6 205L-6 213L-6 217L-6 222L-6 226L-6 230L-6 233L-6 236L-6 244L-6 251L-6 247L-6 252L-6 258L-6 265L-6 269L-6 276L-6 280L-6 277L-6 273L-6 264L-6 260L-6 257L-6 254L-6 250L-6 256L-6 252L-6 249L-6 254L-6 251L-6 259L-6 253L-6 256L-6 261L-6 264L-6 267L-6 270L-6 265L-6 261L-6 269L-6 266L-6 270L-6 266L-6 261L-6 253L-6 249L-6 236L-6 223L-6 206L-6 197L-6 191L-6 186L-6 183L-6 178L-6 173L-6 168L-6 152L-6 146L-6 137L-6 129L-6 124L-6 121L-6 111L-6 107L-6 103L-6 96L-6 93L-6 88L-6 81L-6 69L-6 67L-6 63L-6 56L-6 50L-6 46L-6 41L-6 35L-6 32L-6 29L-6 25L-6 27L-6 30L-6 36L-6 39L-6 36L-6 33L-6 30L-6 38L-6 49L-6 55L-6 59L-6 62L-6 59L-6 55L-6 52L-6 44L-6 41L-6 37L-6 29L-6 27L-6 30L-6 41L-6 44L-6 50L-6 53L-6 50L-6 56L-6 52L-6 49L-6 46L-6 41L-6 38L-6 34L-6 29L-6 34L-6 31L-6 35L-6 32L-6 29L-6 24L-6 21L-6 18L-6 14L-6 11L-6 7L-6 0L-6 -4L-6 -2L-6 2L-6 5L-6 2L-6 -1L-6 -4L-6 4L-6 9L-6 20L-6 27L-6 31L-6 36L-6 40L-6 44L-6 41L-6 34L-6 30L-6 39L-6 44L-6 41L-6 36L-6 26L-6 23L-6 20L-6 26L-6 29L-6 32L-6 27L-6 18L-6 13L-6 8L-6 5L-6 -2L-6 -6L-6 -3L-6 5L-6 11L-6 23L-6 30L-6 33L-6 37L-6 42L-6 45L-6 53L-6 57L-6 60L-6 55L-6 49L-6 45L-6 41L-6 38L-6 32L-6 27L-6 25L-6 28L-6 23L-6 13L-6 9L-6 12L-6 21L-6 18L-6 20L-6 14L-6 3L-6 -4L-3 -6L-6 -6L-1 -6L-6 -6L9 -6L18 -6L27 -6L36 -6L41 -6L44 -6L46 -6L53 -6L58 -6L62 -6L67 -6L72 -6L79 -6L84 -6L88 -6L95 -6L98 -6L107 -6L110 -6L114 -6L116 -6L126 -6L137 -6L146 -6L160 -6L181 -6L185 -6L192 -6L204 -6L211 -6L222 -6L229 -6L240 -6L265 -6L272 -6L275 -6L283 -6L289 -6L294 -6L290 -6L296 -6L299 -6L307 -6L299 -6L296 -6L293 -6L295 -6L300 -6L304 -6L307 -6L314 -6L319 -6L323 -6L331 -6L338 -6L342 -6L352 -6L365 -6L355 -6L350 -6L343 -6L353 -6L360 -6L366 -6L372 -6L352 -6L348 -6L345 -6L337 -6L347 -6L351 -6L381 -6L390 -6L403 -6L399 -6L388 -6L393 -6L406 -6L-6 -6ZM169 127L165 129L163 126L168 125ZM51 280L48 280L50 280L54 280L51 280ZM20 222L17 223L16 221L18 219L17 217L18 212L23 209L24 217L20 222ZM31 214L28 214L26 212L30 209L33 210L32 212ZM135 55L130 56L128 53L129 51L132 49L135 53ZM308 -6L304 -6L307 -6L304 -6L312 -6L316 -6L313 -6L308 -6ZM346 117L344 118L343 115L346 117ZM189 135L185 139L182 139L180 135L183 132L186 127L188 125L191 124L188 131L189 135ZM-6 196L-6 193L-6 184L-6 186L-6 189L-6 192L-6 196ZM-0 180L-3 182L-3 179L-1 175L1 174L0 177L-0 180ZM10 158L8 160L7 155L10 155L10 158ZM-6 142L-6 134L-6 138L-6 142ZM-4 132L-6 125L-6 122L-2 118L-1 121L-1 125L-4 130L-4 132ZM107 142L103 144L105 140L107 142ZM96 150L102 150L100 154L96 153L94 150ZM8 246L7 243L10 240L8 246ZM49 1L46 1L47 -2L50 -1Z","proj":{"x0":129.5,"y1":37.5,"k":0.8265897491271886,"sx":42.07965164385328}},"hak":{"W":400,"H":240,"d":"M-36 281L-16 274L-5 278L10 265L36 258L48 247L54 232L10 240L0 236L-2 220L-23 214L-28 208L-27 200L-11 180L19 175L37 160L34 145L40 133L62 133L78 128L85 120L88 90L112 104L117 115L107 126L111 146L131 159L152 154L155 164L145 182L170 199L175 193L182 193L195 171L238 171L253 164L271 162L279 149L288 108L279 85L229 119L198 98L187 102L175 91L169 70L174 61L185 63L191 81L204 90L225 93L266 75L309 32L325 26L348 -4L350 -27L347 -48L336 -51L328 -60L410 -59L428 -50L444 -28L450 0L450 246L442 274L424 293L400 300L0 300L-24 293L-36 281ZM180 160L173 153L181 122L193 144L180 160ZM242 -17L240 -33L250 -32L259 -25L260 -22L246 -23L242 -17Z","proj":{"x0":130.12,"y1":33.74,"k":0.832534697580155,"sx":1201.1511386931807}},"kyu":{"W":400,"H":420,"d":"M387 393L391 399L383 403L381 413L378 419L375 428L210 428L213 422L216 420L217 412L222 415L223 413L223 406L227 400L230 398L232 394L231 389L229 387L231 385L236 385L231 378L242 367L245 360L216 366L214 365L218 360L231 352L239 351L239 349L235 345L235 342L238 337L235 331L213 313L210 285L204 281L202 276L191 274L184 268L181 273L172 281L168 279L173 291L182 304L181 308L179 308L179 312L177 314L165 321L172 327L178 326L185 321L194 321L198 324L203 335L204 343L200 351L202 353L199 357L194 360L188 360L186 364L184 365L183 367L174 370L174 365L168 361L168 354L172 354L177 349L180 346L180 342L177 341L177 337L175 335L163 335L159 337L155 341L149 343L146 344L144 340L143 341L144 344L135 358L127 362L126 366L119 373L116 372L113 374L112 372L119 367L123 358L124 355L122 355L121 353L125 350L126 352L130 347L125 348L122 339L118 336L117 332L115 331L112 333L110 330L105 325L103 316L98 312L97 303L101 299L100 294L105 284L110 286L112 292L114 290L116 292L113 297L113 301L117 297L121 298L125 303L122 315L121 309L120 309L120 315L122 317L122 319L121 321L128 328L133 321L148 327L150 326L140 312L140 307L143 301L142 297L133 289L125 292L125 289L121 287L118 290L114 289L112 282L114 283L114 278L116 278L116 276L111 279L110 273L109 272L108 281L104 280L102 283L102 278L105 277L105 276L100 271L100 267L88 264L86 261L88 253L92 251L89 245L90 236L92 235L96 238L99 238L103 232L104 238L107 239L113 237L122 240L124 248L129 252L127 246L128 240L132 235L130 233L131 232L124 227L120 222L122 217L124 217L128 224L132 224L128 217L127 212L129 209L129 205L131 207L134 208L137 206L142 209L144 212L142 218L143 219L145 217L146 222L152 223L156 221L158 215L166 213L174 208L175 206L169 207L167 204L164 204L163 202L166 199L172 196L173 192L178 191L180 186L184 189L182 191L183 194L186 196L189 195L188 199L191 201L195 198L206 196L208 188L207 185L200 190L195 187L194 188L191 183L194 182L194 185L199 186L205 184L214 177L217 172L217 169L217 166L214 165L214 162L217 160L220 153L223 154L228 149L240 149L248 140L255 140L258 138L268 139L267 142L273 141L276 146L281 147L284 143L286 139L294 134L296 136L292 146L293 150L291 150L292 153L288 157L287 160L294 161L294 172L304 191L308 193L329 196L333 200L345 201L353 200L361 192L364 186L377 183L382 185L388 186L397 200L399 207L397 212L398 217L394 226L394 230L387 227L384 229L384 236L379 237L378 240L372 241L369 237L365 238L364 242L366 253L371 256L380 257L386 253L393 256L394 254L407 257L407 355L403 361L402 365L400 369L394 371L390 380L392 384L396 384L398 387L395 390L392 391L387 390L387 393ZM407 135L404 134L404 131L407 128L407 135ZM407 122L399 119L383 124L379 124L378 122L376 124L378 128L378 130L375 131L373 128L372 129L367 127L362 123L360 124L361 126L356 132L353 129L351 131L349 131L351 126L349 122L340 135L330 141L329 139L325 140L324 137L318 140L316 137L317 132L311 129L308 123L298 120L295 126L283 138L281 143L276 139L276 137L278 137L280 133L281 127L279 123L280 119L279 117L275 117L273 109L280 102L282 97L278 85L275 81L277 77L279 68L285 68L286 67L298 63L295 61L286 59L285 61L283 61L285 57L289 53L293 56L293 57L294 58L304 56L312 58L313 64L315 65L318 66L320 61L318 58L317 55L320 56L329 54L333 59L326 57L323 65L327 63L339 61L341 57L352 56L352 51L359 43L358 40L362 38L369 32L372 29L372 23L378 23L378 15L381 15L387 17L390 13L399 13L407 10L407 122ZM206 384L215 381L217 384L212 387L206 403L202 407L201 399L196 401L185 403L180 396L181 393L185 392L191 386L202 381L206 384ZM177 382L180 407L178 414L173 418L169 426L165 428L144 428L149 423L159 419L154 418L151 419L147 414L147 408L149 405L149 399L154 389L150 380L156 382L170 377L173 378L177 382ZM23 303L31 299L33 303L32 306L21 314L20 318L21 324L17 324L16 331L14 330L13 323L14 315L12 311L4 309L4 307L10 303L12 305L15 303L13 300L14 293L16 292L17 297L19 296L19 287L22 286L22 283L21 278L23 271L24 273L23 279L25 281L21 297L21 302L23 303ZM87 237L83 244L84 246L79 252L78 258L71 266L61 271L56 269L57 263L62 268L65 267L61 263L63 259L67 259L65 253L70 249L70 240L78 238L80 234L82 237L84 235L82 233L82 230L87 229L87 237ZM121 169L121 171L119 173L112 174L110 180L104 175L104 172L103 171L101 173L100 167L105 170L101 166L101 160L104 160L103 157L106 151L117 155L117 162L121 165L118 167L121 169ZM52 78L57 79L53 84L54 89L50 91L50 99L48 102L47 106L43 111L39 113L34 109L32 110L33 90L34 88L36 74L37 72L40 74L39 78L46 76L46 73L47 73L50 76L50 79L52 81L52 78ZM72 22L75 26L71 40L61 51L62 56L59 59L58 62L63 58L62 63L63 66L65 68L64 71L60 76L56 77L54 76L51 73L53 71L56 72L57 68L55 67L52 70L51 70L51 63L48 66L49 69L48 70L46 67L40 68L41 65L46 64L46 54L49 53L52 50L51 49L47 51L47 49L51 39L54 37L51 32L49 33L48 31L50 28L53 17L61 18L66 13L68 12L67 11L68 9L74 8L77 13L74 17L77 18L77 20L76 22L72 22ZM11 318L11 326L8 323L4 323L2 319L2 317L7 319L4 314L5 312L10 314L11 318ZM185 420L188 422L186 425L180 427L182 421L185 420ZM215 370L214 377L211 378L211 379L208 377L209 373L207 370L209 366L214 366L215 370ZM0 320L1 327L-1 333L-7 325L-7 322L-3 326L-3 324L-2 324L0 320ZM25 248L29 254L25 257L18 255L20 251L25 248ZM89 215L89 216L86 219L82 218L79 219L85 213L86 213L87 215L89 215ZM203 413L197 419L193 419L197 417L199 411L203 413ZM195 412L196 412L193 410L195 408L199 411L196 413L195 412ZM209 403L212 406L209 408L208 404L209 403ZM216 373L218 371L219 373L219 375L216 378L216 373ZM219 369L220 367L223 367L223 370L220 373L219 369ZM8 342L6 342L5 344L2 344L2 342L5 340L6 336L7 336L8 342ZM-2 315L-2 313L0 314L0 316L-2 315ZM96 310L95 314L93 313L92 309L96 310ZM56 299L56 297L58 296L57 300L56 299ZM39 300L42 296L42 297L44 297L42 301L39 300ZM91 295L87 300L84 298L88 297L87 295L90 295L94 289L98 289L97 293L94 296L91 295ZM85 277L83 278L79 276L85 274L85 277ZM90 268L92 267L92 271L90 272L91 271L90 268ZM26 273L24 270L24 263L28 267L26 273ZM21 264L19 265L20 268L16 267L14 269L11 266L14 262L16 264L21 264ZM69 224L69 239L66 239L66 232L69 224ZM85 224L79 227L80 225L82 222L85 224ZM120 226L116 226L113 230L110 228L115 222L115 219L120 226ZM145 207L147 207L147 209L145 210L145 207ZM132 206L132 204L133 203L134 205L132 206ZM113 202L114 200L116 200L117 202L115 203L113 202ZM128 197L129 194L130 194L131 199L130 199L128 197ZM193 196L192 195L193 191L195 194L193 196ZM390 174L390 175L388 177L383 177L388 173L390 174ZM202 171L201 168L204 169L204 170L202 171ZM211 147L208 144L213 143L212 146L211 147ZM394 128L398 131L396 132L392 127L395 123L394 128ZM402 121L398 125L396 123L400 122L402 120L402 121ZM261 111L261 109L264 110L264 112L261 111ZM62 77L63 79L59 82L58 78L62 77ZM275 65L271 70L270 68L274 66L274 64L275 65ZM352 41L353 43L351 44L350 42L352 41ZM334 40L332 43L332 39L334 40ZM311 -6L314 -7L316 -3L313 -2L311 -6Z","proj":{"x0":128.95,"y1":34.75,"k":0.8336449147533344,"sx":171.3644986359834}}};
+
+/* ================= DANE: Wiatr z Morza ================= */
+const SEAS=['wiosna','lato','jesień','zima'];
+const SEAS_I=['🌸','🌿','🍂','❄️'];
+// tura = jedna pora wybranego roku (lata spokoju przeskakujemy)
+const TURNS=[[1268,0],[1269,2],[1271,2],[1272,0],[1272,2],[1273,1],[1274,1],[1274,3],[1275,0],[1275,1],[1275,2],[1276,0],[1276,1],[1276,2],[1277,0],[1278,2],[1279,1],[1280,3],[1281,0],[1281,1],[1281,2],[1281,3]];
+const LAST_S=TURNS.length-1;
+const yearOf=s=>TURNS[Math.min(s,LAST_S)][0];
+const szOf=s=>TURNS[Math.min(s,LAST_S)][1];
+const NAMES_M=['Gorō','Saburō','Tarō','Jirō','Hikoshirō','Matajirō','Yasaburō','Tōta','Heiji','Kotarō'];
+const NAMES_F=['Tsuru','Kame','Matsu','Tora','Fuji','Ume','Kiku','Yae'];
+const VILLAGES=['Kurozawa','Ōtsuki','Koyato','Shimoyama','Isago','Nagasaka','Hikiwa','Akitani'];
+const MENTORS=['Sadahira','Kagesue','Morihisa','Nobutō'];
+const MONKS=['Jōkai','Kakuen','Shōnen'];
+const WITNESSES=['Shiroishi Michiyasu','Kikuchi no Jirō','Mitsui Sukenaga','Ōyano Taneyasu','Kōda Gorō','Egami no Tarō'];
+const HOME_POS=[[130.74,32.86],[130.70,32.70],[130.80,32.95],[130.66,32.80]];
+const STEWARDS=[
+ {n:'Hachirō',t:'uczciwy',d:'Ostrożny i uczciwy. Dochód nieco niższy, ale nic nie ginie.',m:.95,th:0,lr:0},
+ {n:'Kurōji',t:'zaradny',d:'Sprytny handlarz. Dochód wyższy, ale lubi coś zatrzymać dla siebie.',m:1.15,th:.18,lr:0},
+ {n:'Sukejirō',t:'młody',d:'Młody i chętny. Na początku słabszy, uczy się z każdą porą.',m:.85,th:0,lr:.025}];
+const POLICY={eco:{n:'Oszczędnie',i:'🪙',d:'Niski dochód, spokojna wieś, zapas na złe czasy.',m:.85,u:-4,g:0},
+ bal:{n:'Równowaga',i:'⚖️',d:'Zwykły dochód i spokój.',m:1,u:1,g:0},
+ exp:{n:'Ekspansja',i:'📈',d:'Karczunek i więcej danin: dochód rośnie, ale wieś się burzy.',m:1.2,u:7,g:.2}};
+const FOCUS={guard:{n:'Straż osobiście',i:'⛩',d:'Liczysz się za 2 ludzi na straży. Dowódca cię widzi.'},
+ train:{n:'Łuk i koń',i:'🏹',d:'Ćwiczysz z ludźmi. Rośnie umiejętność.'},
+ estate:{n:'Objazd posiadłości',i:'🌾',d:'Uspokajasz wieś (+20% dochodu), sprawdzasz zarządcę.'},
+ docs:{n:'Pisma i świadkowie',i:'📜',d:'Zbierasz potwierdzenia zasług (do petycji).'}};
+const FOCUS_F={train:{n:'Rachunki i zastępca',i:'🧮',d:'Uczysz zastępcę i liczysz zapasy. Rośnie umiejętność.'}};
+const COST={men:3,horses:5,arrows:1,prov:1,boats:8};
+const UPK={men:1,horses:.5};
+const GOODS={men:['👥','Ludzie','wynajem 3, utrzymanie 1/porę'],horses:['🐎','Konie','5, utrzymanie 0,5/porę'],arrows:['🏹','Kołczany strzał','1 za kołczan'],prov:['🍙','Prowiant wojenny','1 za worek, psuje się 5%/porę'],boats:['⛵','Łodzie','8 za łódź']};
+
+const RANKS_M=['Głowa drobnego rodu gokenin','Zasługi uznane przez dowódcę','Nagrodzony przez Kamakurę','Jitō — nadanie posiadłości'];
+const RANKS_F=['Głowa drobnego rodu gokenin','Zasługi uznane przez dowódcę','Nagrodzona przez Kamakurę','Jitō — nadanie posiadłości'];
+// Zasady w duchu „Extreme Ownership” (Willink, Babin) — słowami mentora z epoki
+const PR=[
+ ['Ekstremalna odpowiedzialność','Gdy strzała chybi, łucznik nie wini wiatru. Wszystko w twoim polu i w twoim domu jest twoje — także błędy innych.','„To moja wina” w raporcie pory podnosi siły rodziny i daje Rozwagę.'],
+ ['Nie ma złych ludzi, są źli przywódcy','Jaki pan, taki oddział. Jaki gospodarz, takie pole. Na co pozwalasz, to staje się zwyczajem.','Zmęczenie rodziny to skutek twojego planu, nie lenistwa.'],
+ ['Wiara w sprawę','Kto nie wie, po co idzie, ucieka pierwszy. Pytaj pana, aż zrozumiesz — potem tłumacz swoim.','Wyjaśnianie celu dodaje rodzinie sił.'],
+ ['Okiełznaj pychę','Pyszny wojownik nie słyszy, że wróg obchodzi go od tyłu. Wygrywa lepszy pomysł, nawet młodszej siostry.','Przyjęcie cudzego, lepszego pomysłu poprawia plon.'],
+ ['Osłaniaj i idź naprzód','Jeden łucznik strzela, drugi biegnie. Wieś przetrwa razem albo wcale.','Dwie osoby przy tej samej pracy: +25%.'],
+ ['Prostota','Rozkaz, którego nie powtórzy pachołek, rozsypie się w bitwie.','Więcej niż 3 różne prace jednej pory: −15% (bałagan).'],
+ ['Najpierw najważniejsze','Gdy wszystko płonie, gaś najpierw spichrz. Potem resztę.','Priorytet pory: +30% dla jednej pracy.'],
+ ['Każdy musi znać cel','Pan nie stoi przy każdym. Gdy wszyscy znają cel, oddział działa i bez rozkazu.','Na wyprawie rodzina pracuje według zostawionego przez ciebie listu.'],
+ ['Plan','Zanim wyruszysz, wiedz dokąd, po co i co zrobisz, gdy most będzie zerwany.','Zachowaj ziarno siewne. Bez niego wiosna nie da plonu.'],
+ ['Prowadź w górę i w dół','Mów panu o kłopocie, zanim sam go zobaczy. Mów rodzinie, co dzieje się w świecie.','Szczera rozmowa z zarządcą daje łaskę.'],
+ ['Decyduj mimo niepewności','Pełnej wiedzy o wrogu nie będzie nigdy. Wybierz, patrz, poprawiaj.','Zwlekanie zwykle kosztuje więcej niż błąd.'],
+ ['Dyscyplina daje wolność','Codzienne strzelanie do celu sprawia, że w bitwie ręka nie drży.','Trening łuku i misje dnia w zakładce Życie.'],
+ ['„Dobrze.”','Wylało? Dobrze — ziemia będzie żyźniejsza. Szukaj w porażce korzyści.','„Dobrze.” zamienia stratę w Rozwagę.']
+];
+const MISSIONS=['Wstań o zaplanowanej godzinie — bez drzemki.','Zrób najtrudniejsze zadanie dnia przed południem.','20 minut ruchu: spacer, trening, rower.','Pierwsza godzina dnia bez telefonu.','Posprzątaj jedno miejsce przez 10 minut.','Zrób jedną rzecz, którą odkładasz od tygodnia.','Gdy coś pójdzie źle, powiedz: „to moja odpowiedzialność, naprawię to”.','Przeczytaj 10 stron książki.','Wypij szklankę wody, zanim wypijesz kawę.','Zapisz 3 priorytety na jutro (w tej zakładce).','Połóż się spać o stałej porze.','Zapytaj kogoś bliskiego, w czym możesz pomóc — i pomóż.','Zapisz jedną lekcję z dzisiejszego błędu.','Skończ jedno rozpoczęte zadanie, zanim zaczniesz nowe.','Pracuj 45 minut w pełnym skupieniu.','Przygotuj rzeczy na jutro wieczorem.','Zjedz jeden posiłek bez ekranu.','Wyślij wiadomość, którą odkładasz.','Przejdź się bez słuchawek i pomyśl o swoim celu.','Podziękuj komuś konkretnie za jego pracę.'];
+
+const PR2=['„Moja odpowiedzialność” w raporcie podnosi morale ludzi i daje Rozwagę.','Ludzie dezerterują przez twój plan zapasów, nie przez lenistwo.','Wyjaśnianie celu dodaje ludziom ducha.','Przyjęcie cudzego, lepszego pomysłu daje przewagę.','W bitwie: kto osłania towarzysza, ma świadka.','Mniej zakupów, ale właściwych: konie, strzały, prowiant.','Jedno zadanie osobiście w porze — wybierz najważniejsze.','Zarządca prowadzi posiadłość według twojej polityki.','Przed najazdem: prowiant na cały pochód, nie na dzień.','Petycja: fakty, świadkowie, pisma — prosto do urzędnika.','Na wieść o statkach zdecyduj od razu.','Codzienny trening łuku i misje dnia w zakładce Życie.','„Dobrze.” Brak nagrody to powód, by jechać do Kamakury.'];
+PR.forEach((p,i)=>{p[2]=PR2[i];});
+PR[0][1]='Gdy łódź nie dopłynie, wioślarz nie wini fali. Wszystko w twoim rodzie jest twoje — także błędy zarządcy.';
+PR[9][1]='Pan w Kamakurze nie widzi Hakaty. Jeśli ty mu nie powiesz, nikt nie powie.';
+
+// Mapa zatoki Hakata: [lon,lat,nazwa,opis]
+const HSITES={
+ imazu:[130.262,33.598,'Imazu','1274-10-20: lądowanie zachodniego skrzydła. Zachodni koniec muru.'],
+ ikino:[130.312,33.583,'Ikinomatsubara','Odcinek muru prowincji Higo. 1281: Kikuchi Takefusa na murze.'],
+ torikai:[130.362,33.588,'Torikai-gata','1274-10-20: szarża Takezakiego Suenagi.'],
+ akasaka:[130.386,33.588,'Akasaka','1274-10-20: walki z Mongołami, Kikuchi Takefusa.'],
+ hakata:[130.41,33.597,'Hakata','Port i dzielnica kupców Song.'],
+ hakozaki:[130.425,33.617,'Hakozaki','1274-10-20: chram Hachimana spalony.'],
+ kashii:[130.443,33.658,'Kashii','Wschodni koniec muru.'],
+ noko:[130.305,33.628,'Nokonoshima','Wyspa w zatoce.'],
+ shika:[130.29,33.668,'Shikanoshima','1281-06-06/08: Mongołowie zajmują wyspę; nocne napady łodziami.']
+};
+const WALL=[[130.255,33.595],[130.312,33.581],[130.362,33.586],[130.40,33.594],[130.425,33.614],[130.443,33.656]];
+// Mapa Kiusiu
+const KSITES={
+ dazaifu:[130.53,33.51,'Dazaifu','Siedziba Shōnich i urzędu Kiusiu.'],
+ hakata:[130.41,33.60,'Zatoka Hakata','1274 i 1281: tu lądują najeźdźcy.'],
+ tsushima:[129.32,34.42,'Cuszima','1274-10-05 i 1281-05-21: pierwszy cel najazdów.'],
+ iki:[129.72,33.79,'Iki','1274-10-14: obrońcy giną. 1281: znów zajęta.'],
+ hirado:[129.55,33.36,'Hirado','1281, 7 mies.: łączenie się flot.'],
+ takashima:[129.75,33.44,'Takashima','1281-閏7-01: tajfun; 閏7-05/07: walki z rozbitkami.'],
+ mizuki:[130.51,33.535,'Mizuki','Stary wał obronny (VII w.); tu cofnęli się obrońcy w 1274.']
+};
+const JSITES={
+ kamakura:[139.55,35.32,'Kamakura','Siedziba siogunatu. 1275-09-07: posłowie ścięci w Tatsunokuchi.'],
+ kyoto:[135.77,35.01,'Kioto','Dwór cesarski i urząd Rokuhara (od 1221).'],
+ uji:[135.80,34.89,'Uji','1221-06-13/14: przeprawa wojsk Kamakury.'],
+ hakata:[130.41,33.60,'Hakata','Brama do kontynentu.']
+};
+
+/* -------- PRZERYWNIK 1221 -------- */
+const INTER=[
+ {l:'Pierwsi przez wezbraną rzekę Uji',s:'Wielka nagroda albo wielkie straty',f:(r,L)=>{const ok=(L&&L.ranga>=3)||rr()<.6;if(ok){r.estate.lvl=3;r.men=2;r.rep+=5;r.items.push('Grot spod Uji (1221)');return'Twój pradziad przebył rzekę przy pierwszych sztandarach. Nagroda: większy udział ziemi w Higo.';}r.estate.lvl=2;r.men=1;return'Rzeka porwała ludzi i konie. Ród dostał tylko mały udział ziemi w Higo.';}},
+ {l:'Prowadź tabory i konie armii',s:'Logistyka: konie, strzały, doświadczenie',g:1,f:r=>{r.estate.lvl=2;r.men=3;r.horses+=2;r.arrows+=3;r.roz+=1;return'Wojsko szło szybko, bo miało co jeść. Wodzowie zapamiętali twój ród. Mały udział ziemi w Higo i dobre konie.';}},
+ {l:'Zostań przy ziemi, wyślij zastępcę',s:'Bezpiecznie, zapasy zamiast chwały',f:r=>{r.estate.lvl=2;r.men=2;r.rice+=8;r.rep-=5;return'Zastępca walczył uczciwie. Ród dostał mały udział ziemi w Higo, ale w Kamakurze mało kto zna wasze imię.';}}];
+
+/* -------- KRONIKA (indeks = tura) -------- */
+const HIST={
+ 0:{t:'List z kontynentu',dt:'1268, 1–3 mies.',txt:'Do Dazaifu przybył poseł z Goryeo z listem wielkiego chana Kubilaja. Pisze o „przyjaźni”, ale grozi wojną. Kamakura nie odpowiada. Młody Hōjō Tokimune, 18 lat, zostaje regentem (shikken). Ty właśnie przejąłeś ród po ojcu.',lesson:7},
+ 1:{t:'Posłowie wracają',dt:'1269',txt:'Kolejni posłowie. Na Cuszimie porwano dwóch wyspiarzy, by pokazać im potęgę chana. Shōni z Dazaifu każe gokeninom sprawdzić konie i broń. Wojownik wystawia ludzi i zaopatrzenie na własny koszt.',unlock:'log',lesson:8},
+ 2:{t:'Rozkaz z Kamakury',dt:'1271, 9 mies.',txt:'Kamakura nakazuje wojownikom wschodu, którzy mają ziemię w Kiusiu, przybyć i bronić wybrzeża. W Imazu stoi nowy poseł chana. Na drogach do Hakaty coraz więcej obcych sztandarów.',ks:['tsushima','iki'],lesson:2},
+ 3:{t:'Straż na wybrzeżu',dt:'1272, 2 mies.',txt:'Zaczyna się straż przeciw obcym (ikoku keigo). Każdy gokenin z Kiusiu wysyła ludzi na wybrzeże Chikuzen i Hizen na zmiany. Nie wyślesz — dowódca to zapamięta.',unlock:'guard',hs:['hakata','hakozaki','imazu'],lesson:0},
+ 5:{t:'Statki w Goryeo',dt:'1273',txt:'Kupcy z Hakaty mówią: w Goryeo upadł ostatni bunt przeciw Mongołom. Teraz cały kraj buduje dla chana statki. Setki statków.',lesson:10,
+  ch:[{l:'Zapłać kupcowi za dokładne wieści',s:'−2 ryżu, lepsze przygotowanie',g:1,p:10,f:r=>{r.prep++;return'Kupiec mówi o koniach na statkach i o łukach strzelających z daleka. Wiesz, czego się spodziewać. '+fx(r,{r:-2});}},{l:'Plotki kupców to nie twoja sprawa',f:r=>'Wracasz do posiadłości.'}]},
+ 6:{t:'Przed burzą',dt:'1274, lato',txt:'Gońcy z Cuszimy: w portach Goryeo stoją gotowe statki. Shōni Kakue wzywa wszystkich gokeninów, by byli w gotowości do 10 miesiąca. Ile prowiantu i strzał zabierzesz?',lesson:8},
+ 7:{t:'Najazd Bun\'ei',dt:'1274, 10 mies.',txt:'10/5 flota chana uderzyła na Cuszimę, 10/14 na Iki. Obrońcy zginęli. 10/20 statki weszły do zatoki Hakata. Bijcie w bębny — wszyscy do Hakaty!',ks:['hakata','dazaifu','mizuki'],hs:['torikai','akasaka','hakata'],exp:'B1'},
+ 8:{t:'Lista nagród',dt:'1275, wiosna',txt:'Rano po bitwie flota zniknęła. Tradycja mówi o burzy; być może najeźdźcy po prostu się wycofali. Teraz Shōni Kakue spisuje zasługi i wysyła listę do Kamakury.',list:1,lesson:9},
+ 9:{t:'Petycja',dt:'1275, 6 mies.',txt:'Nagród jest mało — wojna obronna nie daje zdobytej ziemi. Słyszysz o Takezakim Suenadze z Higo: sprzedał konie i siodła, by pojechać do Kamakury i samemu opowiedzieć o swoich czynach. Co robisz?',petition:1,lesson:9},
+ 10:{t:'Kamakura',dt:'1275, jesień',txt:'Posłów chana — Du Shizhonga i jego towarzyszy — ścięto w Tatsunokuchi koło Kamakury (9/7). Odpowiedź Tokimune jest jasna: wojna.',lesson:11},
+ 11:{t:'Kamienny mur',img:'g2_mur',dt:'1276, 3 mies.',txt:'Kamakura każe zbudować kamienny mur wzdłuż całej zatoki Hakata, od Imazu po Kashii. Każda prowincja dostaje odcinek według ziemi swoich gokeninów. Odcinek Higo leży pod Ikinomatsubarą. Płacisz kamieniem, ryżem i ludźmi. Kupcy oferują też łodzie.',unlock:'wall',hs:['ikino','kashii'],lesson:6},
+ 14:{t:'Mur stoi',dt:'1277, wiosna',txt:'Mur prawie gotowy: kamień od strony morza, ziemia od lądu, wysokość człowieka i więcej. Teraz trzeba go strzec i naprawiać po każdej ulewie.',lesson:11},
+ 16:{t:'Upadek Song',dt:'1279',txt:'Ostatni cesarz Song zginął w morzu pod Yamen. Chan rządzi całymi Chinami. Nowi posłowie przybyli do Hakaty — tym razem ścięto ich na miejscu. Kupcy Song w Hakacie milkną.',lesson:10},
+ 17:{t:'Dwie floty',dt:'1280, zima',txt:'Wieści z Dazaifu: chan szykuje dwie armie — jedną z Goryeo, drugą, większą, z południowych Chin. Tym razem przypłyną z pługami i ziarnem, by zostać.',lesson:8,
+  ch:[{l:'Zbuduj z ludźmi tratwy i ćwicz nocne wypady',s:'−2 ryżu, łodzie się przydadzą',g:1,p:6,f:r=>{r.prep++;return'Twoi ludzie uczą się wiosłować nocą. '+fx(r,{r:-2});}},{l:'Mur nas obroni',f:r=>'Mur jest mocny. Ale czy wystarczy?'}]},
+ 18:{t:'Ostatnie przygotowania',dt:'1281, wiosna',txt:'Armia z Goryeo wyrusza (5 mies.). Mówi się o długiej kampanii. Prowiant na tygodnie, strzały, łodzie na nocne wypady.',lesson:8},
+ 19:{t:'Najazd Kōan',dt:'1281, 5–6 mies.',txt:'5/21 Cuszima, potem Iki. 6/6 statki wpływają do zatoki Hakata — i widzą mur. Lądowania nie ma. Najeźdźcy zajmują Shikanoshimę. Nocą obrońcy wypływają małymi łodziami na statki.',hs:['shika','noko'],exp:'B2'},
+ 20:{t:'Tajfun',dt:'1281, 閏7 mies.',txt:'Flota z Goryeo odpłynęła ku Hirado i połączyła się z wielką flotą z południa pod Takashimą. W pierwszym dniu 閏7 miesiąca uderzył tajfun. Rano zatoka pełna jest wraków i rozbitków.',ks:['hirado','takashima'],exp:'B3'},
+ 21:{t:'Rachunek',dt:'1281, zima',txt:'Najazd odparty. Teraz każdy chce nagrody — a ziemi do rozdania nie ma. Dowódcy spisują zasługi.',final:1}
+};
+
+/* -------- BITWY -------- */
+const EXP={
+ B1:{n:'Hakata 1274',d:'10/20',need:1,steps:[
+  {night:1,d:r=>T(r,'Noc przed 10/20. Zatoka świeci: setki latarni na statkach, jak drugie miasto na wodzie. Konie nie śpią. Kotarō siedzi przy ogniu i ściska woreczek matki. Gonza woskuje cięciwy. Od strony Hakozaki słychać bęben chramu.','Noc przed 10/20. Z Dazaifu widać łunę nad zatoką. Ludzie twojego zastępcy wyruszają przed świtem. Kotarō siedzi przy bramie i ściska woreczek matki. Gonza woskuje cięciwy.'),
+   th:r=>T(r,'„Tyle świateł. Każde to łódź. Każda łódź to ludzie.”','„Jutro będę liczyć strzały. Oni będą je wypuszczać.”'),ch:[
+   {l:'Usiądź przy Kotarō i porozmawiaj',s:'Kotarō to zapamięta',g:1,f:r=>{bond(r,'kotaro',1);return'Pytasz o matkę. Kotarō opowiada o kasztanach, które suszy na dachu. Potem pyta cicho: „Czy boli?” Mówisz, że nie wiesz. To prawda.';}},
+   {l:'Napinaj z Gonzą cięciwy do świtu',s:'Lepiej przygotowani',f:r=>{r.ex.mod+=.5;return'Gonza sprawdza każdą cięciwę zębami. Dwie pękają w rękach. Lepiej teraz niż jutro.';}},
+   {l:'Idź do chramu Hakozaki pomodlić się',s:'Spokojniejsze ręce',f:r=>{r.ex.risk=Math.max(0,r.ex.risk-.03);return'Kapłani palą ogniska przed chramem. Ktoś obok ciebie modli się głośno o wiatr. Ty prosisz tylko o spokojne ręce.';}}]},
+  {d:r=>T(r,'Pędzisz z ludźmi do Hakaty. Nad zatoką dym. Shōni Kagesuke każe czekać, aż zbierze się całe wojsko. Gdzie stajesz?','Ty prowadzisz zaopatrzenie z Dazaifu. Twój zastępca z ludźmi pędzi do Hakaty. Gdzie każesz mu stanąć?'),place:1,ch:[
+   {l:'Torikai-gata, na przedzie',s:'Pierwsza szarża = wielka zasługa i ryzyko',v:'Torikai-gata',f:r=>{r.ex.mod+=1;r.ex.risk+=.1;r.fl.front=1;return'Na piaskach Torikai widać szyk wroga. Bębny, gongi, chorągwie.';}},
+   {l:'Akasaka, z Kikuchim',s:'Obok sławnego wojownika z Higo',g:1,p:4,v:'Akasaka',f:r=>{r.ex.mod+=1;return'Kikuchi Takefusa wita was skinieniem. Będzie wielu świadków.';}},
+   {l:'Hakozaki, przy chramie',s:'Bezpieczniej, mniej sławy',v:'Hakozaki',f:r=>{r.ex.mod-=.5;r.ex.risk-=.05;return'Pod chramem jest spokojniej. Na razie.';}}]},
+  {timed:1,img:'g2_torikai',hes:{f:r=>{r.fl.apart=1;r.ex.mod-=.5;return T(r,'Stoisz. Huk zabiera ci słuch. Koń staje dęba, a ludzie rozbiegają się na boki, każdy sam.','Goniec czeka na odpowiedź. Czekasz za długo. Zastępca rozkazuje sam — i każdy walczy osobno.');}},
+   d:r=>T(r,`Pierwszy huk tetsuhau. Żelazna kula pęka w powietrzu, ogień i dym. Koń staje dęba. W uszach cisza, jakby ktoś zatkał je wełną. ${SZW} ma rannego konia, Kotarō biegnie pieszo za tobą.`,'Goniec od zastępcy, bez tchu: wróg walczy w szyku, nie pojedynkami, i rzuca żelazne kule z ogniem. Ludzie się rozbiegają. Rozkaz — teraz.'),
+   th:r=>T(r,'„Patrz na mnie, nie na huk — tak go uczyłem.”','„Tam jest Kotarō. I brat mojego męża.”'),ch:[
+   {l:r=>T(r,'Osłaniaj szwagra i trzymajcie się razem','Trzymać się razem i osłaniać się nawzajem'),g:1,p:4,f:r=>{r.ex.mod+=1;r.fl.shield=1;r.ex.wit=SZW+' (szwagier)';return`Osłaniacie się nawzajem. ${SZW} widzi każdy twój ruch — będzie świadek.`;}},
+   {l:r=>T(r,'Szarżuj sam po sławę','Szarżować po sławę, każdy jak umie'),f:r=>{r.fl.apart=1;r.ex.mod+=rr()<.4?2:-2;r.ex.risk+=.1;return'Konie płoszą się od huku. Pędzisz przed siebie i nie oglądasz się.';}}]},
+  {battle:1},{merit:1}],risk:.3},
+ B2:{n:'Nocne łodzie 1281',d:'6/8',need:1.5,boat:1,steps:[
+  {d:r=>T(r,'Mur trzyma. Na murze pod Ikinomatsubarą siedzi Kikuchi Takefusa. Nocą wojownicy wypływają łodziami na statki pod Shikanoshimą.','Mur trzyma. Zastępca pyta, czy wypłynąć nocą na statki pod Shikanoshimą.'),ch:[
+   {l:r=>r.boats>0?'Wypłyń łodzią rodu':'Szukaj miejsca na cudzej łodzi',s:r=>r.boats>0?'Masz łódź — pewny wypad':'Może się nie udać, łódź przeładowana',g:1,p:10,f:r=>{if(r.boats>0){r.fl.ownBoat=1;r.ex.mod+=2;return'Twoi ludzie wiosłują cicho. Statek wroga jest coraz bliżej.';}if(rr()<.45){r.fl.otherBoat=1;r.ex.mod+=.5;return'Po długich prośbach ktoś zabiera was na swoją łódź. Woda sięga prawie burty.';}r.ex.mod-=1.5;r.ex.skip=1;return'Odprawiono cię z łodzi dowódcy. Tej nocy zostajesz na brzegu.';}},
+   {l:'Strzeż muru, niech płyną inni',s:'Bezpiecznie, mało sławy',f:r=>{r.ex.mod-=1;r.ex.risk=0;return'Stoisz na murze całą noc.';}}]},
+  {timed:1,img:'g2_nocne_lodzie',if:r=>!r.ex.skip&&r.ex.risk>0,hes:{f:r=>{r.ex.mod-=.5;return T(r,'Za długo. Z góry leci kamień i łódź odbija od burty. Wracacie z niczym.','Czekasz na brzegu, aż ktoś coś powie. Łódź zastępcy odbija od burty bez rozkazu.');}},
+   d:r=>T(r,`Burta statku jak ściana. Mokre drewno, smoła, z góry krzyki w obcej mowie. Łódź uderza o kadłub.${alive(r,'gonza')&&!r.fl.gonzaHome?' Gonza stoi na dziobie z chorągwią i nie kuca.':''}`,'Na brzegu przy ognisku czekasz na znak. Z wody dobiega trzask drewna i krzyk. Ktoś przybiega: łódź zastępcy jest przy burcie. Co mają robić?'),
+   th:r=>T(r,'„Jeden ruch. Ręka, lina, burta.”','„Nie widzę ich. Słyszę tylko wodę.”'),ch:[
+   {l:r=>T(r,'Wspinaj się pierwszy po burcie','Wejść na pokład, zanim wróg się zbierze'),s:'Wielka zasługa i ryzyko',f:r=>{r.ex.mod+=1;r.ex.risk+=.05;return'Chwytasz linę. Drewno jest śliskie od wody.';}},
+   {l:r=>T(r,'Trzymaj łódź przy burcie i osłaniaj ludzi','Trzymać łódź i osłaniać wspinających się'),g:1,f:r=>{r.ex.mod+=.5;if(alive(r,'gonza'))bond(r,'gonza',1);return'Odpychasz tarczą kamienie lecące z góry. Nikt nie wypada.';}}]},
+  {battle:1},{merit:1}],risk:.25},
+ B3:{n:'Takashima 1281',d:'閏7/7',need:1,steps:[
+  {img:'g2_po_tajfunie',d:r=>T(r,'Poranek po tajfunie. Szare morze, spokojne jak miska. Deski, maszty, ciała. Mewy. Dowódcy każą dobić resztki armii na wyspie Takashima. Droga daleka, z Hakaty do Hizen.','Poranek po tajfunie. Dowódcy wzywają do Takashimy, żeby dobić resztki armii. Droga daleka. Co z ludźmi?'),
+   th:r=>'„Wczoraj bałem się tych statków. Dziś to tylko drewno.”'.replace('bałem',T(r,'bałem','bałam')),ch:[
+   {l:'Prowiant na drogę dla wszystkich i porządek marszu',s:'Zużywa prowiant',g:1,p:8,f:r=>{if(r.prov>=r.men+1){r.prov-=r.men+1;r.ex.mod+=1;return'Twoi ludzie dochodzą syci i gotowi.';}r.ex.mod-=1;return'Prowiantu za mało. Ludzie głodni po drodze.';}},
+   {l:'Pędź naprzód, jedzenie znajdzie się po drodze',f:r=>{r.ex.mod-=.5;return'Po drodze rabuje się wsie. Twoi ludzie też.';}}]},
+  {timed:1,hes:{f:r=>{r.ex.mod-=.5;return T(r,'Stoisz. Inny wojownik podchodzi, nie patrzy na ciebie i robi to, czego ty nie zrobiłeś.','Zastępca czeka na twoje słowo. Nie mówisz nic. Rozbitka zabiera ktoś inny.');}},
+   d:r=>T(r,'W płyciźnie klęczy rozbitek. Mokry, bez broni. Unosi ręce i mówi coś szybko. Jedno słowo powtarza kilka razy: „Song. Song.” Za tobą ktoś woła, że rozkaz to nie brać jeńców.','Zastępca przyprowadza rozbitka z płycizny. Mokry, bez broni. Powtarza: „Song. Song.” Rozkaz dowódców: nie brać jeńców. Co robisz?'),
+   th:r=>'„Ma ręce rybaka. Albo wioślarza. Albo kogoś, kto ma matkę.”',ch:[
+   {l:'Oddaj go dowódcy — mówi, że jest z Song',s:'Ludzi z Song oszczędzano',g:1,f:r=>{r.ex.mod+=.5;r.rep=clamp(r.rep+1,0,100);return'Pisarz dowódcy notuje: jeniec z południowych Chin. Ludzi Song oszczędza się — kupcy z Hakaty ich znają. (reputacja +1)';}},
+   {l:'Weź głowę — dowódca liczy głowy',s:'Zasługa',f:r=>{r.ex.mod+=1;return'Szybko. Pisarz zapisze głowę. Ty zapamiętasz twarz.';}},
+   {l:'Puść go w stronę skał',s:'Litość wbrew rozkazowi',f:r=>{r.fl.mercy=1;r.ex.mod-=.5;r.roz+=1;return'Pokazujesz mu skały na północy. Biegnie, potyka się, nie ogląda. Nikt nic nie widział. Chyba. (rozwaga +1)';}}]},
+  {battle:1},{merit:1}],risk:.2}
+};
+
+/* -------- ZDARZENIA (losowe) -------- */
+// fx: r ryż, l reputacja, z zasługa, w rozwaga, m ludzie, h konie, a strzały, p prowiant, u niepokój wsi
+const EV=[
+ {t:'Spór o miedzę',d:v=>`Sąsiedni gokenin ${v.nb} przesunął kamienie graniczne na twoją ziemię.`,ch:[
+  {l:'Zbierz świadków i pisma, złóż skargę u Shōniego',g:1,p:9,f:r=>{if(rr()<.7)return'Sąd przyznaje ci rację. '+fx(r,{l:3,w:1});return'Sprawa się wlecze. '+fx(r,{w:1});}},
+  {l:'Przesuń kamienie z powrotem nocą',f:r=>{later(r,1,{l:-6},'Sąsiad poskarżył się w Dazaifu.');return'Kamienie wracają na miejsce.';}},
+  {l:'Odpuść, są ważniejsze sprawy',f:r=>'Tracisz kawałek pola. '+fx(r,{u:3})}]},
+ {t:'Kupiec z Hakaty',d:v=>'Kupiec Song proponuje tanie strzały z Chin: 4 kołczany za 3 ryżu.',ch:[
+  {l:'Kup',s:'−3 ryżu, +4 kołczany',g:1,f:r=>fx(r,{r:-3,a:4})},
+  {l:'Nie ufaj obcym towarom',f:r=>'Kupiec wzrusza ramionami.'}]},
+ {t:'Lichwiarz',d:v=>'Lichwiarz z Hakaty pożyczy 10 ryżu pod zastaw kawałka ziemi.',ch:[
+  {l:'Weź pożyczkę',s:'+10 ryżu teraz, potem −14',f:r=>{later(r,3,{r:-14},'Lichwiarz upomina się o dług z procentem.');return fx(r,{r:10});}},
+  {l:'Odmów i tnij wydatki',g:1,p:8,f:r=>'Zaciskasz pas. Ziemia zostaje twoja. '+fx(r,{w:1})}]},
+ {t:'Dziedzictwo',d:v=>`Młodszy brat ${v.nb2} chce swojej części ziemi — tak każe zwyczaj dzielenia majątku.`,ch:[
+  {l:'Daj mu część, ale niech służy w twoim oddziale',g:1,p:4,f:r=>{r.estate.lvl=Math.max(1,r.estate.lvl-.25);return'Brat dostaje pole i staje przy tobie w bitwie. '+fx(r,{m:1});}},
+  {l:'Odmów — ród musi być silny w jednym ręku',f:r=>{later(r,1,{l:-4,u:6},'Brat skarży się krewnym i w Dazaifu.');return'Brat odchodzi obrażony.';}}]},
+ {t:'Chory koń',when:r=>r.horses>0,d:v=>'Jeden z koni kuleje i nie je.',ch:[
+  {l:'Wezwij koniarza',s:'−2 ryżu',g:1,f:r=>'Koń wraca do sił. '+fx(r,{r:-2})},
+  {l:'Przeczekaj',f:r=>{if(rr()<.5){r.horses--;return'Koń padł.';}return'Koń wyzdrowiał sam.';}}]},
+ {t:'Zen w Hakacie',d:v=>`Mnich ${v.monk} ze świątyni w Hakacie mówi: „Regent Tokimune ćwiczy zen. Strach to tylko myśl.”`,ch:[
+  {l:'Siedź z mnichem w ciszy przez kilka dni',g:1,p:11,f:r=>fx(r,{w:2})},
+  {l:'Nie ma czasu na siedzenie',f:r=>'Wracasz do spraw.'}]},
+ {t:'Dezerter ze straży',when:r=>r.unl.guard,d:v=>`Jeden z twoich ludzi uciekł ze straży do domu. Mówi, że rodzina głoduje.`,ch:[
+  {l:'„To mój błąd — nie dopilnowałem zapasów jego rodziny.” Pomóż im',s:'−2 ryżu',g:1,p:0,f:r=>{r.stats.owned++;return'Wraca na straż i mówi o tobie dobrze. '+fx(r,{r:-2,l:2,w:1});}},
+  {l:'Ukarz go przy wszystkich',f:r=>{r.stats.blamed++;if(rr()<.5)return'Inni milkną i patrzą w ziemię. '+fx(r,{m:-1});return'Porządek jest. Zaufanie mniejsze.';}}]},
+ {t:'Rozbity statek',when:r=>r.s>=8,d:v=>'Na brzeg wyrzuciło szczątki statku. Rybacy zbierają drewno i żelazo.',ch:[
+  {l:'Weź drewno na łódź i oddaj resztę rybakom',g:1,f:r=>{if(r.unl.wall)return'Masz deski na łódź. '+fx(r,{r:2});return'Masz drewno na opał i wdzięcznych rybaków. '+fx(r,{u:-4});}},
+  {l:'Zabierz wszystko dla siebie',f:r=>'Rybacy patrzą krzywo. '+fx(r,{r:4,u:5})}]},
+ {t:'Pomysł z ludu',d:v=>`Twój stary sługa mówi: „Panie, zamiast kupować strzały, niech chłopi robią je zimą z trzciny.”`,ch:[
+  {l:'Dobry pomysł — zróbmy tak',g:1,p:3,f:r=>fx(r,{a:3})},
+  {l:'Strzały ma robić rzemieślnik',f:r=>'Sługa milknie.'}]},
+ {t:'Wezwanie do Dazaifu',when:r=>r.unl.guard,d:v=>'Shōni wzywa gokeninów na naradę o straży. Daleka droga.',ch:[
+  {l:'Jedź osobiście i zgłoś, czego brakuje na twoim odcinku',g:1,p:9,f:r=>'Dowódca docenia jasny raport. '+fx(r,{l:4,r:-1})},
+  {l:'Wyślij sługę z listem',f:r=>fx(r,{l:-1})}]},
+ {t:'Za dużo planów',d:v=>'Zarządca chce karczować las, ludzie chcą naprawić dachy, a ty chcesz kupić konie.',ch:[
+  {l:'Jedna rzecz na tę porę — reszta poczeka',g:1,p:5,f:r=>'Zrobione porządnie. '+fx(r,{w:1,u:-2})},
+  {l:'Wszystko naraz',f:r=>'Nic nie skończone. '+fx(r,{u:4,r:-2})}]},
+ {t:'Burza nad wybrzeżem',when:r=>r.unl.wall,d:v=>'Ulewa podmyła twój odcinek muru.',ch:[
+  {l:'Naprawić od razu',s:'−2 ryżu',g:1,p:8,f:r=>'Mur znów stoi. '+fx(r,{r:-2,l:2})},
+  {l:'Po żniwach',f:r=>{later(r,1,{l:-5},'Inspektor Shōniego znalazł dziurę w twoim odcinku muru.');return'Na razie nikt nie patrzy.';}}]}
+];
+
+/* ================= LOGIKA (bez DOM) ================= */
+let G=null;
+function blank(){return{v:1,meta:{runs:0,wins:0,disc:0,streak:0,lastFull:'',journal:[],missions:null,plans:{},legacy:[]},run:null};}
+function rr(){const r=G.run;let t=(r.rs=(r.rs+0x6D2B79F5)|0);t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;}
+function ri(n){return Math.floor(rr()*n);}
+function pick(a){return a[ri(a.length)];}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=ri(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
+function hashStr(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
+function seeded(seed){let s=seed>>>0;return()=>{let t=(s=(s+0x6D2B79F5)|0);t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function dkey(off=0){const d=new Date();d.setDate(d.getDate()+off);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+const T=(r,m,f)=>r.hero.sex==='f'?f:m;
+const lbl=(x,r)=>typeof x==='function'?x(r):x;
+const rankName=r=>(r.hero.sex==='f'?RANKS_F:RANKS_M)[r.hero.rank];
+const skillName=r=>T(r,'Łuk','Rachunki');
+const seasonLabel=s=>`${yearOf(s)} · ${SEAS[szOf(s)]}`;
+
+function parseLeg(code){try{code=(code||'').trim();if(!code.startsWith('ROD1.'))return null;const L=b64d(code.slice(5));return L&&L.gra===1?L:null;}catch(e){return null;}}
+function newRun(o){
+ const seed=((Date.now()&0xffffffff)^Math.floor(Math.random()*4294967296))>>>0;
+ G.run={seed,rs:seed};const r=G.run;const sex=o.sex||'m';const L=parseLeg(o.code);
+ const vil=L?String(L.rod||'').replace(/^ród z /,''):'';
+ Object.assign(r,{s:0,phase:'inter',
+  hero:{n:o.name||(sex==='f'?pick(NAMES_F):pick(NAMES_M)),sex,bow:L?Math.min(2,Math.floor((L.ranga||0)/2)):0,bxp:0,rank:0,away:0},
+  rice:10,men:2,horses:1,arrows:2,boats:0,prov:0,rep:40,zas:0,roz:1+Math.min(4,Math.floor(G.meta.disc/5)),
+  estate:{lvl:2,unrest:20},steward:null,policy:'bal',focus:'estate',guard:0,wallOn:1,wall:0,docs:0,deeds:[],prep:0,stolen:0,
+  unl:{log:0,guard:0,wall:0,boats:0},stats:{owned:0,blamed:0,puz:0,honest:0,lies:0,ev:0,gOk:0,gMiss:0},
+  village:vil||pick(VILLAGES),mentor:pick(MENTORS),monk:pick(MONKS),nbs:shuffle(NAMES_M.slice()).slice(0,3),home:pick(HOME_POS),
+  kamon:L&&L.kamon?L.kamon:{ring:1,motif:'nami',n:1,col:'#27406a'},kamonLock:!!(L&&L.kamon),items:L?(L.pamiatki||[]).slice(0,4):[],motto:L?L.motto||'':'',
+  leg:L?{boh:L.boh,status:L.status,ranga:L.ranga||0,lekcje:(L.lekcje||[]).slice(0,3),wynik:L.wynik}:null,
+  met:{},chron:[],histDone:{},queue:[],hs:['hakata'],ks:['dazaifu','hakata'],js:['kamakura','kyoto','uji','hakata'],jsSeen:['hakata'],ex:null,pet:null,newSys:null});
+ if(L){r.rice+=Math.min(6,Math.round(((L.majatek&&L.majatek.ryz)||0)/4));if((L.ranga||0)>=3)r.rep+=5;}
+ initImm(r);ancInit(r,L);
+ chron(r,L?`Ród ${r.village} — potomkowie ${L.boh} (${L.status}).`:`Ród startowy z ${r.village}.`);
+ G.meta.runs++;}
+function interChoose(i){const r=G.run;r.interTxt=INTER[i].f(r,r.leg);if(INTER[i].g)r.stats.honest+=0;chron(r,`1221, wojna Jōkyū: ${INTER[i].l.toLowerCase()}.`);r.phase='interres';}
+function pickSteward(i){const r=G.run;r.steward=Object.assign({},STEWARDS[i]);chron(r,`Zarządcą posiadłości zostaje ${r.steward.n}.`);}
+function chron(r,t){r.chron.push({s:r.s,t});}
+function fx(r,o){const out=[],a=(k,v,n)=>{if(!v)return;r[k]=Math.max(0,Math.round((r[k]+v)*10)/10);out.push(`${n} ${v>0?'+':''}${v}`);};
+ a('rice',o.r,'ryż');if(o.l){r.rep=clamp(r.rep+o.l,0,100);out.push(`reputacja ${o.l>0?'+':''}${o.l}`);}a('zas',o.z,'zasługa');a('roz',o.w,'rozwaga');a('men',o.m,'ludzie');a('horses',o.h,'konie');a('arrows',o.a,'strzały');a('prov',o.p,'prowiant');
+ if(o.u){r.estate.unrest=clamp(r.estate.unrest+o.u,0,100);out.push(`niepokój wsi ${o.u>0?'+':''}${o.u}`);}
+ return out.length?'('+out.join(', ')+')':'';}
+function later(r,n,o,msg){r.queue.push({s:r.s+n,o,msg});}
+const P=r=>r.men+1;
+const menCap=r=>2+Math.floor(r.estate.lvl*1.5);
+const guardQ=r=>r.unl.guard?1+(r.estate.lvl>=3?1:0)+(r.s>=11?1:0):0;
+const wallTurn=r=>r.s>=11&&r.s<=13;
+const guardMax=r=>Math.max(0,r.men-(wallTurn(r)&&r.wallOn?1:0));
+function income(r,avg){const sz=szOf(r.s),st=r.steward||STEWARDS[0];let v=r.estate.lvl*3*POLICY[r.policy].m*st.m*[1,1,1.6,.6][sz];if(r.estate.unrest>=70)v*=.5;if(r.focus==='estate'&&!r.hero.away)v*=1.2;return avg?v:v*(.85+rr()*.3);}
+function upkeep(r){return r.men*UPK.men+r.horses*UPK.horses;}
+function force(r,need){const p=P(r),riders=Math.min(r.horses,p),ar=Math.min(1,r.arrows/p),pv=Math.min(1,r.prov/(p*(need||1)));return{p,riders,ar,pv,F:(riders*1.4+(p-riders)*.6)*(.45+.55*ar)*(.55+.45*pv)};}
+function canBuy(r,k){if(k==='men')return r.men<menCap(r);if(k==='horses')return r.horses<P(r);if(k==='arrows')return r.arrows<3*P(r);if(k==='boats')return r.unl.boats&&r.boats<2;return r.prov<4*P(r);}
+function buy(k,d){const r=G.run;if(d>0){if(!r.unl.log||r.rice<COST[k]||!canBuy(r,k))return false;r.rice=Math.round((r.rice-COST[k])*10)/10;r[k]++;return true;}
+ if(r[k]<1)return false;r[k]--;const back={men:0,horses:4,arrows:.5,prov:.5,boats:4}[k];r.rice=Math.round((r.rice+back)*10)/10;if(k==='men'&&r.guard>guardMax(r))r.guard=guardMax(r);return true;}
+
+/* ---------- przebieg tury ---------- */
+function startSeason(){const r=G.run;ensureImm(r);r.ev=null;r.gapT=gapText(r);r.rep0=null;r.newSys=null;if(r.s>=4&&r.s%2&&!r.hero.away)r.rep=Math.max(1,r.rep-1);
+ r.guard=Math.min(r.guard||0,guardMax(r));if(r.unl.guard&&!r.guard)r.guard=Math.min(guardQ(r),guardMax(r));
+ r.pz=r.s>=1?genPuzzle():null;if(r.hero.away)r.focus='estate';
+ const H=HIST[r.s];if(H&&!r.histDone[r.s]){r.phase='hist';(H.hs||[]).forEach(k=>{if(!r.hs.includes(k))r.hs.push(k);});(H.ks||[]).forEach(k=>{if(!r.ks.includes(k))r.ks.push(k);});return;}
+ r.phase=planOrQuiet(r);flushDeath(r);}
+function histDone(ci){const r=G.run,H=HIST[r.s];r.histDone[r.s]=1;let txt='';
+ if(H.ch&&ci!=null){const c=H.ch[ci];if(c.need&&!c.need(r))return;txt=c.f(r)||'';if(c.p!=null)txt+=`\n\nZasada: ${PR[c.p][0]}.`;}
+ if(H.unlock){r.unl[H.unlock]=1;if(H.unlock==='wall')r.unl.boats=1;if(H.unlock==='guard')r.guard=Math.min(guardQ(r),guardMax(r));r.newSys=H.unlock;}
+ if(H.list)txt=shoniList(r);
+ chron(r,`${H.dt}: ${H.t}.`);
+ if(H.final)return finale(r);
+ if(H.exp){beginExp(r,H.exp);if(txt){r.histRes=txt;r.phase='histres';r.after='exp';}return;}
+ if(r.s===10&&r.pet){r.met.adachi=1;r.phase='pet';r.pet.step=0;if(!r.js.includes('kamakura'))r.js.push('kamakura');if(!r.jsSeen.includes('kamakura'))r.jsSeen.push('kamakura');return;}
+ if(txt){r.histRes=txt;r.phase='histres';r.after='plan';return;}
+ r.phase=planOrQuiet(r);flushDeath(r);}
+function shoniList(r){const d=r.deeds.filter(x=>x.rec);
+ if(d.length&&r.rep>=40){promote(r,1);return`Shōni Kakue wpisał twoje imię na listę. Zasługi uznane: ${d.map(x=>x.place).join(', ')}. Ale nagroda zależy od Kamakury — a Kamakura daleko.`;}
+ if(d.length)return'Twoje zasługi spisano, ale dowódca ma ważniejszych ludzi. Na liście cię nie ma (reputacja za niska).';
+ return'Na liście nagród nie ma twojego imienia. Nie masz spisanego czynu.';}
+function promote(r,k){if(r.hero.rank>=k)return;r.hero.rank=k;chron(r,`Awans: ${rankName(r)}.`);}
+
+/* ---------- petycja 1275 ---------- */
+HIST[9].ch=[
+ {l:'Sprzedaj konie i siodła, jedź do Kamakury',s:'Konie → ryż na drogę (jak Suenaga)',g:1,p:9,f:r=>{r.rice+=r.horses*4;const h=r.horses;r.horses=0;return petGo(r,`Sprzedajesz ${h} koni. `);}},
+ {l:'Jedź do Kamakury za ryż ze spichrza',s:'Podróż kosztuje 6 ryżu',need:r=>r.rice>=6,f:r=>petGo(r,'')},
+ {l:'Napisz list do Shōniego i czekaj',s:'Bez kosztów, mała szansa',f:r=>{if(r.zas>=30&&r.docs>=2&&rr()<.35){promote(r,2);r.rice+=4;return'Shōni przesłał twój list dalej. Kamakura przysyła pochwałę i nagrodę. '+fx(r,{r:0});}return'Odpowiedzi nie ma.';}}];
+function petGo(r,pre){if(r.rice<6)return pre+'Brakuje ryżu na drogę. Zostajesz.';r.rice-=6;r.pet={step:0,score:0,log:[]};r.hero.away=1;r.focus='estate';
+ if(!r.jsSeen.includes('kyoto'))r.jsSeen.push('kyoto');return pre+'Ruszasz na wschód: dwa miesiące drogi przez Kioto do Kamakury. Posiadłość zostaje w rękach zarządcy. (−6 ryżu)';}
+function bestDeed(r){return r.deeds.slice().sort((a,b)=>b.val-a.val)[0]||null;}
+function petQs(r){const d=bestDeed(r);if(!d)return[];const mk=(q,a,pool)=>{const o=shuffle(pool.filter(x=>x!==a)).slice(0,3);o.push(a);return{q,a,o:shuffle(o)};};
+ if(!r.pet.qs)r.pet.qs=[mk('Gdzie walczyłeś?',d.place,['Torikai-gata','Akasaka','Hakozaki','Imazu','Sawara']),mk('Kto jest twoim świadkiem?',d.wit||'—',[...new Set(WITNESSES.concat(['—',d.wit||'—']))]),mk('Który dowódca widział twój czyn?',d.cmd,['Shōni Kagesuke','Ōtomo Yoriyasu','Shimazu Hisatsune','Kikuchi Takefusa','Adachi Morimune'])];
+ return r.pet.qs;}
+function petStep(){const r=G.run,p=r.pet;if(p.step===0)return{gate:1};const q=petQs(r);if(!q.length)return{none:1};if(p.step<=q.length)return{qa:q[p.step-1],n:p.step,of:q.length};return{done:1};}
+function petChoose(v){const r=G.run,p=r.pet,st=petStep();let t='';
+ if(st.gate){if(v===0){const w=r.roz>=1;if(w)r.roz--;p.score+=w?2:1;t=(w?'':'Brak ci cierpliwości, ale próbujesz. ')+'Dzień po dniu czekasz u bramy Adachiego Yasumoriego. Sekretarze zaczynają cię rozpoznawać.';}
+  else if(v===1){r.rice=Math.max(0,r.rice-4);if(rr()<.5){p.score+=1;t='Sekretarz bierze podarunek i wpisuje cię na listę.';}else{p.score-=1;t='Sekretarz odsyła podarunek z pogardą. '+fx(r,{l:-6});}}
+  else{if(r.leg&&r.leg.ranga>=3){p.score+=2;t=`Stary ród z Sagami pamięta ${r.leg.boh}. Dostajesz list polecający.`;}else t='Nikt w Kamakurze nie zna twojego rodu.';}
+  p.step++;if(!petQs(r).length){p.step=99;}}
+ else if(st.qa){if(v===st.qa.a){p.score+=2;t='Adachi kiwa głową.';}else t=`Adachi marszczy brwi. (poprawnie: ${st.qa.a})`;p.step++;}
+ p.log.push(t);p.last=t;if(petStep().done||p.step>=99)petEnd(r);return t;}
+function petEnd(r){const p=r.pet,d=bestDeed(r);let t;
+ if(!d){t='Adachi Yasumori pyta: „Jaki czyn zgłaszasz?” Nie masz żadnego. Wracasz z pustymi rękami. '+fx(r,{l:-3});}
+ else{p.luck=ri(5)-3;p.score+=Math.min(2,r.docs)+(r.rep>=50?1:0)+(d.rec&&!d.lie?1:0)+(alive(r,'szw')&&r.comp.szw.b>=2?1:0)-(d.lie?2:0)+p.luck;
+  if(p.score>=11){promote(r,3);r.estate.lvl+=1;r.horses+=1;r.items.push('Koń od Adachiego Yasumoriego');t=`Adachi Yasumori słucha do końca. „Twoje zasługi są prawdziwe.” Zostajesz jitō małej posiadłości i dostajesz konia z jego stajni. Jak Suenaga.`;}
+  else if(p.score>=8){promote(r,1);r.rice+=6;r.zas+=8;r.rep=clamp(r.rep+3,0,100);r.items.includes('List pochwalny z Kamakury')||r.items.push('List pochwalny z Kamakury');t='Adachi potwierdza twoje zasługi pismem (zasługa +8, ryż +6). Na nadanie ziemi za mało dowodów — może po następnej wojnie.';}
+  else t='Adachi przyjmuje petycję, ale dowody są słabe. „Wróć, gdy będziesz miał świadków i pisma.”';}
+ p.res=t;chron(r,'Petycja w Kamakurze: '+t.split('.')[0]+'.');}
+function petFinish(){const r=G.run;r.hero.away=0;r.pet=null;r.phase=planOrQuiet(r);flushDeath(r);}
+
+/* ---------- bitwy ---------- */
+function beginExp(r,id){r.ex={id,step:0,prep:r.prep||0,mod:0,risk:EXP[id].risk,earned:0,log:[]};r.prep=0;r.hero.away=1;r.phase='exp';}
+function expStep(){const r=G.run;return EXP[r.ex.id].steps[r.ex.step];}
+function expChoose(i){const r=G.run,st=expStep();let t='';const k=r.ex.id+'.'+r.ex.step;
+ if(st.merit)t=meritChoice(r,i);
+ else if(i==='t'&&st.hes){r.fl.hes++;t=st.hes.f(r);recPath(r,k,'h');}
+ else{const c=st.ch[i];recPath(r,k,i);if(st.place)r.ex.place=c.v;t=c.f(r)||'';if(c.p!=null)t+=(t?' ':'')+`Zasada: ${PR[c.p][0]}.`;}
+ r.ex.log.push(t);r.ex.step++;r.ex.last=t;advanceExp(r);}
+function advanceExp(r){
+ for(let g=0;g<20;g++){const st=expStep();if(!st)break;
+  if(st.if&&!st.if(r)){r.ex.step++;continue;}
+  if(st.battle){const k=r.ex.id+'.'+r.ex.step;r.ex.log.push(battle(r));recPath(r,k,r.ex.tier);r.ex.last=r.ex.log[r.ex.log.length-1];r.ex.step++;
+   if(r.ex.id==='B1')kotaroSaves(r);if(r.dead)return end(false,T(r,'Zginąłeś w bitwie.','Zginęłaś w bitwie.'));
+   if(r.ex.id==='B1'){kotaroFate(r);szwFate(r);}if(r.ex.id==='B2')gonzaFate(r);continue;}
+  if(st.merit&&!r.ex.earned){r.ex.step++;continue;}break;}
+ if(!expStep())finishExp(r);else flushDeath(r);}
+function battle(r){const ex=r.ex,E=EXP[ex.id],fo=force(r,E.need),f=r.hero.sex==='f';ex.tier=2;if(ex.id==='B1')r.fl.foot=r.horses<P(r)?1:0;
+ if(ex.skip){ex.earned=0;return'Nie walczyłeś tej nocy. Bez czynu nie ma zasługi.';}
+ const sk=f?r.hero.bow*.4+r.rep/50:r.hero.bow*.6;
+ let pw=fo.F*.7+ex.mod*.8+sk+ex.prep*.5+(ex.id!=="B1"&&r.wall>=3?1:0)+rr()*6-3.5;
+ r.arrows=Math.max(0,r.arrows-Math.ceil(fo.p*.7));r.prov=Math.max(0,Math.round((r.prov-fo.p*E.need)*10)/10);
+ if(rr()<ex.risk*.07){ex.tier=3;if(!f){r.dead=1;return'Strzała z trucizną. Los dosięga i najlepszych.';}r.men=Math.max(0,r.men-1);ex.earned=0;return'Twój zastępca zginął w walce. Ród stracił wiernego człowieka.';}
+ let t;
+ if(pw>=7){ex.tier=0;ex.earned=26;r.hero.bxp+=4;t=T(r,'Twoje strzały trafiają, a twoi ludzie trzymają szyk. Wróg cofa się do łodzi. Wszyscy to widzieli.','Twój zastępca i ludzie walczą jak jeden. Dzięki twoim zapasom nikt nie odpadł z sił.');}
+ else if(pw>=4.6){ex.tier=1;ex.earned=13;r.hero.bxp+=3;t=T(r,'Trzymasz się z ludźmi, trafiasz kilku wrogów. Porządna walka.','Oddział walczył porządnie i wrócił w komplecie.');}
+ else if(pw>=2.4){ex.tier=2;ex.earned=4;r.hero.bxp+=2;if(r.horses>0&&rr()<.5){r.horses--;t='Twój koń pada od strzały. Niewiele zdziałałeś.';}else t='Przeżyłeś zamęt, ale niewiele zdziałałeś.';}
+ else{ex.tier=3;ex.earned=0;if(!f&&rr()<ex.risk*.3){r.dead=1;return'Wpadasz między wrogów. To koniec drogi.';}r.men=Math.max(0,r.men-1);if(r.horses>0)r.horses--;t='Klęska oddziału: tracisz człowieka i konia.';}
+ if(ex.earned)ex.deed={b:E.n,d:E.d,place:ex.place||{B2:'Shikanoshima',B3:'Takashima'}[ex.id],wit:typeof ex.wit==='string'?ex.wit:(rr()<.4?pick(WITNESSES):null),cmd:ex.id==='B1'?'Shōni Kagesuke':'Adachi Morimune',val:ex.earned,rec:0,doc:0};
+ r.hero.bow=Math.min(5,Math.max(r.hero.bow,Math.floor(r.hero.bxp/6)));return t;}
+function meritChoice(r,i){const e=r.ex.earned,d=r.ex.deed;let t;
+ if(i===0){r.stats.honest++;if(d.wit){t=`Spisują twój raport (gunchūjō). Świadek ${d.wit} potwierdza każde słowo. `+fx(r,{z:e,l:3});}else{t='Nikt nie widział twojego czynu. Spisano połowę. '+fx(r,{z:Math.round(e/2)});}}
+ else if(i===1){r.stats.lies++;d.lie=1;if(rr()<.45)later(r,1,{l:-15,z:-12},'Świadek zaprzeczył twojemu raportowi.');t='Spisano więcej, niż było. '+fx(r,{z:e+8});}
+ else{d.wit=d.wit||pick(WITNESSES);t=`Wpisujesz do raportu także towarzysza, ${d.wit}. On poświadczy twój czyn. `+fx(r,{z:Math.round(e*.7),l:6,w:1});}
+ d.rec=1;r.deeds.push(d);
+ const it={B1:'Strzała mongolska spod Hakaty',B2:'Wiosło z nocnego wypadu',B3:'Żelazna kula tetsuhau z Takashimy'}[r.ex.id];
+ if(e>=11&&!r.items.includes(it)){r.items.push(it);t+=` Pamiątka rodowa: ${it}.`;}
+ t+=`\n\nZapis czynu: ${d.place}, ${d.d}, świadek: ${d.wit||'brak'}, dowódca: ${d.cmd}. Zapamiętaj — albo zbierz pisma.`;
+ return t;}
+function finishExp(r){closeChapter(r);chron(r,`Bitwa: ${EXP[r.ex.id].n}. Zasługa: ${r.zas}.`);execSeason();r.hero.away=0;}
+
+/* ---------- wykonanie tury ---------- */
+function forecast(){const r=G.run;return{inc:income(r,1),up:upkeep(r),q:guardQ(r),sent:Math.min(r.guard,guardMax(r))+(r.focus==='guard'&&!r.hero.away?2:0),fo:force(r,1)};}
+function execSeason(){const r=G.run,sz=szOf(r.s),lines=[],errs=[],st=r.steward||STEWARDS[0],away=r.hero.away;
+ let inc=income(r);
+ if(st.th&&rr()<st.th*(r.policy==='exp'?1.5:1)){const x=Math.round(inc*.25*10)/10;inc-=x;r.stolen+=x;}
+ inc=Math.round(inc*10)/10;r.rice+=inc;lines.push(`🌾 Posiadłość (zarządca ${st.n}, ${POLICY[r.policy].n.toLowerCase()}): +${inc} ryżu${sz===2?' — żniwa':''}.`);
+ if(r.focus==='estate'&&!away&&r.stolen>0){lines.push(`🔎 Objazd: zarządca zatrzymał ${r.stolen.toFixed(1)} ryżu. Oddaje i obiecuje poprawę.`);r.rice+=r.stolen;r.stolen=0;st.th*=.3;}
+ const u0=r.estate.unrest;r.estate.unrest=clamp(u0+POLICY[r.policy].u+(r.focus==='estate'&&!away?-15:0)+ri(5)-2,0,100);
+ if(r.estate.unrest>=70)lines.push('🔥 Wieś się burzy: chłopi uciekają z pól (dochód −50%, dopóki niepokój ≥70).');
+ if(POLICY[r.policy].g&&r.estate.unrest<50)r.estate.lvl=Math.min(5,Math.round((r.estate.lvl+POLICY[r.policy].g)*100)/100);
+ if(st.lr)st.m=Math.min(1.15,st.m+st.lr);
+ if(r.unl.guard){const q=guardQ(r),sent=Math.min(r.guard,guardMax(r))+(r.focus==='guard'&&!away?2:0);
+  if(sent>=q){r.rep=clamp(r.rep+2,0,100);r.stats.gOk++;lines.push(`⛩ Straż na wybrzeżu: ${sent}/${q} — dowódca zadowolony (reputacja +2).`);}
+  else{const p=1+2*(q-sent);r.rep=clamp(r.rep-p,0,100);r.stats.gMiss++;lines.push(`⛩ Straż: ${sent}/${q} — za mało (reputacja −${p}).`);errs.push('Za mało ludzi na straży.');}}
+ if(wallTurn(r)){if(r.wallOn&&r.rice>=3&&r.men>=1){r.rice-=3;r.wall++;r.rep=clamp(r.rep+2,0,100);lines.push(`🧱 Mur: twój odcinek rośnie (${r.wall}/3, −3 ryżu, reputacja +2).`);}
+  else{r.rep=clamp(r.rep-3,0,100);lines.push('🧱 Mur: twój odcinek stoi w miejscu (reputacja −3).');errs.push('Odcinek muru nie postąpił.');}}
+ if(!away){if(r.focus==='train'){r.hero.bxp+=3;const nb=Math.min(5,Math.floor(r.hero.bxp/6));lines.push(nb>r.hero.bow?`🏹 ${skillName(r)}: poziom ${nb}.`:`🏹 Ćwiczenie: ${skillName(r)} ${r.hero.bxp}/${Math.min(30,(r.hero.bow+1)*6)}.`);r.hero.bow=Math.max(r.hero.bow,nb);}
+  if(r.focus==='guard'&&r.unl.guard){r.zas+=1;r.rep=clamp(r.rep+1,0,100);lines.push('⭐ Dowódca widział cię na straży (zasługa +1).');}
+  if(r.focus==='docs'){const d=r.deeds.find(x=>!x.doc);if(d){d.doc=1;r.docs++;lines.push(`📜 Masz pisemne potwierdzenie czynu (${d.place}). Zapis w zakładce Ród.`);}else if(r.docs<2){r.docs++;lines.push('📜 Zbierasz listy od krewnych i sąsiadów o służbie rodu.');}else lines.push('📜 Nie ma czego więcej spisywać.');}}
+ const up=Math.round(upkeep(r)*10)/10;r.rice=Math.round((r.rice-up)*10)/10;r.prov=Math.floor(r.prov*.95*10)/10;
+ lines.push(`🍚 Utrzymanie ludzi i koni: −${up}. Zostało ${r.rice}.`);
+ if(r.rice<0){const lost=Math.min(r.men,Math.ceil(-r.rice/2));r.men-=lost;r.rice=0;if(lost){lines.push(`🚶 Brak ryżu: ${lost} ludzi odchodzi.`);errs.push('Zabrakło ryżu dla ludzi.');}r.guard=Math.min(r.guard,guardMax(r));}
+ const due=r.queue.filter(q=>q.s<=r.s);r.queue=r.queue.filter(q=>q.s>r.s);due.forEach(q=>lines.push(`⏳ ${q.msg} ${fx(r,q.o)}`));
+ r.gapT=null;r.rep2={echo:dueEchoes(r),lines,errs,own:errs.length&&!away?'pending':null,away:away||r.ex?1:0};r.phase='report';flushDeath(r);}
+function ownChoice(me){const r=G.run;if(me){r.stats.owned++;r.rep2.ownTxt='Ludzie słyszą, że bierzesz to na siebie i poprawiasz plan. '+fx(r,{w:1,u:-3});}else{r.stats.blamed++;let t='Ludzie słyszą, że to ich wina. Następnym razem ukryją problem.';if(r.men>0&&rr()<.35){r.men--;t+=' Jeden odchodzi.';}r.rep2.ownTxt=t;}r.rep2.own='done';}
+function afterReport(){const r=G.run;r.ex=null;r.chapNew=null;if(checkEnd())return;
+ if(r.hero.away||r.s===0)return endSeason();
+ if(rr()<.55){const pool=EV.map((e,i)=>i).filter(i=>!EV[i].when||EV[i].when(r));r.ev={k:pick(pool)};r.phase='event';r.stats.ev++;return;}
+ endSeason();}
+function evVars(){const r=G.run;return{nb:r.nbs[0],nb2:r.nbs[1],monk:r.monk,mentor:r.mentor};}
+function evChoose(v){const r=G.run,c=EV[r.ev.k].ch[+v];if(c.need&&r.roz<c.need)return false;let t=c.f(r,evVars());if(c.p!=null)t+=`\n\nZasada: ${PR[c.p][0]}.`;r.evRes=t;r.phase='evres';return true;}
+function endSeason(){const r=G.run;if(checkEnd())return;if(r.s>=LAST_S)return finale(r);r.s++;startSeason();}
+function checkEnd(){const r=G.run;if(r.phase==='end')return true;if(r.dead)return end(false,T(r,'Zginąłeś w bitwie.','Zginęłaś w bitwie.'));if(r.rep<=0)return end(false,'Shōni zgłosił cię do Kamakury jako nierzetelnego. Ród traci status gokenina.');return false;}
+const ZAS2=27;
+function finale(r){const rec=r.deeds.filter(d=>d.rec);let ep='';
+ if(r.hero.rank<3&&r.zas>=70&&r.rep>=55&&rec.some(d=>d.b!==EXP.B1.n)){promote(r,3);r.estate.lvl+=1;ep='Epilog 1286: Kamakura rozdziela ziemie w Kiusiu. Dostajesz nadanie i tytuł jitō.';}
+ else if(r.hero.rank<2&&r.zas>=ZAS2&&r.rep>=28){promote(r,2);ep='Kamakura potwierdza zasługi listem i małą nagrodą.';}
+ else if(r.hero.rank<1&&rec.length){promote(r,1);ep='Dowódca potwierdza twój raport. Na nagrodę z Kamakury czekasz latami.';}
+ const win=r.hero.rank>=2;
+ return end(win,(win?`Najazd odparty. Ród ${r.village}: ${rankName(r)}.`:'Najazd odparty, ale ród nie zdobył nagrody. Wielu gokeninów zbiedniało tak jak ty.')+(ep?' '+ep:'')+' Epilog 1297: dekret tokusei — znak, jak bardzo gokenini zbiednieli.');}
+function end(win,reason){const r=G.run;if(r.phase==='end')return true;const s=r.stats;
+ const score=Math.max(10,Math.round(r.zas+r.rep+r.rice/2+r.hero.rank*25+s.owned*5-s.blamed*5+s.puz*3+r.estate.lvl*5));
+ const L=[];
+ if(s.blamed>s.owned)L.push('Częściej szukałeś winnych niż brałeś odpowiedzialność.');
+ if(s.owned>0&&!s.blamed)L.push('Ani razu nie zrzuciłeś winy na ludzi. Tak buduje się zaufanie.');
+ if(s.gMiss>2)L.push('Straż na wybrzeżu to obowiązek gokenina. Za mało ludzi = utrata reputacji.');
+ if(s.lies)L.push('Zawyżony raport to ryzyko: świadkowie mówią prawdę, a Adachi pyta o szczegóły.');
+ if(!r.deeds.length)L.push('Bez spisanego czynu nie ma nagrody. Logistyka (konie, strzały, prowiant) decyduje o wyniku bitwy.');
+ if(!win&&r.deeds.length&&r.hero.rank<2)L.push('Masz czyny, ale nikt w Kamakurze o nich nie wie. Prowadź w górę: petycja, świadkowie, pisma.');
+ if(!L.length)L.push(win?'Czysta robota.':'Porażka to dane. Wróć silniejszy.');
+ r.res={win,reason,score,lessons:L};r.phase='end';r.dq=[];if(r.comp)G.meta.mem={hero:r.hero.n,village:r.village,sex:r.hero.sex,lost:r.lost||[],comp:r.comp,fl:r.fl,sp:r.sp,anc:r.anc||[],what:(r.lost||[]).map(d=>({n:d.n,w:whatIf(r,d.who)}))};G.meta.wins+=win?1:0;return true;}
+function useRoz(k){const r=G.run;if(r.roz<2)return null;r.roz-=2;if(k==='calm')return'Stary mnich uspokaja wieś. '+fx(r,{u:-20});if(k==='drill')return'Ćwiczenia z mentorem. '+(r.hero.bxp+=4,'('+skillName(r)+' +4)');return'Mentor wstawia się za tobą u dowódcy. '+fx(r,{l:6});}
+
+/* ---------- dziedzictwo ROD2. ---------- */
+function legacy(r){const rel=v=>v>=70?'zaufanie':v>=45?'życzliwość':v>=20?'chłód':'niełaska';
+ const o={v:1,gra:2,rok:1281,rod:r.village,boh:r.hero.n,plec:r.hero.sex,status:rankName(r),ranga:r.hero.rank,
+  majatek:{ryz:Math.round(r.rice),posiadlosc:r.estate.lvl,ludzie:r.men,konie:r.horses,lodzie:r.boats},prestiz:r.zas,reputacja:r.rep,pamiatki:r.items,motto:r.motto||'',
+  lekcje:[r.lesson,...G.meta.journal.slice(0,2).map(j=>j.l)].filter(Boolean),relacje:{Shoni:rel(r.rep),Adachi:r.met.adachi?'audiencja 1275':'brak',Hojo:r.hero.rank>=2?'nagroda z Kamakury':'brak'},
+  kamon:r.kamon,mapy:{hakata:r.hs,kiusiu:r.ks},przodek:r.leg?r.leg.boh:null,...(r.comp?memLegacy(r):{}),wynik:r.res?r.res.score:0};
+ return 'ROD2.'+b64e(o);}
+
+/* ---------- zapis ---------- */
+const KEY='rod2_wiatr_v1',SKEY='rod2_wiatr_slots';
+function save(){try{localStorage.setItem(KEY,JSON.stringify(G));}catch(e){}}
+function loadAuto(){try{const s=localStorage.getItem(KEY);if(s){const g=JSON.parse(s);if(g&&g.meta){if(g.run)ensureImm(g.run);return g;}}}catch(e){}return blank();}
+function getSlots(){try{return JSON.parse(localStorage.getItem(SKEY)||'{}');}catch(e){return{};}}
+function setSlots(s){try{localStorage.setItem(SKEY,JSON.stringify(s));return true;}catch(e){return false;}}
+function enc(o){return'WM1.'+b64e(o);}
+function dec(s){s=s.trim();if(!s.startsWith('WM1.'))throw 0;const g=b64d(s.slice(4));if(!g.meta)throw 0;if(g.run)ensureImm(g.run);return g;}
+function desc(g){if(!g.run)return`Sztab — ${g.meta.runs} partii, ${g.meta.wins} wygranych`;return`${g.run.hero.n} — ${seasonLabel(g.run.s)}`;}
+/* ---------- łamigłówki ---------- */
+const PZ={
+ mm:{n:'Szyfr posłańca',k:'myślenie analityczne',d:'Odgadnij 4 znaki posłańca (cyfry 1–6) w maks. 8 próbach. ● = dobry znak na dobrym miejscu, ○ = dobry znak na złym miejscu.',r:'+1 Rozwaga, ryż +1'},
+ pack:{n:'Załadunek łodzi',k:'myślenie przestrzenne',d:'Zapakuj wszystkie tobołki do łodzi bez wolnych miejsc. Wybierz tobołek, obróć go, dotknij pola — kropka trafi w to pole. Dotknij położonego, by zdjąć.',r:'+1 Rozwaga, prowiant +2'},
+ sim:{n:'Sygnały ognia',k:'pamięć',d:'Zapamiętaj kolejność sygnałów i odtwórz ją.',r:'+1 Rozwaga, reputacja +2'},
+ lo:{n:'Latarnie strażnic',k:'logika',d:'Dotknięcie pola przełącza je i sąsiadów (góra, dół, lewo, prawo). Zgaś wszystkie latarnie.',r:'+1 Rozwaga, zasługa +1'}
+};
+function genPuzzle(){const r=G.run;const k=pick(['mm','pack','sim','lo']);const z={k,done:false};
+ if(k==='mm'){z.code=[1,2,3,4].map(()=>1+ri(6));z.g=[];z.cur=[];}
+ if(k==='pack')Object.assign(z,genPack());
+ if(k==='sim'){z.len=Math.min(8,4+Math.floor(r.s/5));z.seq=Array.from({length:z.len},()=>ri(16));z.st='ready';z.pos=0;}
+ if(k==='lo'){z.b=Array(16).fill(0);const ps=shuffle([...Array(16).keys()]).slice(0,3+ri(3));ps.forEach(i=>loPress(z.b,i));z.moves=0;z.par=ps.length;}
+ return z;}
+function loPress(b,i){const x=i%4,y=i>>2;[[0,0],[1,0],[-1,0],[0,1],[0,-1]].forEach(([dx,dy])=>{const a=x+dx,c=y+dy;if(a>=0&&a<4&&c>=0&&c<4)b[c*4+a]^=1;});}
+function genPack(){const W=5,H=4,own=Array(W*H).fill(-1);let pid=0;
+ const nb=i=>{const x=i%W,y=Math.floor(i/W);return[[x-1,y],[x+1,y],[x,y-1],[x,y+1]].filter(([a,b])=>a>=0&&b>=0&&a<W&&b<H).map(([a,b])=>b*W+a);};
+ for(let guard=0;guard<100;guard++){const free=[];own.forEach((v,i)=>{if(v<0)free.push(i);});if(!free.length)break;
+  const s=pick(free),target=3+ri(3),cells=[s];own[s]=pid;
+  while(cells.length<target){const fr=[];cells.forEach(c=>nb(c).forEach(n=>{if(own[n]<0&&!fr.includes(n))fr.push(n);}));if(!fr.length)break;const c=pick(fr);own[c]=pid;cells.push(c);}
+  if(cells.length<3){let tgt=-1;cells.forEach(c=>nb(c).forEach(n=>{if(own[n]>=0&&own[n]!==pid)tgt=own[n];}));if(tgt>=0){cells.forEach(c=>own[c]=tgt);continue;}}
+  pid++;}
+ const cols=['#c9a227','#6b8fb3','#7aa36a','#b5523b','#9b7bb0','#5aa6a0','#c98a9b','#a9a65b'];
+ const pieces=[];for(let p=0;p<pid;p++){let cs=[];own.forEach((v,i)=>{if(v===p)cs.push([i%W,Math.floor(i/W)]);});if(!cs.length)continue;const rot=ri(4);for(let k=0;k<rot;k++)cs=rotShape(cs);pieces.push({c:norm(cs),col:cols[pieces.length%cols.length]});}
+ return{W,H,pieces:shuffle(pieces),placed:{},sel:0};}
+function norm(cs){const mx=Math.min(...cs.map(c=>c[0])),my=Math.min(...cs.map(c=>c[1]));return cs.map(([x,y])=>[x-mx,y-my]).sort((a,b)=>a[1]-b[1]||a[0]-b[0]);}
+function rotShape(cs){return norm(cs.map(([x,y])=>[-y,x]));}
+function packBoard(z){const b=Array(z.W*z.H).fill(-1);for(const p in z.placed){const o=z.placed[p];z.pieces[p].c.forEach(([x,y])=>{b[(y+o.y)*z.W+(x+o.x)]=+p;});}return b;}
+function solvePz(){const r=G.run,z=r.pz;z.done=true;z.win=true;r.stats.puz++;r.roz++;
+ const o={mm:{r:1},pack:{p:2},sim:{l:2},lo:{z:1}}[z.k];return fx(r,o);}
+
+function b64e(o){const s=JSON.stringify(o);return typeof btoa!=='undefined'?btoa(unescape(encodeURIComponent(s))):Buffer.from(s,'utf8').toString('base64');}
+function b64d(s){const t=typeof atob!=='undefined'?decodeURIComponent(escape(atob(s))):Buffer.from(s,'base64').toString('utf8');return JSON.parse(t);}
+
+/* ================= IMMERSJA (Gra 2): towarzysze, losy, śmierć, echa, schemat rozdziału ================= */
+// Grafiki: nazwy plików .webp leżących obok index.html. Brak nazwy = brak <img>, zero błędów 404.
+const IMG_HAVE=['g2_okladka','g2_bohater','g2_kotaro','g2_gonza','g2_szwagier','g2_torikai','g2_mur','g2_nocne_lodzie','g2_po_tajfunie','g2_brama_kamakura','g2_matka','g2_mapa_hakata'];
+const IMG_SON=['g2_bohater','g2_brama_kamakura','g2_mur','g2_nocne_lodzie','g2_po_tajfunie','g2_torikai'];
+const IMG=(n,cls)=>IMG_HAVE.includes(n)&&!(IMG_SON.includes(n)&&typeof G!=='undefined'&&G&&G.run&&G.run.hero&&G.run.hero.sex!=='m')?`<img class="${cls||'scene'}" src="${n}.webp" alt="" loading="lazy">`:'';
+const TIMED_S=10;
+const SZW='Tanemitsu';
+
+function initImm(r){
+ r.comp={kotaro:{b:0,st:'alive'},gonza:{b:0,st:'alive'},szw:{b:0,st:'alive'},sp:{b:0,st:'alive'}};
+ r.sp={n:r.hero.sex==='f'?pick(['Sukenori','Tadaie','Yoshimune']):pick(NAMES_F.filter(n=>n!==r.hero.n)),child:''};
+ r.fl={front:0,apart:0,shield:0,foot:0,ownBoat:0,otherBoat:0,gonzaHome:0,mercy:0,hes:0,motherLetter:0,saved:0,motherN:0};
+ r.dq=[];r.echo=[];r.lost=[];r.qs={};r.chap={};r.hurt=[];r.anc=r.anc||[];}
+function ensureImm(r){if(r&&!r.comp)initImm(r);}
+function bond(r,k,v){const c=r.comp[k];if(c)c.b=clamp(c.b+v,0,3);}
+const alive=(r,k)=>r.comp[k].st!=='dead';
+const spW=r=>T(r,'żona','mąż');
+
+/* ---------- dziedzictwo z Gry 1 ---------- */
+function ancInit(r,L){r.anc=(L&&Array.isArray(L.zmarli))?L.zmarli.slice(0,6):[];const d=r.anc.find(x=>x.pamiatka);r.ancM=null;if(!d)return;
+ const it=d.pamiatka,b=(L&&L.boh)||'przodek',n=d.imie||'';let st;
+ if(/Grot/.test(it))st=`Grot strzały spod Ikuty, 1184. Zabił ${n}, towarzysza ${b} z czasów, gdy obaj byli pachołkami. ${b} trzymał go w szkatułce z kadzidłem i mówił: „To nie trofeum. To rachunek.”`;
+ else if(/konik-amulet/.test(it))st=`Drewniany konik na sznurku. ${n} marzył o własnym koniu i nigdy go nie miał. ${b} nosił konika na szyi do śmierci.`;
+ else if(/Łuk/.test(it))st=`Stary łuk owinięty rattanem. Należał do ${n}, mentora ${b}. Co roku ktoś w rodzie zakłada nową cięciwę. Nikt nie pamięta, kto zaczął.`;
+ else if(/Słomiany/.test(it))st=`Słomiany konik, krzywy, z jedną nogą za krótką. Uplótł go ${n}. Rozsypuje się, a nikt nie ma odwagi go naprawić.`;
+ else if(/Sierp/.test(it))st=`Sierp ${n}. Ostrze starte do połowy. Wisi przy palenisku, chociaż nikt już nim nie żnie.`;
+ else st=`${it}. Pamiątka po ${n}. ${b} nie mówił o niej wiele.`;
+ if(!r.items.includes(it))r.items.unshift(it);r.ancM={it,st,n};
+ r.echo.push({s:6,t:T(r,`Przed wymarszem wyjmujesz z ołtarza pamiątkę: ${it.toLowerCase()}. ${b} wrócił ze swojej wojny. Ty też musisz.`,`Przed wymarszem ludzi wyjmujesz z ołtarza pamiątkę: ${it.toLowerCase()}. Kładziesz ją zastępcy w dłoń. „Oddasz mi ją osobiście.”`)});
+ r.echo.push({s:18,t:`Twoje dziecko pyta o ${it.toLowerCase()}. Opowiadasz o ${n}. Pierwszy raz od lat ktoś w tym domu wymawia to imię na głos.`});}
+
+/* ---------- ciche sceny (więź) ---------- */
+const QUIET={
+ 3:{who:'kotaro',t:'Syn starego sługi',img:'g2_kotaro',d:r=>`Do bramy przychodzi wdowa po słudze twojego ojca. Prowadzi chłopaka: chudy, trzynaście lat, łokcie jak u żurawia. „To Kotarō. Ojciec chciał, żeby służył twojemu rodowi.” Chłopak patrzy na twoje konie, nie na ciebie.`,
+  th:r=>'„Ma ręce za długie na rękawy. Urośnie.”',
+  ch:[{l:'Weź go ze sobą na straż i ucz od pierwszego dnia',s:'Kotarō to zapamięta',g:1,f:r=>{bond(r,'kotaro',1);return'Na wybrzeżu pokazujesz mu, jak trzymać wodze jedną ręką. Spada dwa razy. Za trzecim razem już się nie śmieje, tylko zaciska zęby. Wieczorem pyta, czy jutro też.';}},
+   {l:'Niech na razie oporządza konie w stajni',f:r=>{r.rep=clamp(r.rep+1,0,100);return'Kotarō czyści konie lepiej niż ktokolwiek. Rzadko go widujesz. (reputacja +1 — stajnia w porządku)';}}]},
+ 4:{who:'sp',t:'List z domu',d:r=>`Straż na wybrzeżu. Piasek w ryżu, wiatr w uszach. Goniec przynosi list od ${r.sp.n}. Pismo drobne, ostrożne, papier pachnie dymem z waszego paleniska. „Śliwa zakwitła za wcześnie. Wszyscy mówią, że to znak. Nie wiem czego.”`,
+  th:r=>'„Ten dym pachnie jak dom. Ile jeszcze?”',
+  ch:[{l:'Odpisz długo, o wszystkim, co widzisz',g:1,f:r=>{bond(r,'sp',1);return`Piszesz przy latarni do północy. O mewach, o statkach kupców Song, o tym, że brakuje ci zapachu tego dymu. Rano oddajesz list gońcowi, zanim zdążysz się zawstydzić.`;}},
+   {l:'Krótko: „Wszystko dobrze. Pilnuj spichrza”',f:r=>{r.roz+=1;return'Trzy znaki i pieczęć. Mądrze — goniec może zgubić list, a wróg go przeczytać. (rozwaga +1)';}}]},
+ 5:{who:'gonza',t:'Chorągiew',img:'g2_gonza',d:r=>`Wieczór przy ognisku. Gonza ceruje chorągiew z herbem rodu. Brakuje mu dwóch palców u lewej ręki, a mimo to igła chodzi równo. „Tę chorągiew niósł twój dziadek. Potem ja, za twoim ojcem. Ciężka, ale nie od materiału.”`,
+  th:r=>'„Nigdy nie spytałem, skąd ma tę rękę.”'.replace('spytałem',T(r,'spytałem','spytałam')),
+  ch:[{l:'Zapytaj o palce i posłuchaj do końca',g:1,f:r=>{bond(r,'gonza',1);return'Gonza śmieje się cicho. Młody był, na łodzi rybackiej, lina owinęła mu dłoń. „Morze bierze zawsze trochę. Lepiej dać mu palce niż całego człowieka.” Do późna opowiada o twoim ojcu.';}},
+   {l:'Przejrzyj z nim zapasy na zimę',f:r=>{r.prov+=1;return'Liczycie worki. Gonza zna każdy. Jeden znajduje się za stajnią. (prowiant +1)';}}]},
+ 6:{who:'kotaro',t:'Słowo matki',d:r=>`Kotarō ma piętnaście lat i dostał po kimś starą zbroję dō-maru. Za dużą — płyty biją go po udach. Przy bramie stoi jego matka. Wsuwa mu za pas woreczek-amulet, który sama uszyła. Potem patrzy na ciebie: „Przyprowadź go z powrotem.”`,
+  th:r=>'„Nie mogę tego obiecać. Ona wie, że nie mogę.”',
+  ch:[{l:'„Obiecuję.” I ucz go trzymać się blisko ciebie',s:'Kosztuje 1 rozwagi, jeśli masz',g:1,f:r=>{bond(r,'kotaro',1);if(r.roz>0)r.roz--;return T(r,'Przez cały miesiąc Kotarō jeździ krok w krok za tobą. Uczysz go jednego: „Gdy coś huknie — patrz na mnie, nie na huk.”','Uczysz Kotarō i zastępcę jednego: „Gdy coś huknie — trzymajcie się razem. Nikt nie biegnie sam.” Kotarō powtarza to jak pacierz.');}},
+   {l:'„Wojna nie zna obietnic” — i daj mu dobry nóż',f:r=>{r.arrows+=1;return'Matka kłania się bez słowa. Kotarō ogląda nóż w słońcu. Jest dumny. Ty nie patrzysz na matkę. (strzały +1)';}}]},
+ 8:{who:'szw',t:'Szwagier',d:r=>r.comp.szw.st==='hurt'?`${SZW}, brat ${r.sp.n}, leży z obandażowanym bokiem. Rana goi się źle, ale żart się go trzyma: „Mongołowie strzelają jak dzieci. Tylko dużo.” Potem poważnieje. „Widziałem, co robiłeś pod Hakatą. Powiem to każdemu.”`:`${SZW}, brat ${r.sp.n}, siedzi z tobą na werandzie. „Widziałem, co robiliśmy pod Hakatą. Jak trzeba będzie świadczyć — świadczę. Ale świadek musi żyć, pamiętaj.” Śmieje się.`,
+  th:r=>'„Bez niego nikt mi nie uwierzy.”',
+  ch:[{l:'Poproś, żeby spisał świadectwo, póki pamięta',g:1,f:r=>{bond(r,'szw',1);r.docs++;return`${SZW} pisze powoli, bo boli go ręka. Imiona, miejsce, godzina. Pieczęć. „Teraz nawet jak mnie zabraknie, coś zostanie.” (pisma +1)`;}},
+   {l:'Napijcie się sake i nie mówcie o wojnie',f:r=>{bond(r,'szw',1);return`Do późna wspominacie, jak ${r.sp.n} jako dziecko wpadł${T(r,'a','')} do stawu z karpiami. ${SZW} płacze ze śmiechu. Potem po prostu płacze.`;}}]},
+ 11:{who:'sp',t:'Dziecko',d:r=>`Trzeci miesiąc 1276. Rozkaz budowy muru przyszedł tego samego dnia co goniec z domu: ${T(r,`${r.sp.n} urodziła`,'urodziłaś')} dziecko. Syn. Ma pięści zaciśnięte jak do łuku.`,
+  th:r=>T(r,'„Mur albo dom. Nie da się być w dwóch miejscach.”','„Pierwszy krzyk i od razu rozkaz z Kamakury. Witaj na świecie.”'),
+  ch:[{l:T({hero:{sex:'m'}},'Jedź do domu na kilka dni',''),lf:'Zostań w domu kilka dni, zanim pojedziesz na mur',s:'reputacja −2',g:1,f:r=>{bond(r,'sp',1);r.sp.child='Tarō';r.rep=clamp(r.rep-2,0,100);return T(r,`Trzy dni jazdy w jedną stronę. Trzymasz syna i nie wiesz, co zrobić z rękami. ${r.sp.n} śmieje się z ciebie pierwszy raz od dwóch lat. Dajecie mu na imię Tarō.`,`Trzy dni leżysz z synem przy piersi. ${r.sp.n} siedzi obok i liczy jego palce, jakby mogło ich ubyć. Dajecie mu na imię Tarō.`)+' (reputacja −2)';}},
+   {l:'Mur nie poczeka. Napisz, jak ma mieć na imię',f:r=>{r.sp.child='Tarō';r.rep=clamp(r.rep+2,0,100);return'Piszesz jedno słowo: Tarō. Przez cały dzień nosisz kamienie szybciej niż inni. Dowódca to widzi. (reputacja +2)';}}]},
+ 12:{who:'gonza',t:'Kto poniesie chorągiew',d:r=>alive(r,'kotaro')?'Gonza uczy Kotarō nieść chorągiew na wietrze. „Nie trzymaj jej. Prowadź ją. Jak konia.” Chłopak się chwieje, drzewce gnie się, ale stoi.':'Gonza siedzi przy grobie Kotarō z chorągwią na kolanach. „Miałem go nauczyć nieść ją na wietrze. Nie zdążyłem.”',
+  ch:[{l:'Zostań i patrz',g:1,f:r=>{bond(r,'gonza',1);if(alive(r,'kotaro'))bond(r,'kotaro',1);return'Zachodzi słońce. Chorągiew łopocze nad piaskiem. Nikt nic nie mówi. Nie trzeba.';}},
+   {l:'Zawołaj ich do pracy przy murze',f:r=>{r.rep=clamp(r.rep+1,0,100);return'Wracają do kamieni. Odcinek Higo rośnie. (reputacja +1)';}}]},
+ 13:{who:'kotaro',t:'Własny koń',d:r=>'Kotarō ma siedemnaście lat. Przy targu w Hakacie zatrzymuje się przed gniadym koniem z białą strzałką na czole. Nic nie mówi. Tylko głaszcze go po szyi tak długo, że handlarz zaczyna się uśmiechać.',
+  th:r=>'„Pięć miar ryżu. Albo chłopak pieszo w pierwszym szeregu.”',
+  ch:[{l:'Kup mu tego konia',s:'−5 ryżu, koń +1',g:1,need:r=>r.rice>=5,f:r=>{r.rice-=5;r.horses++;bond(r,'kotaro',1);return'Kotarō dostaje wodze i przez chwilę nie wie, co z nimi zrobić. Potem kłania się tak nisko, że prawie dotyka czołem kopyt. (koń +1)';}},
+   {l:'„Zasłuż na niego”',f:r=>'Kotarō kiwa głową i odchodzi bez słowa. Następnego dnia czyści konie dwa razy dłużej.'}]},
+ 14:{who:'sp',t:'Strach',d:r=>`Zima. ${r.sp.n} nie śpi. Syn raczkuje już po macie. „Wrócą. Mówią, że tym razem przypłyną z pługami. Co my wtedy zrobimy?”`,
+  ch:[{l:'Siedź z nią do świtu i mów, co planujesz'.replace('nią',T({hero:{sex:'m'}},'nią','nim')),lf:'Siedź z nim do świtu i mów, co planujesz',g:1,f:r=>{bond(r,'sp',1);return'Mówisz o murze, o łodziach, o zapasach w Dazaifu. Nie wszystko jest prawdą. Nad ranem oboje śpicie, z dzieckiem pośrodku.';}},
+   {l:'„Mur nas obroni. Śpij”',f:r=>'Odwracasz się do ściany. Słyszysz, że nie śpi. Długo.'}]},
+ 15:{who:'szw',t:'Rachunki szwagra',d:r=>`${SZW} przyjeżdża z wiadomością: Kamakura znowu obcięła nagrody. „Siedem lat straży i muru za własny ryż. Mój syn zapyta, po co.”`,
+  ch:[{l:'„Po to, żeby miał kogo pytać”',g:1,f:r=>{bond(r,'szw',1);return`${SZW} patrzy na ciebie długo. Potem się śmieje. „Dobrze. To mu powiem.”`;}},
+   {l:'Policz z nim, ile was to kosztowało',f:r=>{r.roz+=1;return'Liczycie do północy. Wynik jest straszny i bardzo dokładny. (rozwaga +1)';}}]},
+ 16:{who:'gonza',t:'Stary sługa',d:r=>'Gonza kaszle nocami. Ręce ma pewne, ale wolniej wstaje. „Jeszcze raz poniosę chorągiew. Ostatni. Potem możesz mnie posadzić przy ogniu.”',
+  th:r=>'„Morze bierze zawsze trochę — tak mówił.”',
+  ch:[{l:'„Poniesiesz. Obok mnie”',s:'Gonza będzie w łodzi',g:1,f:r=>{bond(r,'gonza',1);return'Gonza prostuje się, jakby ubyło mu dwadzieścia lat. Tej nocy kaszle mniej.';}},
+   {l:'„Zostaniesz w domu, przy dziecku”',s:'Gonza nie popłynie',f:r=>{r.fl.gonzaHome=1;return'Gonza długo milczy. Potem kłania się i oddaje drzewce Kotarō. Albo komuś innemu. Nie patrzy, komu.';}}]},
+ 18:{who:'sp',t:'Amulet',d:r=>`Przed wymarszem ${r.sp.n} zawiązuje ci${T(r,'',' — tobie, która zostajesz —')} przy pasie amulet z chramu. Syn trzyma się nogi i nie chce puścić.`,
+  th:r=>'„Siedem lat czekania. A teraz wszystko w jeden miesiąc.”',
+  ch:[{l:'Obiecaj, że wrócisz',g:1,f:r=>{bond(r,'sp',1);return'Obiecujesz. Oboje wiecie, ile warte są takie obietnice. Mimo to robi się lżej.';}},
+   {l:'Nie obiecuj niczego. Przytul syna',f:r=>'Syn pachnie mlekiem i kurzem. Odstawiasz go na ziemię ostrożnie, jak naczynie.'}]}
+};
+function quietFor(r){if(r.hero.away)return null;const q=QUIET[r.s];if(!q||r.qs[r.s])return null;if(!alive(r,q.who))return null;
+ if(q.who==='kotaro'&&r.s===13&&!alive(r,'kotaro'))return null;return q;}
+function planOrQuiet(r){ensureImm(r);return quietFor(r)?'quiet':'plan';}
+function goAfter(r){r.phase=r.after==='plan'?planOrQuiet(r):r.after;flushDeath(r);}
+function quietChoose(i){const r=G.run,q=quietFor(r),c=q.ch[i];if(c.need&&!c.need(r))return false;r.qs[r.s]=1;r.qRes={t:q.t,txt:c.f(r)};r.phase='quietres';return true;}
+const qLabel=(c,r)=>r.hero.sex==='f'&&c.lf?c.lf:lbl(c.l,r);
+
+/* ---------- losy warunkowe (losowość ≤ 20%) ---------- */
+function kotaroRisk(r){const F=r.fl,b3=r.comp.kotaro.b>=3;if((F.front&&F.apart)||(F.foot&&(F.front||F.apart)))return b3?.6:.8;if(F.foot)return b3?.1:.2;if(F.front||F.apart)return .15;return .04;}
+function kotaroFate(r){const c=r.comp.kotaro;if(c.st!=='alive')return;const p=kotaroRisk(r),x=rr();
+ if(x<p){addDeath(r,'kotaro',T(r,'Torikai-gata, 10/20 1274 — w pierwszym szeregu','Torikai-gata, 10/20 1274 — wieść od zastępcy'));r.ex.fate=2;return;}
+ if(p>=.15&&x<p+.3){c.st='hurt';r.hurt.push('kotaro');r.ex.fate=1;r.ex.log.push('Kotarō ranny w ramię. Żyje. Woreczek matki ma przecięty, ale go nie zgubił.');return;}
+ r.ex.fate=0;}
+function szwFate(r){const c=r.comp.szw;if(c.st!=='alive')return;const F=r.fl,x=rr();let p=0,h=.05;
+ if(!F.shield){if(F.front){p=.8;h=.2;}else{p=0;h=.85;}}
+ if(x<p){addDeath(r,'szw',T(r,'Hakata, 10/20 1274 — bez osłony','Hakata, 10/20 1274 — wieść od zastępcy'));r.ex.fate2=2;
+  const d=r.ex.deed;if(d&&d.wit===SZW+' (szwagier)'){d.wit=null;r.ex.log.push(`Twój jedyny świadek, ${SZW}, nie żyje. Martwy świadek nie zezna.`);}return;}
+ if(x<p+h){c.st='hurt';r.hurt.push('szw');r.ex.fate2=1;r.ex.log.push(`${SZW} dostał strzałę w bok. Żyje.`);return;}r.ex.fate2=0;}
+function gonzaFate(r){const c=r.comp.gonza;if(c.st!=='alive')return;const F=r.fl;r.ex.fate=0;
+ if(F.gonzaHome||r.ex.skip||r.ex.risk===0)return;const p=F.ownBoat?.04:(r.comp.gonza.b>=3?.6:.8),x=rr();
+ if(x<p){addDeath(r,'gonza',T(r,'Shikanoshima, noc 1281 — na przeładowanej łodzi','Shikanoshima, noc 1281 — wieść od zastępcy').replace(' — na przeładowanej łodzi',F.ownBoat?' — w łodzi rodu':' — na przeładowanej łodzi'));r.ex.fate=2;return;}
+ if(p>=.15&&x<p+.2){c.st='hurt';r.hurt.push('gonza');r.ex.fate=1;r.ex.log.push('Gonza wpadł do morza. Wyciągnęliście go za chorągiew.');}}
+function kotaroSaves(r){if(!r.dead||r.ex.id!=='B1'||r.hero.sex!=='m')return;const c=r.comp.kotaro;if(c.b>=3&&c.st==='alive'&&rr()<.8){r.dead=0;r.fl.saved=1;c.st='hurt';r.hurt.push('kotaro');r.ex.log.push('Leżysz pod koniem. Ktoś ciągnie cię za pas po piasku, z dala od tarcz. To Kotarō. Ma krew na twarzy — nie swoją, mówi. Kłamie.');}}
+
+/* ---------- śmierć w 3 krokach ---------- */
+function addDeath(r,who,how){const D={who,how,s:r.s};r.comp[who].st='dead';
+ D.n={kotaro:'Kotarō',gonza:'Gonza',szw:SZW}[who];D.role={kotaro:'młody sługa',gonza:'stary sługa ojca',szw:'szwagier'}[who];
+ if(who!=='szw')r.men=Math.max(0,r.men-1);
+ const it=MEMENTO[who](r);if(it&&!r.items.includes(it))r.items.push(it);D.item=it;
+ r.lost.push(D);r.dq.push(who);chron(r,`${D.role} ${D.n} odchodzi. ${how}.`);}
+const MEMENTO={kotaro:r=>'Woreczek-amulet Kotarō, przecięty',gonza:r=>'Chorągiew rodu z dziurą od strzały',szw:r=>`Pędzel ${SZW}, którym spisywał świadectwa`};
+function flushDeath(r){if(r.dq&&r.dq.length&&!['death','deathres','end'].includes(r.phase)){r.deathRet=r.phase;r.phase='death';}}
+const curDeath=r=>r.lost.find(d=>d.who===r.dq[0]);
+const SCENE={
+ kotaro:r=>{const F=r.fl,b=r.comp.kotaro.b;
+  if(r.hero.sex==='m')return{m:`Kiedy dym opada, Kotarō siedzi na piasku, oparty o martwego konia. Ktoś inny. Nie jego. Zbroja, za duża, zsunęła mu się z ramienia. Jedną ręką ściska woreczek matki.${b>=2?' Patrzy na ciebie i próbuje wstać, bo pan nadjeżdża.':''} Potem już nie próbuje.`,
+   th:F.foot?'„Szedł pieszo. Miałem o jednego konia za mało.”':F.front&&F.apart?'„Stanąłem na przedzie. A potem pojechałem sam. On pobiegł za mną.”':'„Obiecałem jego matce.”',war:1};
+  return{m:`Zastępca wraca z oddziałem. Zsiada z konia wolno, jakby coś niósł. Podaje ci woreczek-amulet, przecięty strzałą. „Kotarō szedł w pierwszym szeregu. Nie zdążyłem go zawołać.”`,
+   th:F.foot?'„Za mało koni. Ja liczyłam konie.”':'„Kazałam im stanąć na przedzie. Ja. Z Dazaifu, przy rachunkach.”',war:1};},
+ gonza:r=>{const b=r.comp.gonza.b,own=r.fl.ownBoat;
+  return{img:'g2_nocne_lodzie',m:(r.hero.sex==='m'?`${own?'Łódź rodu':'Cudza łódź, za ciężka od ludzi,'} przechyla się przy burcie statku. Z góry leci kamień. Gonza nie puszcza chorągwi — ani wtedy, ani w wodzie. Wyciągacie go za drzewce. Jest bardzo zimny.`:`Nad ranem zastępca przynosi chorągiew. Mokra, ciężka, z dziurą od strzały. „Gonza nie puścił jej do końca. Łódź była przeładowana. Wypadł przy burcie.”`)+(b>=2?' W pięści ma kawałek nici, którą cerował herb.':''),
+   th:own?'„Mieliśmy własną łódź. I to nie wystarczyło.”':'„Gdybym kupił łódź… Osiem miar ryżu. Osiem.”'.replace('kupił',T(r,'kupił','kupiła')),war:1};},
+ szw:r=>({m:`${SZW} leży w trawie za wydmą. Pancerz ma rozpięty — sam go rozpiął, żeby łatwiej oddychać. „Powiedz ${r.sp.n}… nie, nic nie mów. Sama wie.”`.replace('Sama wie',T(r,'Sama wie','Sam wie'))+' Śmieje się, krótko. Potem nic.',
+  th:r.fl.front?'„Nikt go nie osłaniał. Byłem obok i patrzyłem na wroga, nie na niego.”'.replace('Byłem',T(r,'Byłem','Byłam')):'„On miał świadczyć o mnie. Kto teraz zaświadczy o nim?”',war:1})};
+function farewells(r,d){const o=[['grob','Grób na wydmie, kamień zamiast stupy','Twoi ludzie to widzą'],['list',d.who==='kotaro'?'Kosmyk włosów i list do matki':'Kosmyk włosów i list do rodziny',d.who==='kotaro'?'Matka czeka przy drodze':'Ktoś musi im powiedzieć'],['nem','Nembutsu — dziesięć razy, cicho','Namu Amida Butsu. Wszystko przemija (mujō)']];
+ if(r.hero.sex==='m')o.push(['zem','Zemsta: odszukaj tego, który strzelał','Zasługa, ale co potem?']);return o;}
+function farewell(k){const r=G.run,d=curDeath(r);d.fw=k;let t='';const who=d.who;
+ if(k==='grob')t=`Kopiecie płytki grób w piasku nad zatoką. Kładziesz kamień, bo nie macie nic innego. ${who==='gonza'?'Ktoś wbija obok drzewce bez chorągwi.':who==='kotaro'?'Naginatę kładziecie obok. Za długa, nawet tu.':''} `+fx(r,{l:2});
+ if(k==='list'){t=`Obcinasz kosmyk włosów i zawijasz go w papier. List piszesz długo. Za każdym razem zaczynasz od „Nie cierpiał”. ${who==='kotaro'?'Goniec zawiezie go matce razem z woreczkiem. Przez czterdzieści dziewięć dni będzie palić kadzidło.':'Przez czterdzieści dziewięć dni w domu będzie się palić kadzidło.'} `+fx(r,{w:1});if(who==='kotaro')r.fl.motherLetter=1;}
+ if(k==='nem')t='Namu Amida Butsu. Dziesięć razy. Słowa są cięższe niż strzały. Wszystko przemija — tak mówią mnisi. Nie wiesz, czy w to wierzysz. Ale ręce przestają ci drżeć. '+fx(r,{u:-4});
+ if(k==='zem'){r.hero.bxp+=3;t='Szukasz go do wieczora wśród tarcz na plaży. Znajdujesz kogoś. Może to on. Wada spisuje głowę. Nie czujesz nic z tego, co miałeś poczuć. '+fx(r,{z:4});}
+ ECHO[who](r,k).forEach(([n,tx])=>{if(r.s+n<=LAST_S)r.echo.push({s:r.s+n,t:tx});});
+ r.dRes={n:d.n,t};r.phase='deathres';}
+function deathNext(){const r=G.run;r.dq.shift();r.phase=r.deathRet;r.deathRet=null;flushDeath(r);}
+const ECHO={
+ kotaro:(r,k)=>[[k==='list'?1:2,k==='list'?'Matka Kotarō przysyła garść suszonych kasztanów. Bez listu. Wiesz, od kogo i dlaczego.':'Na straży ktoś woła „Kotarō!”. To inny chłopak, z sąsiedniego rodu. Odwracasz się za szybko.'],
+  [4,k==='zem'?'Śni ci się twarz człowieka z plaży. Kotarō stoi w tym śnie obok, w za dużej zbroi, i milczy.':'Gniady koń z białą strzałką na czole stoi na targu w Hakacie. Nikt go nie kupuje.'],[8,'Twój syn bawi się drewnianą naginatą. Za długą. Ktoś mu ją wystrugał. Nie pytasz kto.']],
+ gonza:(r,k)=>[[1,'Chorągiew z dziurą wisi nad ołtarzem. Przez dziurę po strzale przechodzi światło lampki.']],
+ szw:(r,k)=>[[1,`${r.sp.n} czyta list o bracie trzy razy. Potem składa go na czworo i chowa do rękawa. Nosi go tam do zimy.`],[3,`Na budowie muru ktoś śmieje się jak ${SZW}. Ten sam krótki śmiech. Odkładasz kamień i długo nie możesz go podnieść.`]]};
+const MOTHER=['Przy rozstajach stoi matka Kotarō. W dłoni trzyma woreczek-amulet, taki sam jak ten, który mu uszyła. Patrzy na ciebie i czeka, aż coś powiesz.','Matka Kotarō znów stoi przy drodze. Ludzie mówią, że przychodzi tu co dzień o zmierzchu.','Mijasz rozstaje. Matka Kotarō kłania się nisko. Nie pyta. To gorsze niż pytanie.','Przy drodze ktoś zostawił miskę ryżu i dwie pałeczki. Matka Kotarō siedzi obok na kamieniu.'];
+function dueEchoes(r){const d=r.echo.filter(e=>e.s<=r.s&&!e.done);d.forEach(e=>e.done=1);const out=d.map(e=>e.t);
+ if(r.comp.kotaro.st==='dead'&&!r.fl.motherLetter&&!r.hero.away){out.push(MOTHER[r.fl.motherN%MOTHER.length]);r.fl.motherN++;}return out;}
+function timedOn(){return!G.meta.noLimit;}
+
+/* ---------- co mogłem zrobić ---------- */
+function whatIf(r,who){const F=r.fl,y=(ok,t)=>({ok:!!ok,t});
+ if(who==='kotaro')return[y(!F.foot,'Mieć tyle koni, ilu ludzi — wtedy Kotarō jedzie konno, nie pieszo w pierwszym szeregu'),y(!F.front,'Nie stawać na przedzie pod Torikai-gata'),y(!F.apart,'Trzymać się razem przy pierwszym huku (bez samotnej szarży i bez wahania)'),y(r.comp.kotaro.b>=3,`Więź 3 — wtedy ma większą szansę przeżyć, a ${T(r,'ciebie wyciąga spod konia','do końca słucha rozkazów')} (była: ${r.comp.kotaro.b})`)];
+ if(who==='gonza')return[y(F.ownBoat,'Kupić własną łódź przed 1281 (od 1276, 8 ryżu)'),y(F.gonzaHome,'Albo zostawić Gonzę w domu (cicha scena, lato 1279)'),y(r.comp.gonza.b>=3,`Więź 3 — mniejsze ryzyko na cudzej łodzi (była: ${r.comp.gonza.b})`)];
+ if(who==='szw')return[y(F.shield,'Pod Hakatą osłaniać towarzysza i trzymać się razem'),y(!F.front,'Nie stawać na przedzie pod Torikai-gata — bez osłony tam się ginie')];
+ return[];}
+
+/* ---------- schemat rozdziału ---------- */
+const BAT_L=['Chwała','Porządna walka','Zamęt','Klęska'];
+function chapRows(r,id){const rows=[];
+ EXP[id].steps.forEach((st,i)=>{const k=id+'.'+i;if(st.merit)return;if(st.battle){rows.push({k,o:BAT_L});return;}
+  const o=st.ch.map(c=>{const t=lbl(c.l,r).replace(/[„”]/g,'');return t.length>24?t.slice(0,22)+'…':t;});if(st.timed)o.push('Wahanie');rows.push({k,o});});
+ if(id==='B1'){rows.push({k:'B1.f',o:['Kotarō żyje','Kotarō ranny','Kotarō ginie']});rows.push({k:'B1.g',o:[SZW+' żyje',SZW+' ranny',SZW+' ginie']});}
+ if(id==='B2')rows.push({k:'B2.f',o:['Gonza żyje','Gonza ranny','Gonza ginie']});return rows;}
+function recPath(r,k,o){if(r.ex){r.ex.path=r.ex.path||[];r.ex.path.push(k+':'+o);}}
+function closeChapter(r){const id=r.ex.id,p=(r.ex.path||[]).slice();if(id==='B1'){p.push('B1.f:'+(r.ex.fate||0));p.push('B1.g:'+(r.ex.fate2||0));}if(id==='B2')p.push('B2.f:'+(r.ex.fate||0));
+ r.chap[id]=p;G.meta.found=G.meta.found||{};const f=G.meta.found[id]=G.meta.found[id]||[];p.forEach(x=>{if(!f.includes(x))f.push(x);});r.chapNew=id;}
+function chapterHTML(r,id){const rows=chapRows(r,id),mine=r.chap[id]||[],found=(G.meta.found||{})[id]||[];let tot=0,got=0,h='';
+ rows.forEach((row,ri)=>{if(ri)h+='<div class="carr">↓</div>';h+='<div class="crow">';
+  row.o.forEach((lab,oi)=>{const key=row.k+':'+(lab==='Wahanie'?'h':oi);tot++;const my=mine.includes(key),fd=found.includes(key);if(fd)got++;h+=`<span class="cn ${my?'my':fd?'fd':''}">${my||fd?esc(lab):'?'}</span>`;});h+='</div>';});
+ return`<div class="chap"><div class="row"><b style="flex:3">Schemat rozdziału</b><span class="tag" style="flex:0 0 auto">odkryte ${got}/${tot}</span></div>${h}<p class="xs mut">Złote — twoja droga. Szare — odkryte w innych partiach. „?” — tego jeszcze nie widziałeś.</p></div>`;}
+
+/* ---------- myśli u bramy Adachiego ---------- */
+function gateThought(r){const d=r.lost.filter(x=>x.s<=8);if(d.length)return`„${d.map(x=>x.n).join(', ')}. Czy oni też czekają w kolejce do tej bramy? Czy ktoś zapisze ich imiona?”`;
+ return r.comp.szw.st==='hurt'?`„${SZW} jeszcze kuleje. Gdybym wrócił${T(r,'','a')} z niczym, jak mu spojrzę w oczy?”`:'„Za tą bramą siedzi człowiek, który nie widział Hakaty. Muszę mu ją opowiedzieć tak, żeby zobaczył.”';}
+
+/* ---------- ROD2: pamięć ---------- */
+function memLegacy(r){return{zmarli:r.lost.map(d=>({imie:d.n,kto:d.role,jak:d.how,pamiatka:d.item||'',pozegnanie:d.fw||''})),towarzysze:{Kotaro:r.comp.kotaro.st,Gonza:r.comp.gonza.st,szwagier:r.comp.szw.st,szwagierImie:SZW,malzonek:r.sp.n,dziecko:r.sp.child||''}};}
+
+/* ---------- przerywniki: lata, które mijają ---------- */
+function gapText(r){const k=r.comp&&alive(r,'kotaro'),g=r.comp&&alive(r,'gonza')&&!r.fl.gonzaHome,c=r.sp&&r.sp.child,y=yearOf(r.s)-yearOf(Math.max(0,r.s-1));
+ const M={2:'Mijają dwa lata. Posłowie chana przychodzą i odchodzą bez odpowiedzi. Dwa razy żęliście ryż; raz grad zbił połowę pola. Pieczęć rodu przestała ci ciążyć w dłoni.',
+  15:`Półtora roku przy murze i na straży. Kamienie, ulewy, znowu kamienie.${c?` ${c} chodzi już sam i boi się mew.`:''}${k?' Kotarō ma dziewiętnaście lat. Zbroja przestała być za duża.':''}`,
+  16:`Kolejny rok na straży. Kupcy Song znikają z Hakaty jeden po drugim.${g?' Gonza coraz częściej siada bliżej ognia.':''}`,
+  17:`Jeszcze jeden rok. Mur trzeba łatać po każdej burzy.${c?` ${c} liczy już do dziesięciu — na kamieniach muru.`:''}`,
+  18:`Wiosna 1281. Siedem lat od Hakaty.${k?' Kotarō ma dwadzieścia dwa lata, własnego konia i dwóch ludzi pod sobą. Woreczek matki nosi nadal.':''}${r.lost.length?` Na ołtarzu stoją tabliczki: ${r.lost.map(d=>d.n).join(', ')}.`:''}`};
+ return y>=1&&M[r.s]?M[r.s]:null;}
+
+/* ================= WIDOKI ================= */
+let UI={tab:'gra',confirm:null,setup:{sex:'m',name:'',code:''}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nl=s=>esc(s).split('\n\n').map((t,i)=>`<p class="${i?'acc sm':''}">${t}</p>`).join('');
+
+/* ---------- herb (kamon) ---------- */
+const MOTIFS={tomoe:'Trzy przecinki (tomoe)',hishi:'Romb (hishi)',ya:'Strzała (ya)',nami:'Fala (nami)',ha:'Liść (ha)',boshi:'Gwiazdy (hoshi)',hiki:'Pasy (hiki)'};
+function motifPath(m){switch(m){
+ case'tomoe':return'<circle cx="0" cy="-13" r="8"/><path d="M-8 -13 C-10 2 6 12 16 4 C6 6 -2 0 8 -13 Z"/>';
+ case'hishi':return'<path d="M0 -24 L14 -8 L0 8 L-14 -8 Z"/>';
+ case'ya':return'<path d="M-2 -26 L2 -26 L2 10 L-2 10 Z"/><path d="M0 -32 L6 -22 L-6 -22 Z"/><path d="M-2 10 L-8 18 L-8 12 L-2 4 Z M2 10 L8 18 L8 12 L2 4 Z"/>';
+ case'nami':return'<path d="M-24 -4 C-16 -18 -4 -18 0 -6 C4 -18 16 -18 24 -4 L24 2 C16 -10 6 -8 0 2 C-6 -8 -16 -10 -24 2 Z"/>';
+ case'ha':return'<path d="M0 -28 C14 -18 14 0 0 8 C-14 0 -14 -18 0 -28 Z"/><path d="M0 8 L0 14" stroke="currentColor" stroke-width="3"/>';
+ case'boshi':return'<circle cx="0" cy="-14" r="8"/>';
+ case'hiki':return'<rect x="-22" y="-20" width="44" height="8"/><rect x="-22" y="-4" width="44" height="8"/>';}return'';}
+function kamonSVG(k,size=96){const n=k.motif==='hiki'?1:k.n,rot=k.motif==='hiki'?[0]:Array.from({length:n},(_,i)=>i*360/n);
+ const off=n===1?(k.motif==='boshi'||k.motif==='tomoe'?12:10):0;
+ let s=`<svg width="${size}" height="${size}" viewBox="-50 -50 100 100" style="color:${k.col}"><circle r="48" fill="#efe6d2"/>`;
+ if(k.ring===1)s+=`<circle r="40" fill="none" stroke="${k.col}" stroke-width="4"/>`;
+ if(k.ring===2)s+=`<circle r="39" fill="none" stroke="${k.col}" stroke-width="8"/>`;
+ if(k.ring===3)s+=`<circle r="41" fill="none" stroke="${k.col}" stroke-width="3"/><circle r="35" fill="none" stroke="${k.col}" stroke-width="3"/>`;
+ const sc=k.ring?.8:1;s+=`<g fill="${k.col}" transform="scale(${sc}) translate(0 ${off})">`;
+ rot.forEach(a=>{s+=`<g transform="rotate(${a})">${motifPath(k.motif)}</g>`;});
+ return s+'</g></svg>';}
+
+/* ---------- mapy ---------- */
+function proj(g,lon,lat){const p=g.proj;return[(lon-p.x0)*p.k*p.sx,(p.y1-lat)*p.sx];}
+const lab=(x,y,t,c,dy=-8,dx=0,an='middle')=>`<text x="${(x+dx).toFixed(0)}" y="${(y+dy).toFixed(0)}" text-anchor="${an}" font-size="12.5" font-weight="700" fill="${c}" stroke="#0b0c0e" stroke-width="3" paint-order="stroke">${esc(t)}</text>`;
+function fogSVG(g,id,holes,op){const P=(a,b)=>proj(g,a,b);return`<defs><mask id="${id}"><rect width="${g.W}" height="${g.H}" fill="#fff"/>${holes.map(([a,b,rad])=>{const[x,y]=P(a,b);return`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${rad}" fill="#000"/>`;}).join('')}</mask></defs><rect width="${g.W}" height="${g.H}" fill="#0b0c0e" opacity="${op}" mask="url(#${id})"/>`;}
+function pin(x,y,battle,col){return`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${battle?6:5}" fill="${battle?'#b5523b':col||'#efe6d2'}" stroke="#0b0c0e" stroke-width="1.5"/>${battle?`<path d="M${x-4} ${y-4}L${x+4} ${y+4}M${x+4} ${y-4}L${x-4} ${y+4}" stroke="#efe6d2" stroke-width="1.5"/>`:''}`;}
+const HL={imazu:[0,16],ikino:[0,18],torikai:[-6,-9,'end'],akasaka:[6,-9,'start'],hakata:[8,10,'start'],hakozaki:[8,2,'start'],kashii:[8,4,'start'],noko:[0,-9],shika:[0,-9]};
+function hakataSVG(r){const g=GEO.hak,P=(a,b)=>proj(g,a,b);
+ let s=`<svg viewBox="0 0 ${g.W} ${g.H}" width="100%" style="display:block;border-radius:10px;background:#1f3446"><path d="${g.d}" fill="#4a5a3a" stroke="#2e3a24"/>`;
+ if(r.s>=11){const all=r.s>=14?5:Math.min(5,1+(r.s-11)*2);for(let i=1;i<WALL.length;i++){const[a,b]=P(...WALL[i-1]),[c,d]=P(...WALL[i]);s+=`<line x1="${a.toFixed(0)}" y1="${b.toFixed(0)}" x2="${c.toFixed(0)}" y2="${d.toFixed(0)}" stroke="${i===1?'#c9a227':'#cfc6b4'}" stroke-width="${i===1?5:4}" ${(i===1?r.wall>=3:i-1<all)?'':'stroke-dasharray="4 4" opacity=".6"'}/>`;}}
+ s+=fogSVG(g,'fogH',r.hs.map(k=>[HSITES[k][0],HSITES[k][1],46]),.72);
+ r.hs.forEach(k=>{const v=HSITES[k],[x,y]=P(v[0],v[1]),b=/^\d{4}/.test(v[3]),L=HL[k]||[0,-9];s+=`<g data-a="hsite" data-v="${k}">${pin(x,y,b)}${lab(x,y,v[2],b?'#f0b4a4':'#efe6d2',L[1],L[0],L[2]||'middle')}</g>`;});
+ r.deeds.forEach(d=>{const k=Object.keys(HSITES).find(k=>HSITES[k][2]===d.place);if(!k)return;const[x,y]=P(HSITES[k][0],HSITES[k][1]);s+=`<text x="${x.toFixed(0)}" y="${(y+5).toFixed(0)}" text-anchor="middle" font-size="14">⭐</text>`;});
+ return s+`<text x="8" y="${g.H-8}" font-size="11" fill="#a39a8c">Zatoka Hakata (uproszczona). ${r.s>=11?'Złoty: odcinek Higo. ':''}Natural Earth.</text></svg>`;}
+function kyushuSVG(r){const g=GEO.kyu,P=(a,b)=>proj(g,a,b);
+ let s=`<svg viewBox="0 0 ${g.W} ${g.H}" width="100%" style="display:block;border-radius:10px;background:#1f3446"><path d="${g.d}" fill="#4a5a3a" stroke="#2e3a24"/>`;
+ s+=fogSVG(g,'fogK',[[...r.home,40]].concat(r.ks.map(k=>[KSITES[k][0],KSITES[k][1],32])),.65);
+ r.ks.forEach(k=>{const v=KSITES[k],[x,y]=P(v[0],v[1]),b=/^\d{4}/.test(v[3]);const KL={dazaifu:[8,16,'start'],hakata:[-6,-9,'end'],mizuki:[8,4,'start']}[k]||[0,-9,'middle'];s+=`<g data-a="ksite" data-v="${k}">${pin(x,y,b,'#c9a227')}${lab(x,y,v[2],'#efe6d2',KL[1],KL[0],KL[2])}</g>`;});
+ const[hx,hy]=P(...r.home);s+=pin(hx,hy,0,'#c9a227')+lab(hx,hy,r.village+' (Higo)','#e9c95a',18);
+ return s+`<text x="8" y="${g.H-8}" font-size="11" fill="#a39a8c">Kiusiu i cieśnina — położenia przybliżone.</text></svg>`;}
+function japanSVG(r){const g=GEO.jp,P=(a,b)=>proj(g,a,b);
+ let s=`<svg viewBox="0 0 ${g.W} ${g.H}" width="100%" style="display:block;border-radius:10px;background:#1f3446"><path d="${g.d}" fill="#4a5a3a" stroke="#2e3a24"/>`;
+ s+=fogSVG(g,'fogJ',r.jsSeen.map(k=>[JSITES[k][0],JSITES[k][1],30]),.75);
+ r.js.forEach(k=>{const v=JSITES[k],[x,y]=P(v[0],v[1]);s+=`<g data-a="jsite" data-v="${k}">${pin(x,y,0,'#c9a227')}${lab(x,y,v[2],'#efe6d2',k==='uji'?16:-9)}</g>`;});
+ return s+`<text x="8" y="${g.H-8}" font-size="11" fill="#a39a8c">Droga do Kamakury — położenia przybliżone.</text></svg>`;}
+
+/* ---------- elementy ---------- */
+function header(){const r=G.run;const inG=r&&!['end','inter','interres','intro'].includes(r.phase);let h=`<div class="hrow"><span class="logo">${inG?'':'WIATR Z MORZA'}</span>`;
+ if(inG)h+=`<span class="stat">${SEAS_I[szOf(r.s)]}<b>${yearOf(r.s)}</b></span><span class="stat">🌾<b class="${r.rice<5?'bad':''}">${Math.floor(r.rice)}</b></span><span class="stat">👥<b>${r.men}</b></span><span class="stat">⭐<b>${r.zas}</b></span><span class="stat">📜<b class="${r.rep<25?'bad':''}">${r.rep}</b></span>`;
+ else h+=`<span class="stat">⚡ Dyscyplina <b>${G.meta.disc}</b></span>`;
+ return h+`<button class="qs" data-a="qsave" aria-label="Szybki zapis">💾</button></div>`;}
+function mentorBox(r,i){const p=PR[i%PR.length];return`<div class="prin"><b>${p[0]}</b><br><span class="sm">${r?`Stary ${esc(r.mentor)}: `:''}„${p[1]}”</span></div><p class="xs mut">W grze: ${p[2]}</p>`;}
+function bar(v,bad){return`<div class="bar"><i style="width:${v}%;background:${bad?'var(--bad)':v<60?'var(--acc)':'var(--good)'}"></i></div>`;}
+const SYS={log:['🎒 Nowy system: logistyka wojenna','Wojownik wystawia ludzi, konie, strzały i prowiant na własny koszt. Kupuj w karcie „Zaopatrzenie”. Każdy człowiek i koń je co porę. Siła oddziału w bitwie zależy od tego, co przygotujesz teraz.'],
+ guard:['⛩ Nowy obowiązek: straż na wybrzeżu','Co porę wysyłasz ludzi na straż. Spełnisz wymaganie — rośnie reputacja u dowódcy. Gdy reputacja spadnie do zera, ród traci status gokenina.'],
+ wall:['🧱 Mur i łodzie','Przez 3 pory twój odcinek muru wymaga 3 ryżu i 1 człowieka. Od teraz możesz też kupić łodzie — przydadzą się na morzu.']};
+function viewGame(){const r=G.run;if(!r)return viewSetup();ensureImm(r);if(r.pzOpen&&r.phase==='plan')return viewPuzzle();
+ const gap=r.gapT&&['hist','histres','quiet','quietres','plan'].includes(r.phase)?`<div class="card echo"><div class="xs mut">MIJAJĄ LATA · ${seasonLabel(r.s)}</div><p>${esc(r.gapT)}</p></div>`:'';
+ return gap+({inter:viewInter,interres:viewInterRes,intro:viewIntro,hist:viewHist,histres:viewHistRes,plan:viewPlan,exp:viewExp,pet:viewPet,report:viewReport,event:viewEvent,evres:viewEvRes,end:viewEnd,quiet:viewQuiet,quietres:viewQuietRes,death:viewDeath,deathres:viewDeathRes}[r.phase]||(()=>''))();}
+function viewSetup(){const S=UI.setup,L=parseLeg(S.code||'');return`<div class="card">${IMG('g2_okladka','cover')}<div class="xs mut">SERIA „RÓD” · GRA 2</div><h1>Wiatr z Morza</h1><p class="mut">Kiusiu, 1268–1281. Najazdy mongolskie.</p>
+ <p>Jesteś młodą głową drobnego rodu <i>gokenin</i> w prowincji Higo. Nadciągają floty Kubilaja. Wojna obronna nie daje zdobytej ziemi — o nagrodę trzeba walczyć dwa razy: w bitwie i w Kamakurze.</p>
+ <h3>Kod dziedzictwa z Gry 1</h3><textarea data-in="code1" placeholder="Wklej kod ROD1.… (bez kodu: ród startowy)">${esc(S.code||'')}</textarea>
+ <p class="xs ${L?'good':S.code?'bad':'mut'}">${L?`✔ Ród ${esc(String(L.rod).replace(/^ród z /,''))} — przodek ${esc(L.boh)}, ${esc(L.status)}.`:S.code?'To nie jest poprawny kod ROD1. — zagrasz rodem startowym.':'Bez kodu dostajesz ród startowy.'}</p>
+ <h3>Kim jesteś</h3><div class="chips"><button class="chip ${S.sex==='m'?'on':''}" data-a="sx" data-v="m">Syn — dziedzic</button><button class="chip ${S.sex==='f'?'on':''}" data-a="sx" data-v="f">Córka — dziedziczka</button></div>
+ <p class="xs mut">${S.sex==='m'?'Sam prowadzisz ludzi do bitwy.':'W Kamakurze kobiety mogły być głowami rodów i jitō. Do bitwy wysyłasz zastępcę (daikan), a sama prowadzisz zaopatrzenie i petycje.'}</p>
+ <h3>Imię</h3><input type="text" data-in="hname" placeholder="np. ${S.sex==='m'?'Gorō':'Tsuru'}" value="${esc(S.name)}">
+ <button class="btn" data-a="newRun">${L?'Wczytaj ród i zacznij':'Zacznij z rodem startowym'}</button>
+ <p class="xs mut" style="margin-top:10px">Partie: ${G.meta.runs} · wygrane: ${G.meta.wins}. Gra zapisuje się po każdym ruchu.</p></div>`;}
+function viewInter(){const r=G.run,L=r.leg;let h=`<div class="card"><div class="xs mut">PRZERYWNIK · 1185–1268</div><h2>Między wojnami</h2>`;
+ if(L)h+=`<div class="row"><div style="flex:0 0 auto">${kamonSVG(r.kamon,64)}</div><div style="flex:3"><p class="sm">Przodek <b>${esc(L.boh)}</b> skończył wojnę Genpei jako <b>${esc(L.status)}</b>.${r.items.length?` Pamiątki: ${r.items.map(esc).join(', ')}.`:''}</p>${r.motto?`<p class="xs acc">Motto rodu: „${esc(r.motto)}”</p>`:''}</div></div>${L.lekcje.length?`<p class="xs mut">Lekcja przodka: ${esc(L.lekcje[0])}</p>`:''}`;
+ else h+=`<p class="sm">Twój ród zaczynał od ludzi Miurów w Sagami. Pradziad służył w wojsku Kamakury.</p>`;
+ h+=`<h3>1221 · wojna Jōkyū</h3><p>Były cesarz Go-Toba ogłosił regenta Hōjō Yoshitokiego buntownikiem. Hōjō Masako przypomniała wojownikom wschodu łaskę Yoritomo — i armie Kamakury ruszyły na Kioto. Pod Uji rzeka wezbrała od deszczów. Jak walczył twój pradziad?</p>`+INTER.map((c,i)=>`<button class="choice" data-a="inter" data-v="${i}">${esc(c.l)}<small>${esc(c.s)}</small></button>`).join('');
+ return h+'</div>';}
+function viewInterRes(){const r=G.run;return`<div class="card"><h2>Po wojnie Jōkyū</h2><p>${esc(r.interTxt)}</p><p class="sm">Kamakura skonfiskowała ziemie stronników dworu i rozdała je wojownikom wschodu. Twój ród osiadł w Higo, na Kiusiu. Minęły dwa pokolenia.</p><button class="btn" data-a="interNext">Rok 1268 ▶</button></div>`;}
+function viewIntro(){const r=G.run;let h=`<div class="card"><div class="xs mut">1268 · ${esc(r.village.toUpperCase())}, HIGO</div><h2>Głowa rodu</h2><p>Ojciec umarł, ród jest twój. Masz małą posiadłość, ${r.men} ludzi, ${r.horses} ${r.horses===1?'konia':'konie'} i ${Math.floor(r.rice)} miar ryżu w spichrzu. Jesteś gokeninem — wasalem Kamakury. Twój dowódca to Shōni z Dazaifu.</p>${IMG('g2_bohater')}${kyushuSVG(r)}</div>`;
+ if(r.anc&&r.anc.length)h+=`<div class="card echo"><h2>🕯️ Przodkowie z Gry 1</h2>${r.anc.map(d=>`<p class="sm">${esc(d.imie||'?')}${d.kto?' — '+esc(d.kto):''}${d.pamiatka?' · 🎴 '+esc(d.pamiatka):''}</p>`).join('')}${r.ancM?`<p>${esc(r.ancM.st)}</p>`:''}</div>`;
+ h+=`<div class="card"><h2>🌾 Wybierz zarządcę</h2><p class="sm">Pole i daniny prowadzisz już przez zarządcę (daikan). Ty wyznaczasz politykę — on dba o szczegóły. Zarządcę wybierasz raz.</p>${STEWARDS.map((s,i)=>`<button class="choice ${r.steward&&r.steward.n===s.n?'on':''}" data-a="stew" data-v="${i}">${esc(s.n)} — ${s.t}<small>${esc(s.d)}</small></button>`).join('')}</div>`;
+ h+=`<div class="card"><h2>${r.kamonLock?'Herb rodu z Gry 1':'Znak rodu'}</h2>${r.kamonLock?`<div style="text-align:center">${kamonSVG(r.kamon,100)}</div><p class="xs mut" style="text-align:center">Herb przodka zostaje.</p>`:kamonEditor(r)}</div>`;
+ return h+`<div class="card">${mentorBox(r,7)}<button class="btn" data-a="begin" ${r.steward?'':'disabled'}>${r.steward?'Zaczynamy ▶':'Najpierw wybierz zarządcę'}</button></div>`;}
+function kamonEditor(r){const k=r.kamon;return`<div style="text-align:center">${kamonSVG(k,110)}</div>
+ <h3>Obwódka</h3><div class="chips">${['brak','koło','grube koło','podwójne'].map((t,i)=>`<button class="chip ${k.ring===i?'on':''}" data-a="km" data-v="ring:${i}">${t}</button>`).join('')}</div>
+ <h3>Motyw</h3><div class="chips">${Object.keys(MOTIFS).map(m=>`<button class="chip ${k.motif===m?'on':''}" data-a="km" data-v="motif:${m}">${MOTIFS[m]}</button>`).join('')}</div>
+ <h3>Liczba</h3><div class="chips">${[1,2,3,4].map(n=>`<button class="chip ${k.n===n?'on':''}" data-a="km" data-v="n:${n}">${n}</button>`).join('')}</div>
+ <h3>Kolor</h3><div class="chips">${[['#1d1d1d','tusz'],['#9e2f22','cynober'],['#27406a','indygo']].map(([c,t])=>`<button class="chip ${k.col===c?'on':''}" data-a="km" data-v="col:${c}">${t}</button>`).join('')}</div>`;}
+function viewHist(){const r=G.run,H=HIST[r.s];let h=`<div class="card"><div class="xs mut">KRONIKA · ${esc(H.dt)}</div><h2>${esc(H.t)}</h2>${H.img?IMG(H.img):''}<p>${esc(H.txt)}</p>`;
+ if(H.hs||H.ks)h+=`<p class="xs acc">🗺 Nowe miejsca na mapie.</p>`;
+ if(H.exp)h+=`<p class="xs mut">${T(r,'Bitwa: ','Bitwa (walczy zastępca): ')}${EXP[H.exp].n}. Siła: ${force(r,EXP[H.exp].need).p} ludzi, ${Math.min(r.horses,force(r,1).p)} konnych, strzał ${r.arrows}, prowiantu ${r.prov}.</p>`;
+ if(H.ch)h+=H.ch.map((c,i)=>{const dis=c.need&&!c.need(r);return`<button class="choice" data-a="hist" data-v="${i}" ${dis?'disabled':''}>${esc(c.l)}${c.s?`<small>${esc(c.s)}</small>`:''}</button>`;}).join('');
+ else h+=`<button class="btn" data-a="hist" data-v="">${H.final?'Rachunek końcowy':'Dalej'}</button>`;
+ h+='</div>';if(H.lesson!=null)h+=`<div class="card">${mentorBox(r,H.lesson)}</div>`;return h;}
+function viewHistRes(){const r=G.run;return`<div class="card"><h2>${esc(HIST[r.s].t)}</h2>${nl(r.histRes)}<button class="btn" data-a="histNext">Dalej ▶</button></div>`;}
+function goodsRow(r,k){const G2=GOODS[k];const can=r.rice>=COST[k]&&canBuy(r,k);return`<div class="row" style="margin:6px 0"><div style="flex:3"><b>${G2[0]} ${G2[1]}: ${k==='prov'?r[k].toFixed(1):r[k]}</b><div class="xs mut">${G2[2]}</div></div><button class="chip" style="flex:0 0 44px" data-a="buy" data-v="${k}:-1" ${r[k]<1?'disabled':''}>−</button><button class="chip" style="flex:0 0 44px" data-a="buy" data-v="${k}:1" ${can?'':'disabled'}>+</button></div>`;}
+function viewPlan(){const r=G.run,fc=forecast(),st=r.steward,away=r.hero.away;
+ let h=`<div class="card"><div class="row"><h2 style="flex:3">${SEAS_I[szOf(r.s)]} ${seasonLabel(r.s)}</h2><span class="tag" style="flex:0 0 auto">${esc(rankName(r))}</span></div>`;
+ if(r.newSys&&SYS[r.newSys])h+=`<div class="ok"><b>${SYS[r.newSys][0]}</b><br><span class="sm">${SYS[r.newSys][1]}</span></div>`;
+ if(away)h+=`<div class="warn">${T(r,'Jesteś','Jesteś')} w drodze do Kamakury. Zarządca i ludzie działają według twojej polityki.</div>`;
+ const net=fc.inc-fc.up;h+=`<div class="kpi"><div><b>+${fc.inc.toFixed(1)}</b><span class="xs mut">dochód</span></div><div><b>−${fc.up.toFixed(1)}</b><span class="xs mut">utrzymanie</span></div><div><b class="${net<0?'bad':'good'}">${net>=0?'+':''}${net.toFixed(1)}</b><span class="xs mut">bilans</span></div></div></div>`;
+ h+=`<div class="card"><h2>🌾 Posiadłość — zarządca ${esc(st.n)} <span class="tag">${st.t}</span></h2><p class="xs mut">Delegujesz: ty wybierasz politykę, zarządca robi resztę. Wielkość posiadłości: ${r.estate.lvl.toFixed(2)}.</p><div class="chips">${Object.keys(POLICY).map(k=>`<button class="chip ${r.policy===k?'on':''}" data-a="pol" data-v="${k}">${POLICY[k].i} ${POLICY[k].n}</button>`).join('')}</div><p class="xs" style="margin-top:6px">${POLICY[r.policy].d}</p><div class="xs mut">Niepokój wsi: ${r.estate.unrest}</div>${bar(r.estate.unrest,r.estate.unrest>=60)}</div>`;
+ if(r.unl.log){const f=fc.fo;h+=`<div class="card"><h2>🎒 Zaopatrzenie</h2>${['men','horses','arrows','prov'].concat(r.unl.boats?['boats']:[]).map(k=>goodsRow(r,k)).join('')}<p class="xs mut">Ludzi maks. ${menCap(r)} (wielkość posiadłości). Konie ≤ liczba wojowników, strzały ≤ 3 na osobę.</p><div class="ok sm">Oddział: <b>${f.p}</b> ${T(r,'(z tobą)','(z zastępcą)')} · konnych ${f.riders} · strzały ${Math.round(f.ar*100)}% · prowiant ${Math.round(f.pv*100)}%${r.unl.boats?` · łodzie ${r.boats}`:''}</div></div>`;}
+ if(r.unl.guard){h+=`<div class="card"><h2>⛩ Straż na wybrzeżu</h2><div class="row"><div style="flex:3">Wysyłasz: <b>${Math.min(r.guard,guardMax(r))}</b> · wymagane: <b>${fc.q}</b>${r.focus==='guard'&&!away?' · ty: +2':''}</div><button class="chip" style="flex:0 0 44px" data-a="guard" data-v="-1">−</button><button class="chip" style="flex:0 0 44px" data-a="guard" data-v="1" ${r.guard>=guardMax(r)?'disabled':''}>+</button></div>`;
+  if(wallTurn(r))h+=`<div class="row" style="margin-top:8px"><div style="flex:3">🧱 Odcinek muru: ${r.wall}/3 · koszt 3 ryżu + 1 człowiek</div><button class="chip ${r.wallOn?'on':''}" style="flex:0 0 auto" data-a="wall">${r.wallOn?'Budujemy':'Wstrzymane'}</button></div>`;
+  h+=`</div>`;}
+ if(!away){const FF=Object.assign({},FOCUS,r.hero.sex==='f'?FOCUS_F:{});h+=`<div class="card"><h2>Ty w tej porze</h2><p class="xs mut">Jedna sprawa osobiście. Resztę delegujesz.</p><div class="chips">${Object.keys(FF).filter(k=>k!=='guard'||r.unl.guard).map(k=>`<button class="chip ${r.focus===k?'on':''}" data-a="focus" data-v="${k}">${FF[k].i} ${FF[k].n}</button>`).join('')}</div><p class="xs" style="margin-top:6px">${(FF[r.focus]||FF.estate).d}</p></div>`;}
+ const warn=[];if(r.rice+fc.inc-fc.up<0)warn.push('Zabraknie ryżu — ludzie odejdą!');if(r.unl.guard&&fc.sent<fc.q)warn.push(`Za mało ludzi na straży (${fc.sent}/${fc.q}).`);if(wallTurn(r)&&(!r.wallOn||r.rice<3))warn.push('Mur nie postąpi.');if(r.estate.unrest>=60)warn.push('Wieś blisko buntu.');
+ h+=`<div class="card"><div class="${warn.length?'warn':'ok'}">${warn.length?warn.map(w=>'⚠️ '+w).join('<br>'):'Plan wygląda dobrze.'}</div><button class="btn" data-a="exec">Przeżyj tę porę ▶</button></div>`;
+ if(r.pz&&!away){const z=r.pz;h+=`<div class="card"><h2>🧩 Trening umysłu</h2>${z.done?`<p class="${z.win?'good':'mut'}">${z.win?'Zaliczony ✔':'Na tę porę koniec.'}</p>`:`<p><b>${PZ[z.k].n}</b> <span class="tag">${PZ[z.k].k}</span></p><p class="xs mut">Nagroda: ${PZ[z.k].r}</p><button class="btn2" data-a="pzOpen">Otwórz ›</button>`}</div>`;}
+ h+=`<div class="card"><h2>🧠 Rozwaga: ${r.roz}</h2><p class="xs mut">Za trening, odpowiedzialność i trafne decyzje.</p>
+  <button class="btn2" data-a="roz" data-v="calm" ${r.roz<2?'disabled':''}>Mnich uspokaja wieś — niepokój −20 <span class="mut">(2)</span></button>
+  <button class="btn2" data-a="roz" data-v="drill" ${r.roz<2?'disabled':''}>Ćwiczenia z mentorem — ${skillName(r)} +4 <span class="mut">(2)</span></button>
+  <button class="btn2" data-a="roz" data-v="plea" ${r.roz<2?'disabled':''}>Mentor wstawia się u dowódcy — reputacja +6 <span class="mut">(2)</span></button></div>`;
+ return h+`<div class="card">${mentorBox(r,r.s+3)}</div>`;}
+function viewExp(){const r=G.run,st=expStep(),E=EXP[r.ex.id];let h=`<div class="card"><div class="xs mut">BITWA · ${esc(E.n.toUpperCase())}</div>`;
+ if(r.ex.last)h+=nl(r.ex.last).replace('<p class=""','<p class="sm acc"');
+ if(st.merit)h+=`<h2>Raport o służbie (gunchūjō)</h2><p>${T(r,'Po walce dowódca spisuje zasługi. Czyn trzeba potwierdzić świadkiem.','Zastępca wraca. Spisujesz raport dla dowódcy. Czyn trzeba potwierdzić świadkiem.')}</p>`+[['Opisz dokładnie, ze świadkiem','Prawda'],['Dodaj coś od siebie — kto sprawdzi?','Więcej zasług… jeśli się nie wyda'],['Wpisz też towarzysza, który cię osłaniał','Mniej dla ciebie, ale pewny świadek']].map(([l,s],i)=>`<button class="choice" data-a="exp" data-v="${i}">${l}<small>${s}</small></button>`).join('');
+ else h+=`${st.img?IMG(st.img):''}<p>${esc(st.d(r))}</p>${st.th?thought(st.th(r)):''}${st.timed?timerBar('exp'):''}`+st.ch.map((c,i)=>`<button class="choice" data-a="exp" data-v="${i}">${esc(lbl(c.l,r))}${c.s?`<small>${esc(lbl(c.s,r))}</small>`:''}</button>`).join('');
+ return h+'</div>';}
+function viewPet(){const r=G.run,p=r.pet,st=petStep();let h=`<div class="card"><div class="xs mut">KAMAKURA · PETYCJA</div>`;
+ if(p.last)h+=`<p class="sm acc">${esc(p.last)}</p>`;
+ if(p.res)return h+`<h2>Wyrok Adachiego</h2><p>${esc(p.res)}</p>${p.luck!=null?`<p class="xs mut">Nastrój urzędu i inni petenci: ${p.luck>0?'sprzyjali':p.luck<-1?'przeszkadzali':'bez wpływu'}.</p>`:''}<button class="btn" data-a="petNext">Wracam do Higo ▶</button></div>${'<div class="card">'+mentorBox(r,9)+'</div>'}`;
+ if(st.gate)return h+`<h2>U bramy Adachiego Yasumoriego</h2>${IMG('g2_brama_kamakura')}<p>Urzędnik od nagród przyjmuje tylko nielicznych. Przed bramą czekają dziesiątki wojowników z całego kraju.</p>${thought(gateThought(r))}${[['Czekaj codziennie u bramy','Cierpliwość (zużywa 1 Rozwagi, jeśli masz)'],['Daj podarunek sekretarzowi','−4 ryżu, ryzyko wstydu'],['Szukaj krewnych z Sagami','Pomoże, jeśli przodek był kimś']].map(([l,s],i)=>`<button class="choice" data-a="pet" data-v="${i}">${l}<small>${s}</small></button>`).join('')}</div>`;
+ if(st.qa)return h+`<h2>Adachi pyta (${st.n}/${st.of})</h2><p>„${esc(st.qa.q)}”</p>${st.qa.o.map(o=>`<button class="choice" data-a="pet" data-v="${esc(o)}">${esc(o)}</button>`).join('')}<p class="xs mut">Pisma o twoich czynach są w zakładce Ród — jeśli je zebrałeś.</p></div>`;
+ return h+'</div>';}
+function viewReport(){const r=G.run,R=r.rep2;let h='';if(R.echo&&R.echo.length)h+=`<div class="card echo">${R.echo.includes(MOTHER[0])?IMG('g2_matka','cover'):''}${R.echo.map(t=>`<p>${esc(t)}</p>`).join('')}</div>`;
+ if(r.chapNew)h+=`<div class="card">${chapterHTML(r,r.chapNew)}</div>`;
+ h+=`<div class="card"><h2>${R.away?'Gdy cię nie było…':'Raport'} — ${seasonLabel(r.s)}</h2>`;
+ if(R.away&&r.ex)h+=`<div class="log">${r.ex.log.filter(Boolean).map(l=>nl(l)).join('')}</div><h3>Posiadłość sama</h3>`;
+ h+=`<div class="log">${R.lines.map(l=>`<p>${esc(l)}</p>`).join('')}</div>`;
+ if(R.errs.length){h+=`<h3>Co poszło źle</h3>${R.errs.map(e=>`<p class="bad sm">❌ ${esc(e)}</p>`).join('')}`;
+  if(R.own==='pending')h+=`<h3>Czyja to wina?</h3><button class="choice" data-a="own" data-v="me">„Moja. Źle zaplanowałem.”<small>Ekstremalna odpowiedzialność</small></button><button class="choice" data-a="own" data-v="them">„Ludzie i zarządca zawiedli.”<small>Szukanie winnych</small></button>`;
+  else if(R.ownTxt)h+=`<p class="sm acc">${esc(R.ownTxt)}</p>`;}
+ return h+`<button class="btn" data-a="next" ${R.own==='pending'?'disabled':''}>Dalej</button></div>`;}
+function viewEvent(){const r=G.run,E=EV[r.ev.k],v=evVars();return`<div class="card"><div class="xs mut">RÓD · decyzja ma skutki</div><h2>${E.t}</h2><p>${esc(E.d(v))}</p>${E.ch.map((c,i)=>`<button class="choice" data-a="ev" data-v="${i}">${esc(c.l)}${c.s?`<small>${esc(c.s)}</small>`:''}</button>`).join('')}</div>`;}
+function viewEvRes(){return`<div class="card"><h2>Skutek</h2>${nl(G.run.evRes)}<button class="btn" data-a="evNext">Następna pora ▶</button></div>`;}
+function viewEnd(){const r=G.run,R=r.res,s=r.stats,code=legacy(r);return`<div class="card"><div class="xs mut">KONIEC GRY 2 · ${seasonLabel(r.s)}</div><h1 class="${R.win?'good':'bad'}">${R.win?'RÓD NAGRODZONY':'RÓD PRZETRWAŁ… BIEDNIEJSZY'}</h1><p>${esc(R.reason)}</p>
+ <div style="text-align:center">${kamonSVG(r.kamon,90)}</div>
+ <div class="kpi"><div><b>${R.score}</b><span class="xs mut">wynik</span></div><div><b>${r.zas}</b><span class="xs mut">zasługa</span></div><div><b>${r.rep}</b><span class="xs mut">reputacja</span></div></div>
+ <p class="sm" style="margin-top:8px">Pozycja: <b>${esc(rankName(r))}</b>${r.items.length?` · pamiątki: ${r.items.map(esc).join(', ')}`:''}</p>
+ <p class="sm mut">Odpowiedzialność ${s.owned}× · obwinianie ${s.blamed}× · treningi ${s.puz} · straż ${s.gOk}/${s.gOk+s.gMiss} · uczciwe raporty ${s.honest}× · zawyżone ${s.lies}×</p>
+ <h3>Odprawa po akcji</h3>${R.lessons.map(l=>`<p class="sm">• ${esc(l)}</p>`).join('')}
+ <h3>Co JA mogłem zrobić lepiej?</h3><textarea id="lesson" data-in="lesson" placeholder="Następnym razem ja…">${esc(r.lesson||'')}</textarea>
+ <h3>Motto rodu</h3><input type="text" data-in="motto" maxlength="60" value="${esc(r.motto)}" placeholder="np. Kto nie spisze, ten nie dostanie">
+ <h3>Kod dziedzictwa do Gry 3</h3><p class="xs mut">Zapisz go w Notatkach. Gra 3 „Dwa Dwory” (1331–1338) wczyta ród, herb, pamiątki i lekcje.</p><textarea id="leg" readonly>${esc(code)}</textarea><button class="btn2" style="text-align:center" data-a="copyLeg">Skopiuj kod ROD2.</button>
+ <button class="btn" data-a="finish">Zapisz lekcję i zakończ</button></div>`;}
+function viewMap(){const r=G.run;if(!r||!r.steward)return`<div class="card"><p class="mut">Mapy pojawią się po rozpoczęciu gry.</p></div>`;
+ return`<div class="card"><h2>🌊 Zatoka Hakata</h2>${IMG('g2_mapa_hakata')}${hakataSVG(r)}<p class="xs mut">Mgła wojny: widzisz miejsca, o których wiesz. ⭐ = twój spisany czyn. Dotknij punktu.</p></div><div class="card"><h2>🗺 Kiusiu</h2>${kyushuSVG(r)}</div>${r.jsSeen.length>1||r.pet?`<div class="card"><h2>🗾 Droga do Kamakury</h2>${japanSVG(r)}</div>`:''}`;}
+function viewRod(){const r=G.run;if(!r)return`<div class="card"><p class="mut">Ród pojawi się po rozpoczęciu gry.</p></div>`;const rk=r.hero.rank;
+ const next=['Spisany czyn w bitwie + reputacja ≥40 → dowódca wpisze cię na listę (1275).','Nagroda z Kamakury: petycja u Adachiego (1275) albo na koniec zasługa ≥'+ZAS2+' i reputacja ≥28.',`Nadanie (jitō): udana petycja albo na koniec zasługa ≥70, reputacja ≥55 i czyn z 1281. Teraz: ${r.zas} / ${r.rep}.`,'Najwyższa pozycja możliwa dla drobnego gokenina.'][rk];
+ let h=`<div class="card"><div class="row"><div style="flex:0 0 auto">${kamonSVG(r.kamon,72)}</div><div style="flex:3"><h2 style="margin:0">${esc(r.hero.n)}</h2><div class="sm">${esc(rankName(r))}</div><div class="xs mut">${skillName(r)}: ${r.hero.bow}/5 · posiadłość ${r.estate.lvl.toFixed(2)}</div></div></div>
+  <h3>Droga awansu</h3><div class="chips">${(r.hero.sex==='f'?RANKS_F:RANKS_M).map((n,i)=>`<span class="chip ${i===rk?'on':''}" style="${i>rk?'opacity:.5':''}">${i+1}. ${n}</span>`).join('')}</div><p class="sm" style="margin-top:8px">${next}</p></div>`;
+ h+=`<div class="card"><h2>📜 Czyny i pisma</h2>${r.deeds.length?r.deeds.map(d=>d.doc?`<p class="sm">✔ <b>${esc(d.b)}</b>: ${esc(d.place)}, ${esc(d.d)} · świadek: ${esc(d.wit||'brak')} · dowódca: ${esc(d.cmd)} · zasługa ${d.val}</p>`:`<p class="sm">• <b>${esc(d.b)}</b> — brak pisma. Wybierz „Pisma i świadkowie”, by mieć zapis.</p>`).join(''):'<p class="sm mut">Brak spisanych czynów.</p>'}<p class="xs mut">Pisma: ${r.docs}</p></div>`;
+ if(r.leg)h+=`<div class="card"><h2>Przodek</h2><p class="sm">${esc(r.leg.boh)} — ${esc(r.leg.status)} (Gra 1).</p>${r.leg.lekcje.map(l=>`<p class="xs mut">• ${esc(l)}</p>`).join('')}</div>`;
+ if(r.items.length)h+=`<div class="card"><h2>Pamiątki rodowe</h2>${r.items.map(i=>`<p class="sm">🎴 ${esc(i)}</p>`).join('')}</div>`;
+ h+=`<div class="card"><h2>📜 Kronika rodu</h2>${r.chron.slice().reverse().map(c=>`<p class="sm"><span class="mut xs">${seasonLabel(c.s)}</span><br>${esc(c.t)}</p>`).join('')}</div>`;
+ if(!r.kamonLock)h+=`<div class="card"><h2>Znak rodu</h2>${kamonEditor(r)}</div>`;
+ return h;}
+function viewHQ(){const s=getSlots();let h=`<div class="card"><h2>💾 Zapis i odczyt</h2><p class="xs mut">Gra zapisuje się sama po każdym ruchu. Masz też sloty i kod zapisu.</p>`;
+ ['q','1','2','3'].forEach(k=>{const x=s[k];h+=`<div class="mem"><b>${k==='q'?'Szybki zapis':'Slot '+k}</b><div class="xs mut">${x?esc(x.d)+' · '+x.t:'pusty'}</div><div class="row" style="margin-top:6px">${k!=='q'?`<button class="btn2" style="text-align:center" data-a="slotSave" data-v="${k}">Zapisz</button>`:''}<button class="btn2" style="text-align:center" data-a="slotLoad" data-v="${k}" ${x?'':'disabled'}>Wczytaj</button></div></div>`;});
+ h+=`</div><div class="card"><h2>🔑 Kod zapisu</h2><p class="xs mut">iPhone może wyczyścić pamięć przeglądarki. Skopiuj kod do Notatek.</p><textarea id="code" readonly placeholder="Dotknij „Skopiuj kod”"></textarea><button class="btn2" style="text-align:center" data-a="copyCode">Skopiuj kod zapisu</button><h3>Wczytaj z kodu</h3><textarea id="imp" placeholder="Wklej kod WM1…"></textarea><button class="btn2" style="text-align:center" data-a="loadCode">Wczytaj kod</button></div>`;
+ h+=`<div class="card"><h2>⏳ Wybory na czas</h2><p class="xs mut">Kilka decydujących scen ma 10 sekund na decyzję. Brak decyzji też jest decyzją.</p><button class="btn2" style="text-align:center" data-a="noLim">${G.meta.noLimit?'Włącz limit 10 s':'Wyłącz limit czasu'}</button></div>`;
+ h+=`<div class="card"><h2>O grze</h2><p class="sm">Gra 2 serii „RÓD”. Wydarzenia według zwojów Takezakiego Suenagi (<i>Mōko shūrai ekotoba</i>, przekład T. Conlana) i badań historyków; „boski wiatr” podany jako tradycja. Ród, ludzie i zdarzenia są losowe. Mapy: Natural Earth (domena publiczna), położenia przybliżone.</p></div>`;
+ if(G.run)h+=`<button class="btn2" style="text-align:center;color:var(--bad)" data-a="abandon">Porzuć tę partię</button>`;
+ return h+`<button class="btn2" style="text-align:center;color:var(--bad)" data-a="reset">Wyczyść cały postęp</button>`;}
+function viewPuzzle(){const r=G.run,z=r.pz,P=PZ[z.k];let h=`<div class="card"><button class="chip" data-a="pzClose">‹ Wróć</button><h2 style="margin-top:10px">${P.n} <span class="tag">${P.k}</span></h2><p class="sm mut">${P.d}</p>`;
+ if(z.done)h+=`<p class="${z.win?'good':'bad'}"><b>${z.win?'Zaliczone!':'Nieudane.'}</b></p>`;
+ if(z.k==='mm'){const col=['','#c9a227','#6b8fb3','#7aa36a','#b5523b','#9b7bb0','#5aa6a0'];const peg=d=>`<span class="peg" style="background:${col[d]}">${d}</span>`;
+  h+=z.g.map(g=>`<div style="margin:6px 0">${g.g.map(peg).join('')} <span style="margin-left:6px">${'<span class="fb" style="background:#eee6d8"></span>'.repeat(g.b)}${'<span class="fb" style="border:2px solid #eee6d8"></span>'.repeat(g.w)}</span></div>`).join('');
+  if(!z.done)h+=`<div style="margin:12px 0;min-height:32px">${z.cur.map(peg).join('')}${'<span class="peg" style="background:#2c2622"></span>'.repeat(4-z.cur.length)}</div><div class="chips">${[1,2,3,4,5,6].map(d=>`<button class="chip" style="min-width:44px;background:${col[d]};color:#111;font-weight:800" data-a="mmD" data-v="${d}">${d}</button>`).join('')}</div><div class="row" style="margin-top:8px"><button class="btn2" style="text-align:center" data-a="mmBack">⌫ Cofnij</button><button class="btn" style="margin-top:8px" data-a="mmGo" ${z.cur.length<4?'disabled':''}>Sprawdź (${z.g.length+1}/8)</button></div>`;
+  else if(!z.win)h+=`<p>Znaki: ${z.code.map(peg).join('')}</p>`;}
+ if(z.k==='pack'){const b=packBoard(z);h+=`<div class="grid" style="grid-template-columns:repeat(${z.W},1fr);max-width:320px">${b.map((p,i)=>`<div class="cell" data-a="${z.done?'':'pkCell'}" data-v="${i}" style="${p>=0?'background:'+z.pieces[p].col:''}"></div>`).join('')}</div>`;
+  if(!z.done)h+=`<div class="tray">${z.pieces.map((p,k)=>{if(z.placed[k]!=null)return'';const w=Math.max(...p.c.map(c=>c[0]))+1,hh=Math.max(...p.c.map(c=>c[1]))+1;let cells='';for(let y=0;y<hh;y++)for(let x=0;x<w;x++){const ix=p.c.findIndex(c=>c[0]===x&&c[1]===y);cells+=`<i style="background:${ix>=0?p.col:'transparent'};${ix===0?'box-shadow:inset 0 0 0 5px rgba(0,0,0,.45)':''}"></i>`;}return`<button class="piece ${z.sel===k?'sel':''}" data-a="pkSel" data-v="${k}"><div class="pg" style="grid-template-columns:repeat(${w},16px)">${cells}</div></button>`;}).join('')}</div><button class="btn2" style="text-align:center" data-a="pkRot">⟳ Obróć wybrany</button>`;}
+ if(z.k==='sim'){h+=`<div class="grid" style="grid-template-columns:repeat(4,1fr);max-width:300px">${Array.from({length:16},(_,i)=>`<div class="cell" data-cell="${i}" data-a="simCell" data-v="${i}"></div>`).join('')}</div><p class="sm">Długość: <b>${z.len}</b>${z.st==='input'?` · ${z.pos}/${z.len}`:''}</p>`;
+  if(z.st==='ready')h+=`<button class="btn" data-a="simShow">Pokaż sygnały</button>`;if(z.st==='show')h+=`<p class="acc">Patrz uważnie…</p>`;if(z.st==='input')h+=`<p class="acc">Twoja kolej.</p>`;if(z.st==='fail')h+=`<button class="btn" data-a="simRetry">Nowa próba</button>`;}
+ if(z.k==='lo')h+=`<div class="grid" style="grid-template-columns:repeat(4,1fr);max-width:300px">${z.b.map((v,i)=>`<div class="cell ${v?'lit':''}" data-a="${z.done?'':'loCell'}" data-v="${i}"></div>`).join('')}</div><p class="sm">Ruchy: ${z.moves} · da się w ${z.par} lub mniej</p>`;
+ return h+'</div>';}
+
+function todayMissions(){const M=G.meta,d=dkey();if(!M.missions||M.missions.date!==d){const rnd=seeded(hashStr(d));const ids=[];while(ids.length<3){const i=Math.floor(rnd()*MISSIONS.length);if(!ids.includes(i))ids.push(i);}M.missions={date:d,ids,done:[false,false,false]};}return M.missions;}
+function viewLife(){const M=G.meta,ms=todayMissions(),P=PR[hashStr(dkey())%PR.length],today=dkey(),tom=dkey(1);const tp=M.plans[today],np=M.plans[tom]||{items:['','',''],done:[false,false,false]};
+ let h=`<div class="card"><div class="xs mut">SŁOWA MENTORA NA DZIŚ</div><div class="prin"><b>${P[0]}</b><br>„${P[1]}”</div></div>`;
+ h+=`<div class="card"><h2>🎯 Misje dnia</h2><p class="xs mut">Prawdziwe zadania. Każde +1 Dyscypliny, komplet +2. Co 5 Dyscypliny = +1 Rozwagi na start partii (maks. +4).</p>`;
+ ms.ids.forEach((id,i)=>{h+=`<div class="check" data-a="mis" data-v="${i}"><div class="box ${ms.done[i]?'on':''}">${ms.done[i]?'✓':''}</div><div>${esc(MISSIONS[id])}</div></div>`;});
+ h+=`<div class="kpi" style="margin-top:10px"><div><b>${M.disc}</b><span class="xs mut">Dyscyplina</span></div><div><b>${M.streak}</b><span class="xs mut">seria dni</span></div><div><b>+${Math.min(4,Math.floor(M.disc/5))}</b><span class="xs mut">Rozwaga/start</span></div></div></div>`;
+ h+=`<div class="card"><h2>📋 Priorytety na dziś</h2>`;if(tp&&tp.items.some(x=>x.trim()))tp.items.forEach((it,i)=>{if(it.trim())h+=`<div class="check" data-a="planDone" data-v="${i}"><div class="box ${tp.done[i]?'on':''}">${tp.done[i]?'✓':''}</div><div><b>${i+1}.</b> ${esc(it)}</div></div>`;});else h+=`<p class="sm mut">Zaplanuj jutro — poniżej.</p>`;
+ h+=`</div><div class="card"><h2>🗓 Plan na jutro</h2><p class="xs mut">Najpierw najważniejsze: tylko 3 rzeczy.</p>${[0,1,2].map(i=>`<input type="text" style="margin-top:8px" data-in="plan" data-v="${i}" placeholder="${i+1}. najważniejsze" value="${esc(np.items[i]||'')}">`).join('')}</div>`;
+ h+=`<div class="card"><h2>📓 Dziennik lekcji</h2>${M.journal.length?M.journal.slice(0,12).map(j=>`<p class="sm"><span class="${j.win?'good':'bad'}">${j.win?'✔':'✖'}</span> <b>${esc(j.op)}</b> <span class="mut xs">${j.d}</span><br>${esc(j.l)}</p>`).join(''):'<p class="sm mut">Lekcje z ukończonych partii pojawią się tutaj.</p>'}</div>`;
+ h+=`<div class="card"><h2>⚔️ Droga łuku i konia</h2><p class="xs mut">Zasady w duchu „Extreme Ownership” (J. Willink, L. Babin), opowiedziane słowami starego wojownika. „Bushidō” jako spisany kodeks to dopiero epoka Edo — w XIII w. mówiono o „drodze łuku i konia” (kyūba no michi).</p>${PR.map(p=>`<div class="prin"><b>${p[0]}</b><br><span class="sm">„${p[1]}”</span><br><span class="xs mut">W grze: ${p[2]}</span></div>`).join('')}</div>`;
+ return h;}
+function render(){document.getElementById('hd').innerHTML=header();
+ clearTimer();document.getElementById('main').innerHTML={gra:viewGame,mapa:viewMap,rod:viewRod,pam:viewPam,life:viewLife,hq:viewHQ}[UI.tab]();startTimer();
+ document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v===UI.tab));}
+let tt;function toast(m,ms=2400){const t=document.getElementById('toast');if(!t)return;t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),ms);}
+function stamp(){const d=new Date();return d.toLocaleDateString('pl-PL')+' '+d.toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'});}
+function copyFrom(id,txt){const t=document.getElementById(id);if(txt!=null)t.value=txt;t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast('Skopiowano. Wklej np. do Notatek.'),()=>toast('Zaznaczono — skopiuj ręcznie.'));}catch(e){toast('Zaznaczono — skopiuj ręcznie.');}}
+
+/* ---------- akcje ---------- */
+const toTop=()=>{try{scrollTo(0,0);}catch(e){}};
+const A={
+ tab:v=>{UI.tab=v;toTop();},
+ sx:v=>{UI.setup.sex=v;},
+ newRun:()=>{newRun({sex:UI.setup.sex,name:UI.setup.name.trim(),code:UI.setup.code||''});toTop();},
+ inter:v=>{interChoose(+v);toTop();},
+ interNext:()=>{G.run.phase='intro';toTop();},
+ stew:v=>{pickSteward(+v);},
+ km:v=>{if(G.run.kamonLock)return;const[k,x]=v.split(':');G.run.kamon[k]=k==='ring'||k==='n'?+x:x;},
+ begin:()=>{if(!G.run.steward)return;startSeason();toTop();},
+ hist:v=>{histDone(v===''?null:+v);toTop();},
+ histNext:()=>{goAfter(G.run);toTop();},
+ quiet:v=>{if(!quietChoose(+v))toast('Nie stać cię na to.');toTop();},
+ qNext:()=>{const r=G.run;r.phase='plan';toTop();},
+ fw:v=>{farewell(v);toTop();},
+ dNext:()=>{deathNext();toTop();},
+ noLim:()=>{G.meta.noLimit=!G.meta.noLimit;toast(G.meta.noLimit?'Wybory bez limitu czasu.':'Wybory na czas włączone (10 s).');},
+ pol:v=>{G.run.policy=v;},
+ buy:v=>{const[k,d]=v.split(':');if(!buy(k,+d)&&+d>0)toast('Za mało ryżu albo limit.');},
+ guard:v=>{const r=G.run;r.guard=clamp((r.guard||0)+ +v,0,guardMax(r));},
+ wall:()=>{G.run.wallOn=G.run.wallOn?0:1;},
+ focus:v=>{G.run.focus=v;},
+ roz:v=>{const t=useRoz(v);if(t)toast(t);},
+ exec:()=>{execSeason();toTop();},
+ own:v=>{ownChoice(v==='me');},
+ next:()=>{afterReport();toTop();},
+ ev:v=>{evChoose(+v);toTop();},
+ evNext:()=>{endSeason();toTop();},
+ exp:v=>{expChoose(v==='t'?'t':+v);toTop();},
+ pet:v=>{const st=petStep();petChoose(st.gate?+v:v);toTop();},
+ petNext:()=>{petFinish();toTop();},
+ hsite:v=>{const x=HSITES[v];toast(`${x[2]}: ${x[3]}`,4000);return'norender';},
+ ksite:v=>{const x=KSITES[v];toast(`${x[2]}: ${x[3]}`,4000);return'norender';},
+ jsite:v=>{const x=JSITES[v];toast(`${x[2]}: ${x[3]}`,4000);return'norender';},
+ copyLeg:()=>{copyFrom('leg');return'norender';},
+ finish:()=>{const ta=document.getElementById('lesson');const l=ta?ta.value.trim():'';const r=G.run;
+  G.meta.journal.unshift({d:dkey(),op:`${r.hero.n} z ${r.village}`,win:r.res.win,l:l||r.res.lessons[0]});G.meta.journal=G.meta.journal.slice(0,40);
+  G.meta.legacy.unshift({d:dkey(),code:legacy(r)});G.meta.legacy=G.meta.legacy.slice(0,5);G.run=null;UI.tab='gra';toTop();},
+ abandon:()=>{if(UI.confirm!=='abandon'){UI.confirm='abandon';toast('Dotknij jeszcze raz, by porzucić partię.');return;}UI.confirm=null;G.run=null;UI.tab='gra';},
+ pzOpen:()=>{G.run.pzOpen=true;toTop();},
+ pzClose:()=>{G.run.pzOpen=false;},
+ mmD:v=>{const z=G.run.pz;if(z.cur.length<4)z.cur.push(+v);},
+ mmBack:()=>{G.run.pz.cur.pop();},
+ mmGo:()=>{const z=G.run.pz;if(z.cur.length<4)return;const g=z.cur.slice();let b=0,w=0;const cc={},gc={};g.forEach((d,i)=>{if(d===z.code[i])b++;else{cc[z.code[i]]=(cc[z.code[i]]||0)+1;gc[d]=(gc[d]||0)+1;}});for(const d in gc)w+=Math.min(gc[d],cc[d]||0);z.g.push({g,b,w});z.cur=[];
+  if(b===4)toast('Szyfr złamany! Rozwaga +1 '+solvePz());else if(z.g.length>=8){z.done=true;z.win=false;toast('Nie tym razem.');}},
+ pkSel:v=>{G.run.pz.sel=+v;},
+ pkRot:()=>{const z=G.run.pz;if(z.sel==null||z.placed[z.sel])return;z.pieces[z.sel].c=rotShape(z.pieces[z.sel].c);},
+ pkCell:v=>{const z=G.run.pz,i=+v,b=packBoard(z);if(b[i]>=0){const p=b[i];delete z.placed[p];z.sel=p;return;}
+  if(z.sel==null||z.placed[z.sel]!=null){toast('Wybierz tobołek z dołu.');return;}
+  const p=z.pieces[z.sel],an=p.c[0],tx=i%z.W,ty=Math.floor(i/z.W),ox=tx-an[0],oy=ty-an[1];
+  const ok=p.c.every(([x,y])=>{const X=x+ox,Y=y+oy;return X>=0&&Y>=0&&X<z.W&&Y<z.H&&b[Y*z.W+X]<0;});
+  if(!ok){toast('Nie mieści się tutaj.');return;}z.placed[z.sel]={x:ox,y:oy};const nx=z.pieces.findIndex((q,k)=>z.placed[k]==null);z.sel=nx>=0?nx:null;
+  if(packBoard(z).every(c=>c>=0))toast('Wóz załadowany! Rozwaga +1 '+solvePz());},
+ simShow:()=>{const z=G.run.pz;z.st='show';z.pos=0;render();runSim();return'norender';},
+ simCell:v=>{const z=G.run.pz;if(z.st!=='input')return'norender';const i=+v;flash(i);if(z.seq[z.pos]===i){z.pos++;if(z.pos>=z.seq.length){z.st='ok';toast('Sygnały zapamiętane! Rozwaga +1 '+solvePz());}else return'norender';}else{z.st='fail';toast('Pomyłka.');}},
+ simRetry:()=>{const z=G.run.pz;z.seq=Array.from({length:z.len},()=>ri(16));z.st='ready';z.pos=0;},
+ loCell:v=>{const z=G.run.pz;loPress(z.b,+v);z.moves++;if(z.b.every(x=>!x))toast('Ogniska zgaszone! Rozwaga +1 '+solvePz());},
+ mis:v=>{const M=G.meta,ms=todayMissions(),i=+v;ms.done[i]=!ms.done[i];M.disc+=ms.done[i]?1:-1;
+  if(ms.done.every(Boolean)&&M.lastFull!==dkey()){M.streak=M.lastFull===dkey(-1)?M.streak+1:1;M.lastFull=dkey();M.disc+=2;toast(`Wszystkie misje! Seria: ${M.streak} 🔥`);}},
+ planDone:v=>{const p=G.meta.plans[dkey()];if(p)p.done[+v]=!p.done[+v];},
+ qsave:()=>{const s=getSlots();s.q={t:stamp(),d:desc(G),g:G};toast(setSlots(s)?'Zapisano (szybki zapis).':'Nie udało się — użyj kodu zapisu.');},
+ slotSave:v=>{const s=getSlots();s[v]={t:stamp(),d:desc(G),g:G};toast(setSlots(s)?`Zapisano w slocie ${v}.`:'Błąd zapisu — użyj kodu.');},
+ slotLoad:v=>{const s=getSlots();if(!s[v])return;G=JSON.parse(JSON.stringify(s[v].g));UI.tab='gra';toast('Wczytano.');},
+ copyCode:()=>{copyFrom('code',enc(G));return'norender';},
+ loadCode:()=>{const t=document.getElementById('imp');try{G=dec(t.value);UI.tab='gra';toast('Wczytano z kodu.');}catch(e){toast('To nie jest poprawny kod zapisu.');}},
+ reset:()=>{if(UI.confirm!=='reset'){UI.confirm='reset';toast('Dotknij jeszcze raz, by skasować wszystko.');return;}UI.confirm=null;G=blank();toast('Wyczyszczono.');}
+};
+function runSim(){const z=G.run.pz;let k=0;const step=()=>{if(!G.run||G.run.pz!==z||z.st!=='show')return;if(k>=z.seq.length){z.st='input';z.pos=0;save();render();return;}flash(z.seq[k],'lit',450);k++;setTimeout(step,700);};setTimeout(step,500);}
+function flash(i,cls='flash',ms=250){const el=document.querySelector(`[data-cell="${i}"]`);if(!el)return;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),ms);}
+function boot(){G=loadAuto();
+ document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el||!el.dataset.a)return;const f=A[el.dataset.a];if(!f)return;if(el.dataset.a!=='abandon'&&el.dataset.a!=='reset')UI.confirm=null;
+  let res;try{res=f(el.dataset.v,el);}catch(err){console.error(err);toast('Błąd: '+err.message);}save();if(res!=='norender')render();});
+ document.addEventListener('input',e=>{const el=e.target,k=el.dataset.in;if(!k)return;
+  if(k==='hname')UI.setup.name=el.value;
+  if(k==='code1'){UI.setup.code=el.value;render();return;}
+  if(k==='lesson'&&G.run){G.run.lesson=el.value;const t=document.getElementById('leg');if(t)t.value=legacy(G.run);}
+  if(k==='motto'&&G.run){G.run.motto=el.value;const t=document.getElementById('leg');if(t)t.value=legacy(G.run);}
+  if(k==='plan'){const d=dkey(1);const p=G.meta.plans[d]||(G.meta.plans[d]={items:['','',''],done:[false,false,false]});p.items[+el.dataset.v]=el.value;const ks=Object.keys(G.meta.plans).sort();while(ks.length>14)delete G.meta.plans[ks.shift()];}
+  save();});
+ if(G.run&&G.run.pz&&G.run.pz.k==='sim'&&G.run.pz.st==='show')G.run.pz.st='ready';
+ render();}
+
+/* ---------- widoki immersji ---------- */
+function thought(t){return`<p class="th">${esc(t)}</p>`;}
+function timerBar(act){return timedOn()?`<div class="tmr" data-timer="${act}"><i></i></div><p class="xs mut">⏳ ${TIMED_S} sekund. Brak decyzji też jest decyzją.</p>`:'';}
+let TMR=null;function clearTimer(){if(TMR){clearInterval(TMR);TMR=null;}}
+function startTimer(){const el=document.querySelector('[data-timer]');if(!el)return;const act=el.dataset.timer,t0=Date.now(),bar=el.querySelector('i');
+ TMR=setInterval(()=>{const left=1-(Date.now()-t0)/(TIMED_S*1000);if(!document.body.contains(el)){clearTimer();return;}bar.style.width=Math.max(0,left*100)+'%';
+  if(left<=0){clearTimer();try{A[act]('t');}catch(e){console.error(e);}save();render();}},100);}
+const PORT={kotaro:'g2_kotaro',gonza:'g2_gonza',szw:'g2_szwagier'};
+function portrait(k,n,dead){const f=PORT[k];return f&&IMG_HAVE.includes(f)?`<img class="pt ${dead?'dead':''}" src="${f}.webp" alt="">`:`<div class="pt ${dead?'dead':''}">${esc((n||'?')[0])}</div>`;}
+const hearts=b=>`<span class="hearts" title="więź">${'♥'.repeat(b)}${'♡'.repeat(3-b)}</span>`;
+function viewQuiet(){const r=G.run,q=quietFor(r);if(!q){r.phase='plan';return viewPlan();}
+ return`<div class="card"><div class="xs mut">CICHA CHWILA · ${seasonLabel(r.s)}</div><h2>${esc(q.t)}</h2>${q.img?IMG(q.img):''}<p>${esc(q.d(r))}</p>${q.th?thought(q.th(r)):''}${q.ch.map((c,i)=>{const dis=c.need&&!c.need(r);return`<button class="choice" data-a="quiet" data-v="${i}" ${dis?'disabled':''}>${esc(qLabel(c,r))}${c.s?`<small>${esc(c.s)}</small>`:''}</button>`;}).join('')}</div>`;}
+function viewQuietRes(){const r=G.run;return`<div class="card"><h2>${esc(r.qRes.t)}</h2><p>${esc(r.qRes.txt)}</p><button class="btn" data-a="qNext">Do pracy ▶</button></div>`;}
+function viewDeath(){const r=G.run,d=curDeath(r);if(!d){deathNext();return viewGame();}const S=SCENE[d.who](r);
+ return`<div class="card"><div class="xs mut">${esc(d.how.toUpperCase())}</div><div class="row" style="margin:6px 0"><div style="flex:0 0 auto">${portrait(d.who,d.n,1)}</div><h2 style="flex:3;margin:0">${esc(d.n)}</h2></div>${S.img?IMG(S.img):''}<p>${esc(S.m)}</p>${thought(S.th)}
+ <h3>Jak się pożegnasz?</h3>${farewells(r,d).map(([k,l,s])=>`<button class="choice" data-a="fw" data-v="${k}">${esc(l)}<small>${esc(s)}</small></button>`).join('')}</div>`;}
+function viewDeathRes(){const r=G.run;return`<div class="card"><h2>${esc(r.dRes.n)}</h2><p>${esc(r.dRes.t)}</p><button class="btn" data-a="dNext">Dalej</button></div>`;}
+function ancCard(a){return a&&a.length?`<div class="card"><h2>Przodkowie z Gry 1</h2>${a.map(d=>`<div class="mem"><b>${esc(d.imie||'?')}</b>${d.kto?` <span class="tag">${esc(d.kto)}</span>`:''}${d.jak?`<div class="xs mut">${esc(d.jak)}</div>`:''}${d.pamiatka?`<div class="xs">🎴 ${esc(d.pamiatka)}</div>`:''}</div>`).join('')}</div>`:'';}
+function memRow(k,n,role,c,d){const st=c.st||'alive';return`<div class="mem"><div class="row"><div style="flex:0 0 auto">${portrait(k,n,st==='dead')}</div><div style="flex:3"><b>${esc(n)}</b> ${hearts(c.b||0)}<div class="xs mut">${esc(role)}</div><div class="xs ${st==='dead'?'bad':st==='hurt'?'acc':'good'}">${st==='dead'?'nie żyje — '+esc(d?d.how:''):st==='hurt'?'ranny, żyje':'żyje'}</div>${d&&d.item?`<div class="xs">🎴 ${esc(d.item)}</div>`:''}</div></div></div>`;}
+function viewPam(){const r=G.run,M=G.meta.mem;
+ if(!r||r.phase==='end'){if(!M)return`<div class="card"><h2>🕯️ Pamięć rodu</h2><p class="mut">Tu zostaną ci, którzy byli z tobą: żywi i zmarli. Po końcu gry odsłoni się, co można było zrobić.</p></div>`;
+  let h=`<div class="card"><h2>🕯️ Pamięć rodu</h2><p class="sm mut">${esc(M.hero)} z ${esc(M.village)} — ostatnia partia.</p>`;
+  h+=M.lost.length?M.lost.map(d=>`<div class="mem"><div class="row"><div style="flex:0 0 auto">${portrait(d.who,d.n,1)}</div><div style="flex:3"><b>${esc(d.n)}</b> <span class="tag">${esc(d.role)}</span><div class="xs mut">${esc(d.how)}</div>${d.item?`<div class="xs">🎴 ${esc(d.item)}</div>`:''}</div></div></div>`).join(''):'<p class="good">Wszyscy przeżyli.</p>';
+  h+='</div>';
+  if(M.what.length)h+=`<div class="card"><h2>Co mogłem zrobić</h2>${M.what.map(w=>`<h3>${esc(w.n)}</h3>${w.w.map(x=>`<p class="wi"><span class="${x.ok?'good':'bad'}">${x.ok?'✓':'✗'}</span> ${esc(x.t)}</p>`).join('')}`).join('')}<p class="xs mut">Los ma najwyżej 20% udziału. Resztę decydowały twoje wcześniejsze wybory.</p></div>`;
+  h+=ancCard(M.anc);if(r&&r.chap)h+=chapList(r);return h;}
+ const C=r.comp,ppl=[['kotaro','Kotarō','młody sługa, syn sługi ojca',C.kotaro,r.s>=3],['gonza','Gonza','stary sługa ojca, niesie chorągiew',C.gonza,1],['szw',SZW,'szwagier, brat '+(r.hero.sex==='f'?'męża':'żony')+' — świadek',C.szw,1],['sp',r.sp.n,spW(r)+(r.sp.child?', syn '+r.sp.child:''),C.sp,1]];
+ let h=`<div class="card"><h2>🕯️ Pamięć rodu</h2><p class="xs mut">Więź rośnie w cichych chwilach. Zmienia to, jak ludzie odchodzą — i czy w ogóle.</p>`;
+ ppl.forEach(([k,n,role,c,show])=>{if(!show)return;h+=memRow(k,n,role,c,r.lost.find(x=>x.who===k));});
+ h+=`<p class="xs mut" style="margin-top:10px">„Co mogłem zrobić” odsłoni się po końcu gry.</p></div>`;
+ return h+ancCard(r.anc)+chapList(r);}
+function chapList(r){const ks=Object.keys(r.chap||{});if(!ks.length)return'';return`<div class="card"><h2>Schematy bitew</h2>${ks.map(k=>`<h3>${esc(EXP[k].n)}</h3>${chapterHTML(r,k)}`).join('')}</div>`;}
+
+if(typeof document!=='undefined'&&document.getElementById('main'))boot();
+
+</script>
+</body>
+</html>
