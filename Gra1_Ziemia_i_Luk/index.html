@@ -186,10 +186,10 @@ const HIST={
    {l:'Uciekajmy całą rodziną w góry',s:'Bezpiecznie, ale pole zostaje',f:r=>{r.field.q*=.75;return'Przeżyliście w szałasie. Po powrocie pole jest zarośnięte. (plon tego roku −25%)';}},
    {l:'Zostańmy i pilnujmy domu',s:'Ryzyko rabunku',f:r=>{if(rr()<.6){const x=Math.round(r.rice*.4);r.rice-=x;return`Jeźdźcy zabrali ${x} ryżu.`;}return'Jeźdźcy ominęli waszą chatę. Mieliście szczęście.';}}]},
  3:{t:'Kamakura i Fujigawa',dt:'1180, 10 mies.',txt:'Yoritomo zebrał w Awa i Kazusie wielką armię. 10/6 wkroczył do Kamakury — ród Miura wrócił z nim. Teraz wojsko wschodu idzie na zachód, przeciw armii Tairów.',th:r=>'„Heiji mówi, że po wojnie każdy dostanie konia. Heiji mówi dużo rzeczy.”',reveal:['kamakura','chiba','hakone','fuji'],exp:'E1'},
- 4:{t:'Śmierć Kiyomoriego',dt:'1181, 2 mies.',txt:'Umarł Taira no Kiyomori, najpotężniejszy człowiek kraju. W Kamakurze powstał urząd wojowników (samurai-dokoro); kieruje nim Wada Yoshimori z rodu Miura. To on spisuje zasługi.',lesson:9},
+ 4:{t:'Śmierć Kiyomoriego',dt:'1181, 2 mies.',txt:'Umarł Taira no Kiyomori, najpotężniejszy człowiek kraju. W Kamakurze od zeszłej zimy działa urząd wojowników (samurai-dokoro); kieruje nim Wada Yoshimori z rodu Miura. To on spisuje zasługi.',lesson:9},
  5:{t:'Susza',dt:'1181, lato',txt:'Deszcz nie przyszedł. Na zachodzie zaczyna się wielki głód ery Yōwa. U was trzeba nosić wodę na pola wiadrami.',th:r=>'„Bark piecze od nosidła. Liczę kroki do rowu: sto dwanaście. I z powrotem.”',drought:1,lesson:6},
  8:{t:'Dankazura',dt:'1182, 3 mies.',txt:'Yoritomo buduje wyniesioną drogę do chramu Hachimana w intencji porodu żony, Masako. Pan wzywa ludzi do noszenia kamieni i ziemi. Mówią, że sam Hōjō Tokimasa nosi kamienie razem z nimi.',meet:'tokimasa',lesson:2},
- 10:{t:'Syn Yoritomo',dt:'1182, 8 mies.',txt:'Urodził się Yoriie, dziedzic Yoritomo. Wieś świętuje. Ale z Kamakury dochodzą plotki o kłótni w rodzinie pana Kamakury.',
+ 10:{t:'Syn Yoritomo',dt:'1182, 8 mies.',txt:'Urodził się Yoriie, dziedzic Yoritomo. Wieś świętuje. Ale ze wschodu dochodzą szepty, że w domu pana Kamakury nie wszystko układa się zgodnie.',
   ch:[{l:'Nie powtarzaj plotek o możnych',g:1,p:4,f:r=>'Mądrze. Zarządca słyszał, kto we wsi plotkuje. '+fx(r,{l:3})},{l:'Opowiedz plotkę w karczmie przy targu',f:r=>{if(rr()<.5)return'Ktoś doniósł zarządcy. '+fx(r,{l:-8});return'Śmiali się wszyscy. Na razie.';}}]},
  13:{t:'Kurikara',dt:'1183, 5–7 mies.',txt:'Kiso Yoshinaka, kuzyn Yoritomo, rozbił Tairów pod Kurikarą i wszedł do Kioto. Taira uciekli z małym cesarzem na zachód. Na wschodzie mówią: teraz Kamakura musi pokazać siłę.',jp:['kyoto','kurikara'],lesson:10},
  15:{t:'Wojsko na zachód',dt:'1183, 10 mies.',txt:'Dwór uznał władzę Yoritomo nad wschodem. Yoritomo wysyła braci, Noriyoriego i Yoshitsune, na zachód. Wiosną ruszą wszyscy ludzie Miurów. Pan każe się przygotować.',
@@ -211,7 +211,7 @@ const EXP={
    {l:r=>T(r,'„Opowiedz mi o tym koniu”','„Opowiedz mi o tym koniu”'),s:'Zostajecie przy ogniu do późna',g:1,f:r=>{bond(r,'heiji',1);r.family[0].e=clamp(r.family[0].e-6,0,100);return T(r,'Heiji opowiada, jak będzie się nazywał koń, a potem zasypia w pół zdania. Ty nie śpisz już do rana.','Heiji opowiada o koniu tak długo, aż zarządca każe gasić ogień. Na odchodne macha ci kołczanem.');}},
    {l:r=>T(r,'„Śpij. Jutro trzeba mieć siły”','„Idź spać, Heiji. Jutro daleko”'),f:r=>T(r,'Heiji milknie i odwraca się do ognia. Śpisz krótko i twardo.','Heiji kiwa głową i odchodzi. Rano już go nie ma.')}]},
   {d:r=>T(r,'Nad ranem rzeka paruje. Nagle zrywa się chmara ptaków z bagien — tysiące skrzydeł, krzyk nad wodą. Ogniska za rzeką gasną jedno po drugim.','Noc w dworze. Gońcy mówią, że armie stoją nad rzeką Fuji. Wartownik zasnął.'),ch:[
-   {l:r=>T(r,'Trzymaj konia pana i czekaj na rozkaz','Sama obejdź wał i obudź wartownika'),g:1,p:7,f:r=>{r.ex.mod+=1;return'Rano okazuje się, że Taira uciekli w nocy. Pan widział, że byłeś na miejscu. '+fx(r,{z:5,l:5});}},
+   {l:r=>T(r,'Trzymaj konia pana i czekaj na rozkaz','Sama obejdź wał i obudź wartownika'),g:1,p:7,f:r=>{r.ex.mod+=1;return'Rano okazuje się, że Taira uciekli w nocy. Pan widział, że '+T(r,'byłeś','byłaś')+' na miejscu. '+fx(r,{z:5,l:5});}},
    {l:r=>T(r,'Biegnij do opuszczonego obozu po łupy','Zgań go przy wszystkich'),f:r=>{r.stats.blamed+=r.hero.sex==='f'?1:0;return T(r,'Wracasz z workiem ryżu, ale koń pana uciekł. ','Wartownik się wstydzi, inni milkną. ')+fx(r,{r:3,l:-8});}}]},
   {d:r=>T(r,'W drodze powrotnej, w Kamakurze, widzisz z daleka Yoritomo na koniu, otoczonego wojownikami wschodu.','Pan wraca. Opowiada, że w Kamakurze widział Yoritomo w otoczeniu wojowników wschodu.'),ch:[
    {l:'Zapamiętaj i opowiedz rodzinie, o co toczy się wojna',g:1,p:2,f:r=>{r.met.yoritomo=1;return'Rodzina rozumie, czemu pan tyle wymaga. '+fx(r,{e:8,w:1});}},
@@ -259,7 +259,7 @@ const EV=[
   {l:'Przekop rów z powrotem, też nocą',f:r=>{later(r,1,{l:-6,q:-.05},'Kłótnia o wodę dotarła do zarządcy.');return'Woda wraca do was. Na razie. '+fx(r,{q:.05});}},
   {l:'Poskarż się zarządcy',f:r=>'Zarządca rozstrzyga, ale woli nie mieć takich spraw. '+fx(r,{l:-2,q:.03})}]},
  {t:'Złamana motyka',d:v=>`${v.sib} złamał(a) motykę, bo pracował(a) zbyt zmęczony(a).`,ch:[
-  {l:'„To ja źle ułożyłem pracę.” Naprawcie ją razem',g:1,p:0,f:r=>{r.stats.owned++;return'Rodzeństwo patrzy na ciebie inaczej. '+fx(r,{e:6,w:1});}},
+  {l:r=>T(r,'„To ja źle ułożyłem pracę.” Naprawcie ją razem','„To ja źle ułożyłam pracę.” Naprawcie ją razem'),g:1,p:0,f:r=>{r.stats.owned++;return'Rodzeństwo patrzy na ciebie inaczej. '+fx(r,{e:6,w:1});}},
   {l:'Zbesztaj przy wszystkich',f:r=>{r.stats.blamed++;return'Następnym razem nikt się nie przyzna. '+fx(r,{e:-6});}}]},
  {t:'Wędrowny mnich',d:v=>`Mnich ${v.monk} prosi o nocleg i miskę ryżu.`,ch:[
   {l:'Przyjmij go',s:'−1 ryżu',g:1,f:r=>{later(r,2,{w:1,e:10},`Mnich wrócił z ziołami i pokazał, jak leczyć gorączkę.`);return'Mnich błogosławi dom. '+fx(r,{r:-1});}},
@@ -283,7 +283,7 @@ const EV=[
  {t:'Plotka o jeźdźcach',d:v=>'Ktoś widział obcych jeźdźców na przełęczy. Nie wiadomo, czyi są.',ch:[
   {l:'Ukryj część ryżu od razu',g:1,p:10,f:r=>{if(rr()<.35)return'Jeźdźcy przeszli wsią, ale twój ryż był bezpieczny. '+fx(r,{w:1});return'Fałszywy alarm. Kosztowało trochę sił. '+fx(r,{e:-4});}},
   {l:'Poczekaj na pewne wieści',f:r=>{if(rr()<.35){const x=Math.round(r.rice*.3);r.rice-=x;return`Jeźdźcy zabrali ${x} ryżu.`;}return'Nikt nie przyjechał.';}}]},
- {t:'Złodziej w spichrzu',d:v=>`Złapałeś nocą chłopaka z sąsiedniej wsi przy waszym ryżu. Jest chudy jak trzcina.`,ch:[
+ {t:'Złodziej w spichrzu',d:v=>`${v.f?'Złapałaś':'Złapałeś'} nocą chłopaka z sąsiedniej wsi przy waszym ryżu. Jest chudy jak trzcina.`,ch:[
   {l:'Odbierz ryż, daj mu garść i odeślij',g:1,f:r=>{later(r,2,{r:2},'Ojciec chłopaka przyniósł ryby w podzięce.');return'Odchodzi zawstydzony. '+fx(r,{r:-1});}},
   {l:'Zaprowadź go do zarządcy',f:r=>'Zarządca chwali czujność. '+fx(r,{l:3})}]},
  {t:'Pochwała pana',when:r=>r.unl.duty,d:v=>'Pan chwali porządek w waszym gospodarstwie przed zarządcą.',ch:[
@@ -298,9 +298,9 @@ const EV=[
  {t:'Nadciąga burza',when:r=>r.s%4===2,d:v=>'Niebo ciemnieje nad morzem. Ryż jeszcze nie całkiem dojrzał.',ch:[
   {l:'Zbieraj od razu, nawet niedojrzały',g:1,p:10,f:r=>'Zebraliście przed burzą. Ziarno drobniejsze, ale całe. '+fx(r,{q:-.05})},
   {l:'Czekaj, aż dojrzeje',f:r=>{if(rr()<.5){r.field.q-=.3;return'Wiatr położył ryż. Plon dużo mniejszy.';}return'Burza przeszła bokiem. Pełne kłosy. '+fx(r,{q:.05});}}]},
- {t:'Mentor sprawdza łuk',when:r=>r.unl.bow,d:v=>`Stary ${v.mentor} stawia cel i mówi: „Trzy strzały. Pokaż, co ćwiczyłeś.”`,ch:[
-  {l:'Strzelaj spokojnie, oddech po każdej strzale',g:1,p:11,f:r=>{bond(r,'mentor',1);const ok=rr()<.35+r.hero.bow*.13;if(ok){r.hero.bxp+=4;return'Dwie w celu. Mentor kiwa głową. '+fx(r,{z:3});}return'Chybiłeś. „Dobrze — teraz wiesz, co ćwiczyć.” '+fx(r,{w:1});}},
-  {l:'Strzelaj szybko, żeby się popisać',f:r=>{if(rr()<.25)return'Trafiłeś raz. '+fx(r,{z:1});return'Wszystkie obok. Mentor milczy.';}}]},
+ {t:'Mentor sprawdza łuk',when:r=>r.unl.bow,d:v=>`Stary ${v.mentor} stawia cel i mówi: „Trzy strzały. Pokaż, co ${v.f?'ćwiczyłaś':'ćwiczyłeś'}.”`,ch:[
+  {l:'Strzelaj spokojnie, oddech po każdej strzale',g:1,p:11,f:r=>{bond(r,'mentor',1);const ok=rr()<.35+r.hero.bow*.13;if(ok){r.hero.bxp+=4;return'Dwie w celu. Mentor kiwa głową. '+fx(r,{z:3});}return T(r,'Chybiłeś.','Chybiłaś.')+' „Dobrze — teraz wiesz, co ćwiczyć.” '+fx(r,{w:1});}},
+  {l:'Strzelaj szybko, żeby się popisać',f:r=>{if(rr()<.25)return T(r,'Trafiłeś','Trafiłaś')+' raz. '+fx(r,{z:1});return'Wszystkie obok. Mentor milczy.';}}]},
  {t:'Rybacy',d:v=>'Rybacy z wybrzeża potrzebują rąk do wyciągania sieci. Płacą rybą.',ch:[
   {l:'Wyślij kogoś na dwa dni',s:'Siły −6',g:1,f:r=>fx(r,{r:2,e:-6})},
   {l:'Nie teraz',f:r=>'Rybacy znajdą kogoś innego.'}]}
@@ -368,11 +368,11 @@ const workers=r=>present(r).filter(m=>!m.sick);
 function base(r,m){if(m.id===0)return r.s>=8?5:4;if(m.role.startsWith('Młodsz'))return r.s>=8?3:2;return m.base;}
 function eff(e){return e>=60?1:e>=30?.8:.55;}
 function acts(r,m){const a=[];const sz=r.s%4;if(sz<3)a.push('field');if(r.unl.duty)a.push('lord');a.push('forest');if(r.unl.craft)a.push('craft');if(m.id===0&&r.unl.bow)a.push('bow');a.push('rest');return a;}
-function dutyReq(r){if(!r.unl.duty)return 0;let d=(DUTY[r.s]||3)+(r.dutyExtra||0);if(r.hero.away)d=Math.ceil(d/2);return d;}
+function dutyReq(r){if(!r.unl.duty)return 0;let d=(DUTY[r.s]||3)+(r.dutyExtra||0)+(r.my&&r.my.dutyUp>0?1:0);if(r.hero.away)d=Math.ceil(d/2);return d;}
 function fieldNeed(r){const sz=r.s%4;if(sz===3)return 0;const pl=sz===0?Math.min(r.plots,Math.floor(r.seedR/2)):r.field.planted;let n=FIELD_NEED[sz]*pl;if(sz===1&&HIST[r.s]&&HIST[r.s].drought)n=Math.ceil(n*1.4);return n;}
 
 /* ---------- przebieg pory ---------- */
-function startSeason(){const r=G.run;ensureImm(r);r.dutyExtra=0;r.ev=null;if(r.s>=4)r.laska=Math.max(1,r.laska-1);r.priority=null;r.help=0;r.pzOpen=false;r.rep=null;
+function startSeason(){const r=G.run;ensureImm(r);myTick(r);r.dutyExtra=0;r.ev=null;if(r.s>=4)r.laska=Math.max(1,r.laska-1);r.priority=null;r.help=0;r.pzOpen=false;r.rep=null;
  if(r.s>=1&&!r.unl.duty){r.unl.duty=1;r.unl.pz=1;if(r.hero.rank<1){r.hero.rank=1;chron(r,`${r.hero.n} zaczyna służbę w dworze pana ${r.lord}.`);}}
  if(r.s>=2)r.unl.roz=1;
  if(r.s>=3)r.unl.craft=1;
@@ -386,11 +386,13 @@ function startSeason(){const r=G.run;ensureImm(r);r.dutyExtra=0;r.ev=null;if(r.s
  r.phase=planOrQuiet(r);flushDeath(r);}
 function histDone(choiceIdx){const r=G.run,H=HIST[r.s];r.histDone[r.s]=1;let txt='';
  if(H.ch&&choiceIdx!=null){const c=H.ch[choiceIdx];txt=c.f(r);if(c.p!=null)txt+=`\n\nZasada: ${PR[c.p][0]}.`;}
- if(H.meet==='tokimasa'){r.met.tokimasa=1;chron(r,'Przy Dankazurze widziałeś, jak Hōjō Tokimasa nosi kamienie razem z ludźmi.');}
+ if(H.meet==='tokimasa'){r.met.tokimasa=1;chron(r,'Przy Dankazurze '+T(r,'widziałeś','widziałaś')+', jak Hōjō Tokimasa nosi kamienie razem z ludźmi.');}
  if(H.ceremony)txt=ceremony(r);
  chron(r,`${H.dt}: ${H.t}.`);
  if(H.exp){const ok=canGo(r,H.exp);if(ok){beginExp(r,H.exp);if(txt){r.histRes=txt;r.phase='histres';r.after='exp';}return;}
-  if(H.exp==='E2')heijiFate(r);if(H.exp==='E4')mentorFate(r);
+  if(H.exp==='E2')heijiFate(r);
+  if(H.exp==='E4')mentorFate(r);
+  else if(H.exp==='E3'){txt=(txt?txt+'\n\n':'')+T(r,'Wojsko Noriyoriego rusza na zachód bez ciebie. Zostajesz przy polu i w dworze.','Pan rusza z wojskiem na zachód. Dwór zostaje na twojej głowie, a wieści przychodzą późno.');}
   else if(H.exp==='E1'||H.exp==='E2'){txt=(txt?txt+'\n\n':'')+T(r,'Pan wybrał innych pachołków. Mentor mówi: „Pracuj u pana i pokaż, że można na tobie polegać. Następnym razem.”','Pan wybrał inne służące do prowadzenia dworu. Mentor mówi: „Pokaż, że można na tobie polegać.”')+` (potrzeba łaski ≥${H.exp==='E1'?48:40} i zasługi ≥${H.exp==='E1'?4:5})`;}}
  if(txt){r.histRes=txt;r.phase='histres';r.after=r.s===1&&!r.briefed?'brief':'plan';return flushDeath(r);}
  r.phase=r.s===1&&!r.briefed?'brief':planOrQuiet(r);flushDeath(r);}
@@ -405,7 +407,7 @@ function beginExp(r,id){r.ex={id,step:0,prep:r.prep||0,mod:0,earned:0,log:[],pat
 function expStep(){const r=G.run;return EXP[r.ex.id].steps[r.ex.step];}
 function expChoose(i){const r=G.run,st=expStep();let t='';const k=r.ex.id+'.'+r.ex.step;
  if(i==='t'&&st.hes){r.fl.hes++;t=st.hes.f(r);recPath(r,k,'h');}
- else if(st.letter){recPath(r,k,['eco','bal','hard'].indexOf(i));r.policy=i;t={eco:'Napisałeś: „Oszczędzajcie siły, dbajcie o zapasy i drewno.”',bal:'Napisałeś: „Pole najpierw, pan zaraz potem, odpoczywajcie na zmianę.”',hard:'Napisałeś: „Pracujcie ile się da — pole i pan.”'}[i];r.stats.good+=0;}
+ else if(st.letter){recPath(r,k,['eco','bal','hard'].indexOf(i));r.policy=i;const Nw=T(r,'Napisałeś','Napisałaś');t={eco:Nw+': „Oszczędzajcie siły, dbajcie o zapasy i drewno.”',bal:Nw+': „Pole najpierw, pan zaraz potem, odpoczywajcie na zmianę.”',hard:Nw+': „Pracujcie ile się da — pole i pan.”'}[i];r.stats.good+=0;}
  else if(st.merit){t=meritChoice(r,i);}
  else{recPath(r,k,i);const c=st.ch[i];t=c.f(r)||'';if(c.p!=null)t+=(t?' ':'')+`Zasada: ${PR[c.p][0]}.`;}
  r.ex.log.push(t);r.ex.step++;r.ex.last=t;advanceExp(r);}
@@ -471,7 +473,7 @@ function execSeason(){const r=G.run;ensureImm(r);const sz=r.s%4,lines=[],errs=[]
  if(sz===3)r.field.st='winter';
  // las, słoma, łuk
  if(L.forest){const v=Math.round(L.forest*(sz===3?.5:1)*10)/10;r.rice+=v;lines.push(`🌲 Las i morze: +${v} jedzenia${sz===3?' i drewno na opał':''}.`);const nf=Math.min(3,Math.ceil(L.forest/3));for(let i=0;i<nf;i++)r.forest.push(r.forest.length);}
- if(sz===3&&(L.forest||0)<2){if(r.s===7)r.fl.cold=1;fxE(r,-15);lines.push('🥶 Za mało drewna — zimno w chacie (siły −15).');if(present(r).length&&rr()<.3){const m=pick(present(r));m.sick=1;lines.push(`🤒 ${m.n} choruje.`);}}
+ if(sz===3&&(L.forest||0)+(r.my&&r.my.wood===r.s?2:0)<2){if(r.s===7)r.fl.cold=1;fxE(r,-15);lines.push('🥶 Za mało drewna — zimno w chacie (siły −15).');if(present(r).length&&rr()<.3){const m=pick(present(r));m.sick=1;lines.push(`🤒 ${m.n} choruje.`);}}
  if(L.craft){const v=Math.round(L.craft*(sz===3?.6:.4)*10)/10;r.rice+=v;lines.push(`🧺 Sandały i maty wymienione na ${v} ryżu.`);}
  if(L.bow){r.hero.bxp+=L.bow;const nb=Math.min(5,Math.floor(r.hero.bxp/6));if(nb>r.hero.bow){r.hero.bow=nb;lines.push(`🏹 ${skillName(r)}: poziom ${nb}.`);}else lines.push(`🏹 Ćwiczenie: ${skillName(r)} ${r.hero.bxp}/${Math.min(30,(r.hero.bow+1)*6)}.`);}
  // służba
@@ -497,7 +499,7 @@ function afterReport(){const r=G.run;r.ex=null;r.chapNew=null;if(checkEnd())retu
  if(r.s>=1&&rr()<.6){const pool=EV.map((e,i)=>i).filter(i=>!EV[i].when||EV[i].when(r));const ws=present(r).filter(m=>m.id);const fam=pick(ws.length?ws:present(r));
   r.ev={kind:'ev',k:pick(pool),fi:fam.id};r.phase='event';r.stats.ev++;return;}
  endSeason();}
-function evVars(){const r=G.run,e=r.ev;const sib=r.family[3].alive?r.family[3].n:r.family[1].n;return{nb:r.nbs[e.k%3],sib,monk:r.monk,st:r.steward,mentor:r.mentor,fam:r.family[e.fi].n,fi:e.fi};}
+function evVars(){const r=G.run,e=r.ev;const sib=r.family[3].alive?r.family[3].n:r.family[1].n;return{nb:r.nbs[e.k%3],sib,monk:r.monk,st:r.steward,mentor:r.mentor,fam:r.family[e.fi].n,fi:e.fi,f:r.hero.sex==='f'};}
 function evChoose(v){const r=G.run,e=r.ev;let t='';
  if(e.kind==='ev'&&v==='t'&&EV[e.k].hes){r.fl.hes++;r.evRes=EV[e.k].hes(r);r.phase='evres';return true;}
  if(e.kind==='mem'){const it=r.intel[e.k];it.asked=true;t=v===it.a?'Dokładnie tak. Zarządca kiwa głową. '+fx(r,{l:3,w:1}):`Niestety — poprawnie: „${it.a}”. Zarządca marszczy brwi. `+fx(r,{l:-2});}
@@ -506,18 +508,19 @@ function evChoose(v){const r=G.run,e=r.ev;let t='';
 function endSeason(){const r=G.run;
  if(r.rice<0){r.rice=0;fxE(r,-20);chron(r,'Głód na przednówku.');const d=r.family.filter(m=>m.alive&&m.e<=0&&!(m.id===0&&r.hero.away));
   const others=r.family.filter(m=>m.alive&&m.id);
-  if(d.find(m=>m.id===0)&&!others.length)return end(false,'Głód. Nie przeżyłeś przednówka.');
+  if(d.find(m=>m.id===0)&&!others.length)return end(false,T(r,'Głód. Nie przeżyłeś przednówka.','Głód. Nie przeżyłaś przednówka.'));
   if(d.find(m=>m.id===0))r.family[0].e=r.hero.e=5;
   const dd=d.filter(m=>m.id);if(dd.length){const m=dd.sort((a,b)=>a.base-b.base)[0];if(m.id===3)addDeath(r,'sib',`${seasonLabel(r.s)} — głód na przednówku`);else if(m.id===1)addDeath(r,'father',`${seasonLabel(r.s)} — głód na przednówku`);else{m.alive=0;chron(r,`${m.role} ${m.n} umiera z głodu.`);r.lostFam=(r.lostFam||0)+1;}}
   if(false){const m=d.sort((a,b)=>a.base-b.base)[0];m.alive=0;chron(r,`${m.role} ${m.n} umiera z głodu.`);r.lostFam=(r.lostFam||0)+1;}}
  if(r.s===7)sibWinter(r);
+ myEnd(r);
  if(checkEnd())return;
  if(r.s>=LAST_S)return finale(r);
  r.s++;
  if(r.s===8){r.family[3].role=r.family[3].role;}
  startSeason();}
 function checkEnd(){const r=G.run;if(r.phase==='end')return true;
- if(r.dead)return end(false,'Zginąłeś w bitwie.');
+ if(r.dead)return end(false,T(r,'Zginąłeś w bitwie.','Zginęłaś podczas napaści na dwór.'));
  if(r.laska<=0)return end(false,'Pan stracił cierpliwość i wypędził rodzinę z ziemi.');
  if(!r.family.some(m=>m.alive))return end(false,'Nikt z rodziny nie przeżył.');
  return false;}
@@ -525,26 +528,28 @@ function ceremony(r){
  const sk=r.hero.bow;
  if(r.hero.rank===2&&r.zas>=55&&r.laska>=60&&sk>=3){promote(r,3);r.items.push(T(r,'Stara zbroja dōmaru od pana','Klucz do spichrza dworu'));
   return T(r,`Pan ${r.lord} wzywa cię przed wszystkich. „Od dziś jesteś moim rōtō.” Dostajesz starą zbroję dōmaru i łuk. Mentor ${r.mentor} uśmiecha się pierwszy raz od lat.`,`Pan ${r.lord} oddaje ci klucze do spichrza: „Od dziś prowadzisz mój dwór.”`);}
- const miss=[];if(r.hero.rank<2)miss.push('nie byłeś na wyprawie');if(r.zas<55)miss.push(`zasługa ${r.zas}/55`);if(r.laska<60)miss.push(`łaska ${r.laska}/60`);if(sk<3)miss.push(`${skillName(r)} ${sk}/3`);
+ const miss=[];if(r.hero.rank<2)miss.push(T(r,'nie byłeś na wyprawie','nie przeszłaś próby w dworze'));if(r.zas<55)miss.push(`zasługa ${r.zas}/55`);if(r.laska<60)miss.push(`łaska ${r.laska}/60`);if(sk<3)miss.push(`${skillName(r)} ${sk}/3`);
  r.rice+=4;return `Pan rozdaje nagrody. Dostajesz worek ryżu (+4). Do awansu brakuje: ${miss.join(', ')}. Ostatnia szansa po wyprawie na zachód.`;}
 function finale(r){
+ myFinale(r);
  if(r.hero.rank===2&&!r.deserted&&r.zas>=55&&r.laska>=60&&r.hero.bow>=3){promote(r,3);r.items.push(T(r,'Stara zbroja dōmaru od pana','Klucz do spichrza dworu'));}
  if(r.hero.rank===3&&r.zas>=85&&r.laska>=75){promote(r,4);r.plots++;r.items.push('Pole od pana');}
  const win=r.hero.rank>=3;
- r.retL=returnScene(r);r.retR=[win,win?T(r,`Wojna skończona. Taira pokonani. Wracasz do ${r.village} jako ${rankName(r)}.`,`Wojna skończona. Jesteś: ${rankName(r)}.`):'Wojna skończona, ale nie zdobyłeś pozycji, która otworzy rodowi drogę dalej.'];r.phase='ret';flushDeath(r);return true;}
+ r.retL=returnScene(r).concat(myRet(r));r.retR=[win,win?T(r,`Wojna skończona. Taira pokonani. Wracasz do ${r.village} jako ${rankName(r)}.`,`Wojna skończona. Jesteś: ${rankName(r)}.`):T(r,'Wojna skończona, ale nie zdobyłeś pozycji, która otworzy rodowi drogę dalej.','Wojna skończona, ale nie zdobyłaś pozycji, która otworzy rodowi drogę dalej.')];r.phase='ret';flushDeath(r);return true;}
 function retDone(){const r=G.run;end(r.retR[0],r.retR[1]);}
 function end(win,reason){const r=G.run;if(r.phase==='end')return true;const s=r.stats;
  const score=Math.max(10,Math.round(r.zas+r.laska+r.rice/2+r.hero.rank*25+s.owned*5-s.blamed*5+s.puz*3));
  const L=[];
- if(s.blamed>s.owned)L.push('Częściej szukałeś winnych niż brałeś odpowiedzialność. Kto obwinia, uczy innych ukrywać błędy.');
- if(s.owned>0&&!s.blamed)L.push('Ani razu nie zrzuciłeś winy na innych. Tak buduje się zaufanie.');
+ if(s.blamed>s.owned)L.push(T(r,'Częściej szukałeś winnych niż brałeś odpowiedzialność.','Częściej szukałaś winnych niż brałaś odpowiedzialność.')+' Kto obwinia, uczy innych ukrywać błędy.');
+ if(s.owned>0&&!s.blamed)L.push(T(r,'Ani razu nie zrzuciłeś winy na innych.','Ani razu nie zrzuciłaś winy na innych.')+' Tak buduje się zaufanie.');
  if(r.lostFam)L.push('Ktoś z rodziny umarł z głodu. Plan na zimę i ziarno siewne to obowiązek głowy domu.');
  if(s.lies)L.push('Zawyżanie zasług to ryzyko: świadkowie mówią prawdę.');
  if(!win&&r.hero.rank<2)L.push('Pan nie wybrał cię na wyprawę. Łaskę i zasługę buduje codzienna służba.');
  if(!win&&r.hero.rank===2)L.push(`Zabrakło do rangi rōtō: zasługa ≥55, łaska ≥60, ${skillName(r)} ≥3.`);
+ if(r.my){const m=r.my;L.push(m.st==='solved'?T(r,'Rozwiązałeś sprawę węzła na worku. Czasem odpowiedź jest bliżej, niż myślimy.','Rozwiązałaś sprawę węzła na worku. Czasem odpowiedź jest bliżej, niż myślimy.'):`Węzeł na worku: ${mySummary(r).why} Sprawa została nierozwiązana. Szczegóły w „Pamięci rodu”.`);}
  if(r.lost&&r.lost.length)L.push(`Odeszli: ${r.lost.map(d=>d.n).join(', ')}. Zajrzyj do „Pamięci rodu”: tam jest, co można było zrobić.`);
  if(!L.length)L.push(win?'Czysta robota.':'Porażka to dane. Wróć silniejszy.');
- r.res={win,reason,score,lessons:L};r.phase='end';r.dq=[];G.meta.mem={hero:r.hero.n,village:r.village,sex:r.hero.sex,lost:r.lost||[],comp:r.comp,fl:r.fl,mentor:r.mentor,fam:r.family.map(m=>({n:m.n,role:m.role,alive:m.alive})),what:(r.lost||[]).map(d=>({n:d.n,w:whatIf(r,d.who)}))};G.meta.wins+=win?1:0;return true;}
+ r.res={win,reason,score,lessons:L};r.phase='end';r.dq=[];G.meta.mem={hero:r.hero.n,village:r.village,sex:r.hero.sex,lost:r.lost||[],comp:r.comp,fl:r.fl,mentor:r.mentor,fam:r.family.map(m=>({n:m.n,role:m.role,alive:m.alive})),what:(r.lost||[]).map(d=>({n:d.n,w:whatIf(r,d.who)})),my:mySummary(r)};G.meta.wins+=win?1:0;return true;}
 
 /* ---------- łamigłówki ---------- */
 const PZ={
@@ -584,7 +589,7 @@ function legacy(r){const rel=v=>v>=70?'zaufanie':v>=45?'życzliwość':v>=20?'ch
  const o={v:1,gra:1,rok:1185,rod:r.hero.rank>=3?r.village:`ród z ${r.village}`,boh:r.hero.n,plec:r.hero.sex,status:rankName(r),ranga:r.hero.rank,
   majatek:{ryz:Math.round(r.rice),pola:r.plots,wlasnePole:r.hero.rank>=4},prestiz:r.zas,laska:r.laska,pamiatki:r.items,motto:r.motto||'',
   lekcje:[r.lesson,...G.meta.journal.slice(0,2).map(j=>j.l)].filter(Boolean),relacje:{Miura:rel(r.laska),Hojo:r.met.tokimasa?'znajomość z widzenia':'brak',Minamoto:r.hero.rank>=2?'służba w wojsku Kamakury':'brak'},
-  kamon:r.kamon,mapy:{region:r.known,japonia:r.jpSeen},...(r.comp?memLegacy(r):{}),rodzina:r.family.filter(m=>m.alive).map(m=>m.role),wynik:r.res?r.res.score:0};
+  kamon:r.kamon,mapy:{region:r.known,japonia:r.jpSeen},...(r.comp?memLegacy(r):{}),rodzina:r.family.filter(m=>m.alive).map(m=>m.role),tajemnica:r.my?{kto:r.my.t,rozwiazana:r.my.st==='solved'}:null,wynik:r.res?r.res.score:0};
  return 'ROD1.'+b64e(o);}
 
 /* ---------- zapis ---------- */
@@ -606,10 +611,10 @@ const IMG=(n,cls)=>IMG_HAVE.includes(n)&&!(IMG_SON.includes(n)&&G&&G.run&&G.run.
 const TIMED_S=10;
 
 function initImm(r){
- r.comp={heiji:{b:0,st:'alive'},mentor:{b:0,st:'alive'},sib:{b:0},father:{b:0}};
+ r.comp={heiji:{b:0,st:'alive'},mentor:{b:0,st:'alive'},sib:{b:0},father:{b:0},mother:{b:0,st:'alive'}};
  r.fl={sandals:0,tog:0,charge:0,near:0,hes:0,sibFever:0,fatherFever:0,cold:0,fatherW:0,prep4:0};
  r.dq=[];r.echo=[];r.lost=[];r.qs={};r.chap={};r.hurt=[];}
-function ensureImm(r){if(r&&!r.comp){initImm(r);if(r.s>1)r.qs[1]=1;}}
+function ensureImm(r){if(r&&!r.comp){initImm(r);if(r.s>1)r.qs[1]=1;}if(r&&r.comp&&!r.comp.mother)r.comp.mother={b:0,st:'alive'};if(r&&!r.my)initMy(r);}
 function bond(r,k,v){const c=r.comp[k];if(c)c.b=clamp(c.b+v,0,3);}
 const sibM=r=>r.family[3],fatM=r=>r.family[1];
 const sibIsF=r=>sibM(r).role.includes('siostra');
@@ -621,7 +626,7 @@ const practiceCh=(n)=>[
    ['Pokazujesz mu krwawnik i babkę. Heiji wącha liście i kicha. Śmiejecie się oboje.','Heiji powtarza nazwy ziół jak modlitwę. Myli dwie. Poprawiasz.','Heiji zawiązuje opatrunek na twoim przedramieniu. Za mocno. Ale dobrze.','„Gdybym sam musiał…” — zaczyna Heiji. „To dasz radę” — mówisz.'][n]);}},
  {l:r=>T(r,'„Nie dziś. Jestem zmęczony”','„Nie dziś. Mam spichrz na głowie”'),f:r=>{r.family[0].e=clamp(r.family[0].e+5,0,100);return'Heiji wzrusza ramionami i idzie sam. Słyszysz go jeszcze długo, jak nuci za stodołą.';}}];
 const QUIET={
- 1:{who:'heiji',t:'Pieśni przy taue',d:r=>`Sadzenie ryżu. Cała wieś w błocie po kolana, ludzie z ${r.village} i z sąsiedniej wsi, ramię w ramię. Bęben wybija rytm. Chudy chłopak z wyszczerbionym zębem zaczyna pieśń — o żurawiu, który zgubił drogę do domu. To Heiji. Od tego lata będziecie razem służyć w dworze pana.`,
+ 1:{who:'heiji',t:'Pieśni przy taue',d:r=>`Ostatnie sadzenie w dolinie, spóźnione poletka sąsiadów. Cała wieś w błocie po kolana, ludzie z ${r.village} i z sąsiedniej wsi, ramię w ramię. Bęben wybija rytm. Chudy chłopak z wyszczerbionym zębem zaczyna pieśń — o żurawiu, który zgubił drogę do domu. To Heiji. Od tego lata będziecie razem służyć w dworze pana.`,
   th:r=>'„Błoto chłodzi łydki. Plecy już bolą, a to dopiero trzeci rząd.”',
   ch:[{l:'Podejmij pieśń, zwrotka za zwrotką',s:'Heiji to zapamięta',g:1,f:r=>{bond(r,'heiji',1);return'Śpiewacie na zmianę, a cała grobla odpowiada refrenem. Wieczorem Heiji mówi: „Masz głos jak wrona. Ale dobrą wronę.”';}},
    {l:'Pracuj w milczeniu, rzędy muszą być równe',f:r=>{r.field.q=clamp(r.field.q+.04,.3,1.3);return'Twoje rzędy są najrówniejsze na całej grobli. Heiji śpiewa dalej, już nie do ciebie. (pole +4%)';}}]},
@@ -630,8 +635,8 @@ const QUIET={
   ch:[{l:'Pomóż dokończyć konika i opowiedz o dworze',g:1,f:r=>{bond(r,'sib',1);return`Do późna plececie razem. Konik dostaje grzywę. ${sibM(r).n} zasypia z nim w ręku.`;}},
    {l:'„Nie mam czasu na zabawki. Pleć sandały”',f:r=>{r.rice+=0.5;return`${sibM(r).n} odkłada konika pod matę i bierze się za sandały. (ryż +0,5)`;}}]},
  6:{who:'heiji',t:'Po żniwach',d:r=>T(r,'Ścierń na polach, dym z ognisk. Heiji czeka przy miedzy z pożyczonym łukiem. „Pan mówi, że na wiosnę mogą nas zabrać. Nauczysz mnie?”','Ścierń na polach. Heiji przychodzi do spichrza z rozciętą dłonią. „Pan mówi, że na wiosnę mogą nas zabrać. Nauczysz mnie opatrywać?”'),ch:practiceCh(0)},
- 9:{who:'heiji',t:'Znowu taue',d:r=>T(r,'Drugie lato sadzenia. Heiji śpiewa pieśń o żurawiu, ale słowa ma nowe — o gniadym koniu. Po pracy znowu przynosi łuk.','Drugie lato sadzenia. Heiji śpiewa o gniadym koniu. Po pracy znajduje cię w dworze. „Te zioła… pokażesz jeszcze raz?”'),ch:practiceCh(1)},
- 10:{who:'mentor',t:'Blizna spod Hōgen',d:r=>`Stary ${r.mentor} siedzi przy bramie i ostrzy groty. Blizna przez policzek bieleje na zimnie. „Hōgen. Miałem tyle lat co ty. Mój pan zginął, bo ja patrzyłem na łupy.”`,
+ 9:{who:'heiji',t:'Znowu taue',d:r=>T(r,'Drugie lato przy taue. Heiji śpiewa pieśń o żurawiu, ale słowa ma nowe — o gniadym koniu. Po pracy znowu przynosi łuk.','Drugie lato przy taue. Heiji śpiewa o gniadym koniu. Po pracy znajduje cię w dworze. „Te zioła… pokażesz jeszcze raz?”'),ch:practiceCh(1)},
+ 10:{who:'mentor',t:'Blizna spod Hōgen',d:r=>`Stary ${r.mentor} siedzi przy bramie i ostrzy groty. Blizna przez policzek bieleje na zimnie. „Hōgen. Dwadzieścia cztery lata temu. Mój pan zginął, bo ja patrzyłem na łupy.”`,
   ch:[{l:'Usiądź i słuchaj do końca',g:1,f:r=>{bond(r,'mentor',1);return`Mówi długo. O ogniu w stolicy, o panu, który osłonił go własnym koniem. Na koniec: „Stój blisko pana. Zawsze blisko.” Pierwszy raz mówi do ciebie po imieniu.`;}},
    {l:'Grzecznie się ukłoń i wróć do pracy',f:r=>{r.zas+=1;return`${r.mentor} kiwa głową i wraca do grotów. Zarządca widzi, że pracujesz. (zasługa +1)`;}}]},
  11:{who:'father',t:'Ojciec przy ogniu',d:r=>`Śnieg za drzwiami. Ojciec, ${fatM(r).n}, naprawia motykę i nagle mówi: „Mój ojciec też chciał, żebym poszedł do dworu. Wolałem pole. Ty nie musisz wybierać jak ja.”`,
@@ -653,7 +658,7 @@ function quietFor(r){if(r.hero.away)return null;let q=QUIET[r.s];if(!q||r.qs[r.s
  if(q.sex&&q.sex!==r.hero.sex)q=q.alt;if(!q)return null;
  if(q.who==='heiji'&&r.comp.heiji.st!=='alive')return null;if(q.who==='mentor'&&r.comp.mentor.st==='dead')return null;
  if(q.who==='sib'&&!sibM(r).alive)return null;if(q.who==='father'&&!fatM(r).alive)return null;return q;}
-function planOrQuiet(r){ensureImm(r);return quietFor(r)?'quiet':'plan';}
+function planOrQuiet(r){ensureImm(r);return quietFor(r)?'quiet':(myDue(r)||'plan');}
 function goAfter(r){r.phase=r.after==='plan'?planOrQuiet(r):r.after;flushDeath(r);}
 function quietChoose(i){const r=G.run,q=quietFor(r);r.qs[r.s]=1;r.qRes={t:q.t,txt:q.ch[i].f(r)};r.phase='quietres';}
 
@@ -663,7 +668,8 @@ function heijiFate(r){const c=r.comp.heiji;if(c.st!=='alive')return;const p=heij
  if(x<p){addDeath(r,'heiji',T(r,'Ikuta-no-mori, 1184 — strzała','Ichi-no-Tani, 1184 — wieść z wojska'));if(r.ex)r.ex.fate=2;return;}
  if(p>=.15&&x<p+.35){c.st='hurt';r.hurt.push('heiji');chron(r,'Heiji ranny pod Ichi-no-Tani. Kuleje, ale żyje.');if(r.ex){r.ex.fate=1;r.ex.log.push('Heiji dostał strzałę w udo. Żyje.');}return;}
  if(r.ex)r.ex.fate=0;}
-function mentorRisk(r){const F=r.fl;if(r.hero.sex==='f')return F.near?.08:.7;if(!r.ex)return .5;if(F.near&&r.hero.rank>=3)return .05;if(F.near)return .2;return .8;}
+function mentorRisk(r){return Math.min(.95,mentorRisk0(r)+myMentorExtra(r));}
+function mentorRisk0(r){const F=r.fl;if(r.hero.sex==='f')return F.near?.08:.7;if(!r.ex)return .5;if(F.near&&r.hero.rank>=3)return .05;if(F.near)return .2;return .8;}
 function mentorFate(r){const c=r.comp.mentor;if(c.st==='dead')return;const p=mentorRisk(r),x=rr();
  if(x<p){addDeath(r,'mentor',T(r,'Dan-no-ura, 1185 — zasłonił pana','Dan-no-ura, 1185 — zmarł od ran w dworze'));if(r.ex)r.ex.fate=2;return;}
  if(p>=.2&&x<p+.3){c.st='hurt';r.hurt.push('mentor');if(r.ex){r.ex.fate=1;r.ex.log.push(`${r.mentor} ranny, ale żywy.`);}return;}
@@ -679,6 +685,8 @@ function fatherStrain(r,lines){const m=fatM(r);if(!m.alive||m.sick||!r.unl.duty|
 function addDeath(r,who,how){const D={who,how,s:r.s};
  if(who==='heiji'){r.comp.heiji.st='dead';D.n='Heiji';D.role='towarzysz';}
  if(who==='mentor'){r.comp.mentor.st='dead';D.n=r.mentor;D.role='mentor';}
+ if(who==='mother'){r.comp.mother.st='dead';r.family[2].alive=0;D.n=r.family[2].n;D.role='Matka';r.lostFam=(r.lostFam||0)+1;}
+ if(who==='monk'){r.comp.monk={b:0,st:'dead'};D.n=r.monk;D.role='Mnich, brat ojca';}
  if(who==='sib'||who==='father'){const m=who==='sib'?sibM(r):fatM(r);m.alive=0;r.comp[who].st='dead';D.n=m.n;D.role=m.role;r.lostFam=(r.lostFam||0)+1;}
  const it=MEMENTO[who](r);if(it&&!r.items.includes(it))r.items.push(it);D.item=it;
  r.lost.push(D);r.dq.push(who);chron(r,`${D.role} ${D.n} odchodzi. ${how}.`);}
@@ -705,20 +713,21 @@ function farewells(r,d){const war=SCENE[d.who](r).war,o=[];
  if(war&&r.hero.sex==='m')o.push(['zem','Zemsta: odnajdź tego, który strzelał','Zasługa, ale co potem?']);return o;}
 function farewell(k){const r=G.run,d=curDeath(r);d.fw=k;let t='';const who=d.who;
  if(k==='grob'){t=SCENE[who](r).war?`Kopiecie płytki grób w piasku nad zatoką. Kładziesz kamień, bo nie macie nic innego. ${who==='heiji'?'Ktoś z oddziału zaczyna pieśń o żurawiu. Urywa w połowie.':''} `+fx(r,{l:2}):`Ogień pogrzebowy za wsią. Dym idzie prosto w górę, bo nie ma wiatru. Przez czterdzieści dziewięć dni rodzina pali kadzidło. `+fx(r,{r:-2,e:6});}
- if(k==='list'){t=`Obcinasz kosmyk włosów i zawijasz go w papier. List piszesz długo — ${who==='heiji'?'wędrowny mnich zaniesie go matce Heijiego':'zaniesiesz go sam'}. Za każdym razem zaczynasz od „Nie cierpiał”. `+fx(r,{w:1});}
+ if(k==='list'&&(who==='mother'||who==='monk')){t=who==='mother'?'Zawijasz sznur z płaskim węzłem w papier i piszesz do ojca. Nie piszesz „nie wiedziałem”. Piszesz: „Ona wolała, żebyś się nie martwił. Ja też wolę.” ':'Zanosisz sznur z paciorkiem ojcu. Ojciec długo go trzyma, potem kładzie na macie i mówi tylko: „Wiedziałem, że patrzy.” ';t+=fx(r,{w:1});}
+ else if(k==='list'){t=`Obcinasz kosmyk włosów i zawijasz go w papier. List piszesz długo — ${who==='heiji'?'wędrowny mnich zaniesie go matce Heijiego':'zaniesiesz go sam'}. Za każdym razem zaczynasz od „Nie cierpiał”. `+fx(r,{w:1});}
  if(k==='nem'){t='Namu Amida Butsu. Dziesięć razy. Słowa są cięższe niż strzały. Wszystko przemija — tak mówią mnisi. Nie wiesz, czy w to wierzysz. Ale ręce przestają ci drżeć. '+fx(r,{e:6});}
  if(k==='zem'){r.hero.bxp+=3;t='Znajdujesz go na skarpie. Młodszy od ciebie. Wada spisuje głowę. Nie czujesz nic z tego, co miałeś poczuć. '+fx(r,{z:4});}
  const E=ECHO[who](r,k);E.forEach(([n,tx])=>{if(r.s+n<=LAST_S)r.echo.push({s:r.s+n,t:tx});});
  r.dRes={n:d.n,t};r.phase='deathres';}
 function deathNext(){const r=G.run;r.dq.shift();r.phase=r.deathRet;r.deathRet=null;flushDeath(r);}
 const ECHO={
- heiji:(r,k)=>[[1,k==='list'?'Wędrowny mnich przynosi od matki Heijiego garść suszonych kasztanów. Bez słowa. Wiesz, od kogo.':'Na drodze zaczepia cię kobieta z sąsiedniej wsi. „Widziałeś mojego Heijiego? Mówią, że wojsko wraca.”'],
+ heiji:(r,k)=>[[1,k==='list'?'Wędrowny mnich przynosi od matki Heijiego garść suszonych kasztanów. Bez słowa. Wiesz, od kogo.':'Na drodze zaczepia cię kobieta z sąsiedniej wsi. „'+T(r,'Widziałeś','Widziałaś')+' mojego Heijiego? Mówią, że wojsko wraca.”'],
   [2,k==='zem'?'Śni ci się twarz człowieka ze skarpy. Heiji stoi w tym śnie obok i milczy.':'Przy pracy ktoś zaczyna pieśń o żurawiu. Nikt nie zna drugiej zwrotki.'],
   [4,'Na targu ktoś prowadzi gniadego konia z białą strzałką na czole. Przez chwilę szukasz wzrokiem Heijiego, żeby mu pokazać.']],
  mentor:(r,k)=>[],
  sib:(r,k)=>[[1,'Słomiany konik stoi na półce przy palenisku. Nikt go nie przestawia.'],[3,'Matka nakłada o jedną miskę za dużo. Potem odstawia ją bez słowa.'],[6,k==='grob'?'W chramie wisi wotywa z imieniem. Deszcz zmył już połowę znaków.':'Ojciec chodzi do chramu w dni targowe. Mówi, że po sól.']],
  father:(r,k)=>[[1,'Sierp ojca wisi na kołku. Nikt go nie bierze do ręki.'],[2,'Matka orze sama. Pług idzie krzywo. Nikt nie mówi ani słowa.'],[5,'W nocy słyszysz, jak matka mówi do kogoś przy palenisku. Nikogo tam nie ma.']]};
-function dueEchoes(r){const d=r.echo.filter(e=>e.s<=r.s&&!e.done);d.forEach(e=>e.done=1);return d.map(e=>e.t);}
+function dueEchoes(r){const d=r.echo.filter(e=>e.s<=r.s&&!e.done);d.forEach(e=>e.done=1);return d.map(e=>e.t).concat(myObs(r));}
 
 /* ---------- wybory na czas ---------- */
 function timedOn(){return!G.meta.noLimit;}
@@ -729,16 +738,17 @@ function returnScene(r){const L=[],F=fatM(r),S=sibM(r),H=r.comp.heiji;
  L.push(S.alive?`To ${S.n}. Biegnie, potyka się, biegnie dalej.`:`To nikt. Na słupku przy grobli ktoś postawił słomianego konika.`);
  L.push(F.alive?(r.comp.father.st==='hurt'?`Ojciec idzie wolno, o kiju. Kiwa głową. Więcej nie trzeba.`:`Ojciec stoi przy pługu i udaje, że nie widzi. Potem rzuca pług.`):`Matka stoi sama w drzwiach. Za nią w chacie jest bardzo cicho.`);
  L.push(H.st==='dead'?`Przy drodze do sąsiedniej wsi czeka kobieta. Patrzy na każdego, kto wraca. Nie na ciebie.`:H.st==='hurt'?`Heiji macha z grobli kulą. „Odłożyłem już na pół konia!”`:`Heiji wyprzedza cię na drodze, śpiewając. Pieśń o żurawiu ma teraz zwrotkę o powrocie.`);
- if(r.comp.mentor.st==='dead')L.push(`${r.items.find(i=>i.startsWith('Łuk mentora'))?'Łuk mentora wieszasz nad paleniskiem.':'Myślisz o starym '+r.mentor+'.'} Nikt nie zapyta już, czy sprawdziłeś cięciwę.`);
+ if(r.comp.mentor.st==='dead')L.push(`${r.items.find(i=>i.startsWith('Łuk mentora'))?'Łuk mentora wieszasz nad paleniskiem.':'Myślisz o starym '+r.mentor+'.'} Nikt nie zapyta już, czy ${T(r,'sprawdziłeś','sprawdziłaś')} cięciwę.`);
  return L;}
 
 /* ---------- co mogłem zrobić ---------- */
 function whatIf(r,who){const F=r.fl,y=(ok,t)=>({ok:!!ok,t});
+ if(who==='mother'||who==='monk')return myWhatIf(r,who);
  if(who==='heiji')return r.hero.sex==='m'?[y(F.sandals,'Oddać mu zapasowe sandały w marszu do Kioto'),y(F.tog>=2,`Ćwiczyć z nim łuk co najmniej 2 razy (było: ${F.tog})`),y(!F.charge,'Nie rzucać się samemu po głowę pod Ikutą'),y(r.comp.heiji.b>=3,`Więź 3 — wtedy to on ratuje ciebie (była: ${r.comp.heiji.b})`)]:
   [y(F.sandals,'Upleść mu sandały przed wymarszem (zima 1183)'),y(F.tog>=2,`Uczyć go opatrywać ran co najmniej 2 razy (było: ${F.tog})`)];
  if(who==='mentor')return r.hero.sex==='m'?[y(r.hero.rank>=3,'Zostać rōtō przed Dan-no-ura (stoisz wtedy przy panu zamiast niego)'),y(F.near,'Trzymać się blisko pana i nie zawahać się w prądzie')]:[y(F.near,'Przygotować dwór na powrót rannych: płótno, woda, miejsca')];
  if(who==='sib')return[y(!F.sibHunger,'Zostawić dość ryżu na zimę 1181/82'),y(!F.cold,'Drewno na zimę: las ≥2'),y(!F.sibFever,'Nie posyłać chorego do pracy (zdarzenie „Gorączka”)'),y(r.comp.sib.b>=2,`Więź ≥2 — wcześniej zauważasz gorączkę (była: ${r.comp.sib.b})`)];
- if(who==='father')return[y(false,'Nie posyłać ojca do służby u pana, gdy ma mniej niż 25 sił'),y(F.fatherW,'Po pierwszym wypadku dać mu odpocząć')];
+ if(who==='father'){const d=r.lost.find(x=>x.who==='father');return d&&d.how.includes('głód')?[y(false,'Mieć zapas ryżu na przednówek (plan zimowy i ziarno siewne)')]:[y(false,'Nie posyłać ojca do służby u pana, gdy ma mniej niż 25 sił'),y(F.fatherW,'Po pierwszym wypadku dać mu odpocząć')];}
  return[];}
 
 /* ---------- schemat rozdziału ---------- */
@@ -764,6 +774,193 @@ function chapterHTML(r,id){const rows=chapRows(r,id),mine=id==='E3b'?(r.chap.E3|
 
 /* ---------- ROD1: pamięć ---------- */
 function memLegacy(r){return{zmarli:r.lost.map(d=>({imie:d.n,kto:d.role,jak:d.how,pamiatka:d.item||'',pozegnanie:d.fw||''})),towarzysze:{Heiji:r.comp.heiji.st,mentor:r.comp.mentor.st,mentorImie:r.mentor}};}
+
+/* ================= TAJEMNICA: „Węzeł na worku” ================= */
+// Od jesieni 1180 ktoś po cichu pomaga rodzinie gracza. Kto — zależy od partii (5 możliwych prawd).
+// Ślady fizyczne są wiarygodne. Plotki, sylwetki w nocy i obserwacje bywają mylące.
+const MY_T=['mentor','steward','monk','mother','village'];
+const GIFT_S=[2,5,7,12];      // pory, w których pojawia się dar
+const CASE_S=[9,14,17];       // pory, w których można powiedzieć „to on / ona”
+const myName=(r,t)=>({mentor:`Stary ${r.mentor}`,steward:`Zarządca ${r.steward}`,monk:`Mnich ${r.monk}`,mother:`Matka ${r.family[2].n}`,village:'Wielu ludzi naraz — cała wieś'})[t];
+const CASE_SUB={mentor:'Stary rōtō z dworu pana',steward:'Człowiek od ksiąg i spichrza',monk:'Wędrowny mnich',mother:'Ktoś z waszego domu',village:'Nie jedna osoba, tylko wielu'};
+
+function initMy(r){
+ const R=seeded(((r.seed|0)^0x51ED5EED)>>>0),x=R(),W=[['mentor',.24],['steward',.2],['monk',.2],['mother',.22],['village',.14]];
+ let t='mentor',a=0;for(const[k,w]of W){a+=w;if(x<a){t=k;break;}}
+ r.my={t,clues:[],gd:{},cd:{},cost:0,ease:0,st:'open',wrong:[],seen:{},watch:0,cur:0,dutyUp:0,restN:0};
+ GIFT_S.forEach((s,k)=>{if(r.s>s)r.my.gd[k]=1;});CASE_S.forEach(s=>{if(r.s>s)r.my.cd[s]=1;});}
+function addClue(r,c){const m=r.my;if(m.clues.some(x=>x.id===c.id))return false;m.clues.push(Object.assign({s:r.s},c));return true;}
+const others=(m,noVillage)=>MY_T.filter(x=>x!==m.t&&!(noVillage&&x==='village'));
+
+/* ---------- dary ---------- */
+const GIFT=[
+ {t:'Worek pod progiem',obj:'worek i sznur',
+  d:r=>'Rano pod drzwiami stoi niewielki worek ryżu. Nikt nie pukał i nikt nie zostawił słowa. Na rosie przy płocie nie widać śladów. Ojciec wącha ryż i milczy. Matka mówi: „Nie pytaj. Czasem coś się po prostu dostaje.”',
+  th:r=>'„Kto wie, że straciliśmy ryż? Kto liczy nasze worki?”',fx:r=>fx(r,{r:3})},
+ {t:'Pełne wiadra',obj:'wiadra przy rowie',
+  d:r=>'Susza. Wieczorem wiadra przy rowie stały puste, a rano są pełne po brzegi. Ktoś nosił wodę całą noc. Pole pije jak chore dziecko.',
+  th:r=>'„Ktoś nosi wodę, żebyśmy nie musieli. Ktoś, kto wie, że nie mamy już sił.”',fx:r=>{r.help=1;return'Woda dla pola. (pomoc w polu +5 pracy w tej porze)';}},
+ {t:'Drewno i ryż na zimę',obj:'wiązkę drewna',
+  d:r=>`Zima. Przy drzwiach leży wiązka suchego drewna i worek ryżu, a na wiązce szron jest nietknięty. Ktoś przyniósł je tuż przed świtem. ${sibM(r).n} patrzy na worek jak na cud.`,
+  th:r=>'„Szron nietknięty. Więc przyszedł przed świtem. Albo nie spał całą noc.”',fx:r=>{r.my.wood=r.s;return fx(r,{r:4})+' Drewno na całą zimę.';}},
+ {t:'Zawiniątko z ziarnem',obj:'zawiniątko',
+  d:r=>'Wiosna blisko. Na progu leży zawiniątko: ziarno siewne, wybrane, bez plew. Takie, jakie trzeba dać ziemi, jeśli ma urodzić. Ktoś zna wasze pola lepiej, niż powinien.',
+  th:r=>'„Ziarno siewne jest święte. Kto oddaje je cudzym, oddaje przyszłość.”',fx:r=>fx(r,{s:3})}
+];
+const PHYS={
+ mentor:['Sznur na worku zawiązano podwójną pętlą, ściągniętą zębami. Tak wiąże się cięciwę.','Wiadra stoją w rzędzie, ucho do ucha. W błocie ślad kija i głębokie wgniecenie po prawej stopie. Ktoś ostrożny, kulejący.','Wiązka drewna związana tym samym podwójnym węzłem co worek. Węzeł łucznika.','Ziarno owinięto w kawałek starego sznura do cięciwy, tłustego od łoju.'],
+ steward:['Sznur na worku ma supełki w równych odstępach, jak sznurek do liczenia worków.','Na krawędzi jednego wiadra wypalony znak dworu. To wiadro ze spichrza pana.','Wiązka drewna ma sznurek z nacięciem na końcu, takim jak na tabliczkach rachunkowych.','Ziarno zawinięto w skrawek rejestru dworu. Pismo zmazane, został urwany znak spichrza.'],
+ monk:['Węzeł płaski, a w nim zaplątany drewniany paciorek.','W błocie ślad słomianych sandałów i cienki ślad laski pielgrzyma.','Przy drewnie leży liść z woskiem. Pachnie kadzidłem.','Ziarno w płóciennym woreczku, przewiązanym sznurem z trzema paciorkami.'],
+ mother:['Węzeł taki, jakim matka wiąże worki z ziarnem siewnym: płaski, z zapętlonym końcem.','Przy wiadrach mokry ślad bosej, drobnej stopy.','Drewno ułożone w stos tak, jak ona układa pod strzechą: korą do dołu.','Ziarno zawinięto w kawałek płótna z zielonym ściegiem. Znasz ten ścieg.'],
+ village:['Węzeł zwykły, niedbały. Tak wiąże każdy chłop.','W błocie mnóstwo śladów: duże, małe, bose, w sandałach. Jakby przeszła cała wieś.','Wiązka z trzech różnych gałęzi, związana trzema różnymi sznurami.','Ziarno z trzech garści, z różnych worków. Trzy odmiany.']};
+const PHYS_PL=(t,k)=>t==='steward'&&k===1?'dwor':t==='monk'&&(k===1||k===2)?'chram':'dom';
+const RUM_T={mentor:'Pastuszek mówi, że o świcie widział kogoś barczystego z łukiem na plecach, kulejącego na prawą nogę.',steward:'Sąsiadka słyszała w nocy brzęk kluczy. Mówi, że szedł od strony dworu ktoś z czystym rękawem.',monk:'Dziecko sąsiadów widziało „dziadka w słomianym kapeluszu” przy chramie. Chował coś w liściach.',mother:'Stara sąsiadka słyszała w nocy znajome kroki. „Nie wiem czyje. Ktoś bosy, ktoś z naszej wsi.”',village:'Sąsiad uśmiecha się półgębkiem: „Ja? Nie ja. Ale pytaj, ilu u nas pomaga po cichu.”'};
+const RUM_D={mentor:r=>`Pastuch przysięga, że widział starego ${r.mentor} wychodzącego o świcie z dworu z workiem na plecach.`,steward:r=>`Kowal mówi, że zarządca ${r.steward} chodzi nocami do spichrza z lampką. „Po co? Nie wiem.”`,monk:r=>`Młody sąsiad twierdzi, że mnich ${r.monk} nocował w jego stodole tuż przed tym, jak pojawił się dar.`,mother:r=>'Sąsiadka mówi, że widziała, jak twoja matka wymykała się nocą z chaty.'};
+const SIL_T={mentor:'Szeroka sylwetka z łukiem przewieszonym przez plecy. Stawia nogi ostrożnie, jakby bolało kolano. Odłożył ciężar i zniknął bez szelestu.',steward:'Ktoś w czystym kosode, z kluczem u pasa. Klucz brzęknął raz i ucichł, przytrzymany dłonią. Szedł od strony dworu.',monk:'Postać w słomianym kapeluszu i płaszczu z trawy, pochylona jak pielgrzym. Zatrzymała się przed progiem i złożyła dłonie, jakby się modliła.',mother:'Niska postać, boso, w płaszczu naciągniętym na głowę. Zna każdy próg i każdą dechę, bo żadna nie skrzypi. Twarzy nie widać.',village:'Najpierw jeden cień z workiem, potem drugi z wiązką, potem trzeci z dzbanem. Każdy idzie sam i z innej strony. Żaden nie wie o pozostałych.'};
+const SIL_D=(r,x)=>`Ktoś przemknął w mroku. Wydawało ci się, że to ${({mentor:'stary '+r.mentor,steward:'zarządca '+r.steward,monk:'mnich '+r.monk,mother:'twoja matka'})[x]}, ale było za daleko i ciemno.`;
+const EXPL={mentor:r=>`Niósł ofiarę ryżu do chramu, za duszę swojego pana poległego pod Hōgen.`,steward:r=>'Liczył zapasy dla pana. Pisarz rodu Miura sprawdza spichrze.',monk:r=>'Spał w stodole, bo padało. Mnisi nocują, gdzie jest dach.',mother:r=>'Chodziła do chramu modlić się za ciebie.'};
+
+function giftChoose(v){const r=G.run,m=r.my,k=m.cur,g=GIFT[k],P=[];
+ m.gd[k]=1;if(m.t!=='village'&&m.st!=='solved')m.cost++;
+ const first=g.fx(r);P.push(first);
+ if(k===0)chron(r,'Pod progiem stanął worek ryżu. Nikt nie wie, od kogo.');
+ if(m.watch){m.watch=0;fxE(r,-8);const ok=rr()<.75,x=ok?m.t:pick(others(m,true));
+  if(ok)addClue(r,{id:'w'+k,txt:SIL_T[m.t],k:'T',who:m.t,pl:'dom'});else addClue(r,{id:'w'+k,txt:SIL_D(r,x),k:'D',who:x,pl:'dom',ex:EXPL[x](r)});
+  P.push(T(r,'Czuwałeś całą noc przy progu (siły −8). ','Czuwałaś całą noc przy progu (siły −8). ')+(ok?SIL_T[m.t]:SIL_D(r,x)));}
+ if(v==='phys'){addClue(r,{id:'p'+k,txt:PHYS[m.t][k],k:'T',who:m.t,pl:PHYS_PL(m.t,k)});P.push(`Oglądasz ${g.obj}. ${PHYS[m.t][k]}`);}
+ else if(v==='ask'){const ok=rr()<.55,x=ok?m.t:pick(others(m,false).filter(z=>RUM_D[z]));
+  const txt=ok?RUM_T[m.t]:RUM_D[x](r);addClue(r,{id:'r'+k,txt,k:ok?'T':'D',who:ok?m.t:x,pl:null,ex:ok?null:EXPL[x](r)});P.push('Rozpytujesz we wsi. '+txt);}
+ else if(v==='watch'){m.watch=1;P.push('Następnym razem będziesz czekać przy progu. Ktokolwiek to jest, nie będzie sam.');}
+ else{P.push('Nie pytasz. Czasem dar ma zostać darem. '+fx(r,{e:3}));}
+ m.res=P.join('\n\n');r.phase='giftres';}
+function giftNext(){const r=G.run;r.phase=myDue(r)||'plan';}
+
+/* ---------- obserwacje w raporcie pory (część prawdziwa, część myląca) ---------- */
+const OBS=[
+ {id:'m1',t:'mentor',s:[5,8],p:.8,pl:'dwor',txt:r=>`Przy posiłku w dworze stary ${r.mentor} odsuwa miskę, zostawiwszy połowę. „Zęby już nie te.” Potem zbiera palcem ziarenka z maty.`},
+ {id:'m2',t:'mentor',s:[9,12],p:.7,pl:'dwor',need:r=>r.comp.mentor.b>=1,txt:r=>`${r.mentor} wiąże przy bramie cięciwę. Podwójna pętla, ściągnięta zębami. Gdzieś już ${T(r,'widziałeś','widziałaś')} taki węzeł.`},
+ {id:'m3',t:'mentor',s:[12,15],p:.8,pl:'dwor',need:r=>r.my.cost>=2,txt:r=>`Stary ${r.mentor} kaszle w pięść i chowa ją za plecami. Kiedy ostatnio ${T(r,'widziałeś','widziałaś')}, że jadł do syta?`},
+ {id:'s1',t:'steward',s:[4,7],p:.8,pl:'dwor',txt:r=>`W spichrzu zarządca ${r.steward} liczy worki na sznurku z supełkami. Przy waszym rodzie przesuwa supeł o jeden w dół i nie poprawia. Pewnie się pomylił.`},
+ {id:'s2',t:'steward',s:[8,11],p:.7,pl:'dwor',txt:r=>`Zarządca ${r.steward} patrzy na waszą rodzinę przy wale dłużej niż na inne. Gdy łapiesz jego wzrok, odwraca się: „Do roboty!”`},
+ {id:'s3',t:'steward',s:[12,15],p:.8,pl:'dwor',need:r=>r.my.cost>=2,txt:r=>`Zarządca ${r.steward} ma podkrążone oczy. Pisarz rodu pytał go przy wszystkich o „ubytki w spichrzu”. Zarządca odpowiedział spokojnie. Za spokojnie.`},
+ {id:'k1',t:'monk',s:[4,7],p:.8,pl:'chram',txt:r=>'Przy chramie na skraju wsi ktoś palił małe ognisko: woskowy ogarek, liść z resztkami ryżu, odcisk słomianych sandałów.'},
+ {id:'k2',t:'monk',s:[8,12],p:.7,pl:null,txt:r=>`Mnich ${r.monk} stoi przy rozstajach i patrzy na wasz dach. „Ta strzecha ma tę samą wadę co strzecha mojego ojca”, mówi do siebie.`},
+ {id:'k3',t:'monk',s:[11,14],p:.8,pl:null,need:r=>r.my.cost>=2,txt:r=>`Mnich ${r.monk} jest chudszy niż wiosną. Trzęsą mu się ręce, kiedy zbiera jałmużnę.`},
+ {id:'o1',t:'mother',s:[4,7],p:.8,pl:'dom',txt:r=>`Matka nakłada ci pełną miskę. Sobie ledwo dno. „Już jadłam.” ${T(r,'Nie widziałeś','Nie widziałaś')}, kiedy.`},
+ {id:'o2',t:'mother',s:[8,11],p:.7,pl:'dom',txt:r=>'Matka ma rano mokry podołek i zimne dłonie. „Poszłam po wodę.” Ale studnia stoi tuż za chatą, a rów jest pełen.'},
+ {id:'o3',t:'mother',s:[10,13],p:.8,pl:'dom',need:r=>r.my.cost>=2,txt:r=>'Matka siada na miedzy „na chwilę” i nie wstaje przez długi czas. Potem szybko wraca do pracy, jakby nic.'},
+ {id:'v1',t:'village',s:[4,7],p:.8,pl:null,txt:r=>'Dwie sąsiadki milkną przy studni, gdy podchodzisz. Jedna szybko chowa za plecami garść sznurka.'},
+ {id:'v2',t:'village',s:[8,11],p:.7,pl:null,txt:r=>'Na targu ktoś pyta ojca: „Dostaliście już?” Ojciec patrzy tępo: „Czego?” Tamten uśmiecha się i odchodzi.'},
+ // zmyłki (pojawiają się, gdy prawdą jest ktoś inny)
+ {id:'dm',x:'mentor',s:[6,10],p:.55,pl:'dwor',txt:r=>`O świcie stary ${r.mentor} wychodzi z dworu z workiem na plecach i skręca w stronę waszej wsi.`},
+ {id:'ds',x:'steward',s:[5,9],p:.55,pl:'dwor',txt:r=>`W nocy w spichrzu świeci lampka. Zarządca ${r.steward} liczy coś cicho, półgłosem.`},
+ {id:'dk',x:'monk',s:[5,9],p:.5,pl:'chram',txt:r=>`Sąsiad klnie, że mnich ${r.monk} nocował w jego stodole w noc, gdy ktoś kręcił się wokół waszej chaty.`},
+ {id:'do',x:'mother',s:[4,8],p:.5,pl:'dom',txt:r=>'W nocy słyszysz, jak matka wymyka się z chaty. Wraca przed świtem, cicho.'}
+];
+function myObs(r){const m=r.my;if(!m||m.st==='solved'||r.hero.away)return[];const out=[];
+ for(const o of OBS){if(out.length>=2)break;if(m.seen[o.id])continue;if(o.t&&o.t!==m.t)continue;if(o.x&&o.x===m.t)continue;
+  if(r.s<o.s[0]||r.s>o.s[1])continue;if(o.need&&!o.need(r))continue;if(rr()>o.p)continue;
+  m.seen[o.id]=1;const txt=o.txt(r);addClue(r,{id:o.id,txt,k:o.t?'T':'D',who:o.t||o.x,pl:o.pl,ex:o.x?EXPL[o.x](r):null});out.push('🔍 '+txt);}
+ return out;}
+
+/* ---------- konsekwencje ukrytego kosztu (gdy sprawa nierozwiązana) ---------- */
+function myDue(r){const m=r.my;if(!m||r.hero.away)return null;
+ const gk=GIFT_S.indexOf(r.s);
+ if(gk>=0&&!m.gd[gk]){
+  if(m.st==='solved'){m.gd[gk]=1;if(!m.noGifts){const tx=GIFT[gk].fx(r);r.echo.push({s:r.s,t:`${myName(r,m.t)} nie ukrywa już, że pomaga. ${tx}`});}return null;}
+  m.cur=gk;return'gift';}
+ if(CASE_S.includes(r.s)&&!m.cd[r.s]&&m.st!=='solved'&&m.gd[0]&&(r.s===CASE_S[2]||m.clues.length>=2))return'case';
+ return null;}
+function myTick(r){const m=r.my;if(!m||m.st==='solved')return;
+ if(m.t==='steward'&&r.s===15&&m.cost>=3&&!m.steDown){m.steDown=1;m.dutyUp=99;r.laska=clamp(r.laska-4,0,100);chron(r,`Zarządca ${r.steward} odesłany ze dworu.`);
+  r.echo.push({s:r.s,t:`Nowy zarządca liczy każdy worek. ${r.steward} odszedł rano, bez słowa. Pan mówi, że w księgach brakowało. Kto wie, ile. (służba +1 do końca wojny, łaska −4)`});}
+ if(m.t==='monk'&&r.s===13&&m.cost>=3&&!m.gone){m.gone=1;}
+ if(m.t==='mother'&&r.s===10&&m.cost>=3&&r.family[2].alive&&!m.sickDone){m.sickDone=1;r.family[2].sick=2;chron(r,`Matka ${r.family[2].n} choruje.`);r.echo.push({s:r.s,t:'Matka kaszle w rękaw. „To od dymu.” Nie wygląda, jakby to było od dymu.'});}}
+function myEnd(r){const m=r.my;if(!m)return;
+ if(m.dutyUp>0&&m.dutyUp<99)m.dutyUp--;
+ if(m.t==='mother'&&m.st!=='solved'&&r.family[2].alive&&r.s>=6&&r.assign[2]==='rest'){m.restN++;m.cost=Math.max(0,m.cost-.5);}
+ if(r.s===19)myFate(r);}
+function myFate(r){const m=r.my;if(!m||m.st==='solved'||m.ease)return;
+ if(m.t==='mother'&&m.cost>=4&&r.family[2].alive)addDeath(r,'mother','Zima 1184/85 — wycieńczenie, o którym nikt nie wiedział');}
+function myFinale(r){const m=r.my;if(!m||m.st==='solved')return;
+ if(m.t==='monk'&&m.gone&&!r.lost.some(d=>d.who==='monk'))addDeath(r,'monk','Zima 1183/84 — w drodze, w górach Hakone');}
+function myMentorExtra(r){const m=r.my;return m&&m.t==='mentor'&&m.st!=='solved'&&!m.ease?Math.min(.2,m.cost*.05):0;}
+
+/* ---------- oskarżenie i odsłona ---------- */
+function caseOpts(r){return MY_T.filter(t=>!r.my.wrong.includes(t));}
+const WRONG={
+ mentor:r=>`Stary ${r.mentor} marszczy brwi. „Ja? Mam dość własnych kłopotów.” Rano wyjaśnia, że o świcie chodzi do chramu z ofiarą za zmarłego pana. Czujesz, że przesadziłeś.`.replace('przesadziłeś',T(r,'przesadziłeś','przesadziłaś')),
+ steward:r=>`Zarządca ${r.steward} pyta chłodno, czy zarzucasz mu coś przed świadkami. „Mam sześć gąb i księgę. Liczę nocą, bo pisarz liczy każdy worek.” Wieś słyszy każde słowo.`,
+ monk:r=>`Mnich ${r.monk} uśmiecha się łagodnie. „Nocowałem w stodole, bo padało. Nie rozdaję ryżu, sam żyję z cudzego.”`,
+ mother:r=>'Matka patrzy zdumiona, potem śmieje się cicho. „Przed świtem chodzę do chramu. Modlę się za ciebie.” Nie wie, że właśnie ją o coś oskarżyłeś.'.replace('oskarżyłeś',T(r,'oskarżyłeś','oskarżyłaś')),
+ village:r=>'Pytasz ludzi pod chramem, czy to oni. Wszyscy kręcą głowami, ktoś się śmieje. Wieś zaczyna plotkować, że ci odbiło.'};
+function caseChoose(v){const r=G.run,m=r.my;m.cd[r.s]=1;
+ if(v==='no'){r.phase='plan';return;}
+ if(v===m.t){m.q=m.clues.filter(c=>c.k==='T'&&c.who===m.t).length;m.st='solved';m.ss=r.s;r.phase='reveal';return;}
+ m.wrong.push(v);const pen=v==='steward'?6:4;r.laska=clamp(r.laska-pen,0,100);
+ m.res=WRONG[v](r)+` (łaska −${pen})\n\nTo nie on. Tracisz trop, ale zyskujesz pewność: ${v==='village'?'to jednak ktoś jeden':myName(r,v).toLowerCase()+' odpada'}.`;
+ r.phase='caseres';}
+function caseNext(){G.run.phase='plan';}
+function revChoose(i){const r=G.run,m=r.my,c=REV[m.t].ch[i];let t=c.f(r,m);
+ const bonus=m.q>=3?1:0;if(bonus)t+=' '+fx(r,{w:1})+'\n\n'+T(r,'Doszedłeś do tego rozumem, nie zgadując.','Doszłaś do tego rozumem, nie zgadując.');
+ else if(m.q<2)t+='\n\n'+T(r,'Trafiłeś, choć wiedziałeś niewiele. Ktoś nad tobą czuwał.','Trafiłaś, choć wiedziałaś niewiele. Ktoś nad tobą czuwał.');
+ chron(r,`Sprawa węzła wyjaśniona: ${myName(r,m.t).toLowerCase()}.`);
+ m.res=t;r.phase='caseres';}
+const REV={
+ mentor:{d:r=>`Stary ${r.mentor} nie udaje zaskoczenia. Siedzi na progu dworu z łukiem na kolanach. „Długo ci to zajęło.” Potem mówi o zimie po Hōgen: ranny, bez pana, w śniegu. Wasz dziadek znalazł go przy drodze i trzymał trzy miesiące w stodole, choć ludzie z obcego rodu szukali takich jak on. „Dług nie ginie z człowiekiem. Przechodzi na dzieci.”`,
+  th:r=>'„Nigdy nie powiedział ani słowa. Ani razu. Nawet gdy karał mnie za krzywą strzałę.”',
+  ch:[{l:'„Dość. Teraz ja dzielę z tobą miskę.”',f:(r,m)=>{bond(r,'mentor',1);m.cost=0;m.ease=1;return'Kiwa głową, jakby ktoś zdjął mu kamień z pleców. Od dziś jada z waszą rodziną przy palenisku, a ojciec przestaje pytać, czemu stary tyle sypia w dworze. '+fx(r,{w:1,l:2});}},
+   {l:'„Nie przyjmę już ani ziarnka.”',f:(r,m)=>{m.cost=Math.max(0,m.cost-2);m.noGifts=1;return'Milczy dłuższą chwilę. „Dumny jak dziadek.” Sznurów na worku już nie znajdujesz. '+fx(r,{w:1});}},
+   {l:'„Opowiedz mi o dziadku.”',f:(r,m)=>{bond(r,'mentor',1);m.cost=Math.max(0,m.cost-1);r.hero.bxp+=3;return'Opowiada do zmroku: jak dziadek strzelał z łuku, którego nie umiał naciągnąć, i jak się z tego śmiał. Pierwszy raz widzisz, że stary rōtō się uśmiecha. '+fx(r,{w:1});}}]},
+ steward:{d:r=>`Zarządca ${r.steward} zamyka drzwi spichrza. Liczy sznurek do końca, jakbyś ${T(r,'nie stał','nie stała')} obok. „Wasz ojciec ukrył mojego syna w stodole, kiedy obcy jeźdźcy przeszli przez wieś tej jesieni. Nigdy nie spytał o nagrodę. Ja piszę dwa tam, gdzie jest trzy. To nie dar. To fałsz w księgach.”`,
+  th:r=>'„Surowy, bo musi. Dobry, bo nie umie inaczej. Ale księgi to księgi.”',
+  ch:[{l:'„To moja sprawa. Dopiszę swoją pracę do dworu.”',f:(r,m)=>{m.cost=0;m.ease=1;m.dutyUp=6;return'Zarządca patrzy długo. Potem przesuwa sznurek z powrotem o jeden supeł. „Od teraz liczę uczciwie. Ty też.” Przez sześć pór pracujesz u pana o jeden dzień więcej. '+fx(r,{w:2,l:3});}},
+   {l:'„Nikomu nie powiem. Ale to ostatni raz.”',f:(r,m)=>{m.cost=Math.max(0,m.cost-1);if(rr()<.4)later(r,2,{l:-10,z:-3},'Pisarz rodu sprawdził spichrz i znalazł rozbieżności. Zarządca stanął przed panem.');return'Zarządca kiwa głową. „Dobrze.” Nie wiesz, czy to dobrze.';}},
+   {l:r=>T(r,'„Jestem winien panu prawdę.”','„Jestem winna panu prawdę.”'),f:(r,m)=>{m.noGifts=1;m.steDown=1;m.dutyUp=99;chron(r,`Zarządca ${r.steward} odesłany ze dworu po zgłoszeniu.`);return'Zarządca nie broni się. Rano pan odsyła go ze dworu. Nowy liczy ściśle (służba +1 do końca wojny). Ojciec nie patrzy ci w oczy przez tydzień. '+fx(r,{l:5,z:1});}}]},
+ monk:{d:r=>`Mnich ${r.monk} zdejmuje słomiany kapelusz. Twarz ma ojca, tylko starszą. „Jirō. Brat twojego ojca. Zostawiłem ziemię w czasie głodu, żeby było mniej gęb przy misce. Obiecałem sobie, że nie pokażę się nigdy. Ale patrzeć nie przestałem.”`,
+  th:r=>'„Ojciec mówił, że brat poszedł do mnichów. Nie mówił, że wciąż stoi pod naszym płotem.”',
+  ch:[{l:'„Chodź. Ojciec ma drugą miskę.”',f:(r,m)=>{bond(r,'father',1);m.cost=0;m.ease=1;r.roz+=2;return'Ojciec i brat patrzą na siebie długo. Potem ojciec stawia na macie drugą miskę. Nikt nic nie mówi. Mnich zostawia ziołowy wywar na zimę. '+fx(r,{e:10,w:2});}},
+   {l:r=>T(r,'„Nie mów jeszcze ojcu. Sam nie wiem, co powiedzieć.”','„Nie mów jeszcze ojcu. Sama nie wiem, co powiedzieć.”'),f:(r,m)=>{m.cost=Math.max(0,m.cost-1);return'Mnich kiwa głową. „Dobrze. Poczekam. Umiem czekać.” '+fx(r,{w:1});}},
+   {l:'„Dlaczego nie wróciłeś?”',f:(r,m)=>{m.cost=Math.max(0,m.cost-1);return'„Bo wstyd cięższy niż worek.” Mówi to spokojnie, jakby o pogodzie. Od tej pory przystaje przy waszej chacie częściej. '+fx(r,{w:1,l:1});}}]},
+ mother:{d:r=>`Czekasz w ciemności. Drzwi skrzypią i wchodzi matka, boso, z workiem przy piersi. Zatrzymuje się, jakby to ona została przyłapana. „Wymieniłam u mnichów ślubną kosode na ryż. Wodę nosiłam w nocy, bo za dnia byłoby widać. Nie mów ojcu. Zmartwi się.” Mówi to cicho, bez żalu, tak jak się mówi o pogodzie.`,
+  th:r=>'„Odsuwała miskę. Dopiero teraz rozumiem, komu ją oddawała.”',
+  ch:[{l:'„Odtąd to ja noszę.”',f:(r,m)=>{m.cost=0;m.ease=1;r.family[2].e=clamp(r.family[2].e+30,0,100);return'Matka milczy, potem kładzie ci dłoń na policzku. Zimna jak woda z rowu. Od dziś pracujesz za nią, kiedy trzeba, a ona je z wami do syta. '+fx(r,{w:1,e:6});}},
+   {l:'„Zawołajmy ojca.”',f:(r,m)=>{m.cost=0;m.ease=1;bond(r,'father',1);return'Ojciec nic nie mówi. Bierze worek z jej rąk i stawia go na macie. Po raz pierwszy w życiu widzisz, jak płacze, choć nie wydaje żadnego dźwięku. '+fx(r,{e:8,l:2});}},
+   {l:'„Dobrze, nikomu nie powiem. Ale będziesz jadła.”',f:(r,m)=>{m.cost=Math.max(0,m.cost-1.5);r.family[2].e=clamp(r.family[2].e+15,0,100);return'Matka się uśmiecha. „Dobrze.” Tej nocy zjada całą miskę. Pilnujesz, żeby następnej też. '+fx(r,{w:1});}}]},
+ village:{d:r=>'Zbierasz sąsiadów pod chramem. Nikt nie przyznaje się pierwszy. W końcu stara Fuji mówi: „To nie ja. To nie on. To my.” Za wodę, której nikomu nie odmówiliście. Za ziarno pożyczone w głodzie. Za pieśń przy sadzeniu ryżu. Zbierali po garści i zostawiali po ciemku, żeby nikt nie musiał dziękować.',
+  th:r=>'„Nie byliśmy sami. Przez cały ten czas nie byliśmy sami.”',
+  ch:[{l:'Zaproś wszystkich na ucztę po żniwach',f:(r,m)=>{m.ease=1;return`Wieś przychodzi z miskami. Ryżu jest mało, śmiechu dużo. ${fx(r,{r:-Math.min(3,Math.floor(r.rice)),e:8,l:3,w:1})}`;}},
+   {l:'Ustal kolejkę wody i wymianę pracy',f:(r,m)=>{m.ease=1;return'Od tej pory nawadniacie pola na zmianę, bez kłótni o rów. '+fx(r,{q:.06,w:1,e:4});}},
+   {l:'Podziękuj każdemu osobno',f:(r,m)=>{m.ease=1;return'Idziesz od chaty do chaty z garścią soli. Niektórzy się wstydzą, inni płaczą. '+fx(r,{e:6,l:2,w:1});}}]}};
+
+/* ---------- koniec: odsłona dla nierozwiązanej sprawy i epilogi ---------- */
+const MY_RETRO={mentor:['Odsuwał miskę. Bo oddawał ją tobie.','Podwójny węzeł. Nie cięciwa. Worek.'],mother:['Odsuwała miskę. Bo oddawała ją tobie.','Mokry podołek, zimne dłonie. Ktoś nosił wodę w nocy.','Płaski węzeł. Ten sam, co na ziarnie.'],monk:['Strzecha z tą samą wadą co u ojca. Mówił to do siebie.','Paciorek w węźle. Przez pięć lat był tuż obok.']};
+function myRet(r){const m=r.my;if(!m)return[];const k=m.t,s=m.st==='solved',md=r.comp.mentor.st==='dead',ma=r.family[2].alive;
+ const S={mentor:`Nad paleniskiem wisi sznur z podwójnym węzłem. Ojciec mówi, że dług nie ginie, tylko zmienia ręce.`,steward:m.steDown?'Po zarządcy został pusty kąt w spichrzu. Czasem ojciec zostawia tam garść ziarna, tak dla zasady.':`Zarządca ${r.steward} liczy worki i nie przesuwa żadnego sznurka bez powodu. Przy waszym nazwisku patrzy ci w oczy.`,monk:'Brat ojca siada przy waszym palenisku, gdy bywa w okolicy. Przynosi zioła i milczenie.',mother:'Matka stoi w drzwiach. Jest chuda, ale je z wami z jednej miski. Na belce wiszą sznury z płaskim węzłem. Nikt ich nie zdejmuje.',village:'Przy drodze czeka stara Fuji z garścią ziarna. Wieś nie zapomina.'};
+ const U={mentor:md?'':`Stary ${r.mentor} nie wyszedł na drogę. Siedzi przy bramie dworu, chudy jak cięciwa. Dopiero teraz ojciec opowiada o zimie po Hōgen i o stodole dziadka. ${T(r,'Rozumiesz','Rozumiesz')}, kto przez pięć lat zostawiał worki pod progiem.`,
+  steward:m.steDown?`Ojciec podaje ci zawiniątko od odchodzącego zarządcy: sznurek z supełkami i jedna linijka: „Za stodołę”. Rozumiesz, czyje to były worki.`:`Zarządca ${r.steward} nie ukrywa, że patrzył. „Za stodołę”, mówi tylko. Rozumiesz, czyje to były worki.`,
+  monk:m.gone?'':`Przy rozstajach mnich ${r.monk} zdejmuje kapelusz. Twarz ma ojca. „Jirō”, mówi. Rozumiesz, kto zostawiał worki.`,
+  mother:ma?'Matka stoi w drzwiach. Dopiero teraz widzisz, jak jest chuda. Pod strzechą wiszą sznury z płaskim węzłem. Rozumiesz, czyje to były worki.':'',
+  village:'Stara Fuji stawia ci miskę ryżu przy drodze. „To od nas. Zawsze było od nas.” Rozumiesz, że nigdy nie byliście sami.'};
+ return [(s?S:U)[k]].filter(Boolean);}
+function mySummary(r){const m=r.my;if(!m)return null;
+ const WHY={mentor:`Stary ${r.mentor} spłacał dług wobec dziadka, który po Hōgen ukrył go w stodole.`,steward:`Zarządca ${r.steward} fałszował księgi, bo ojciec ukrył jego syna w czasie napadu.`,monk:`Mnich ${r.monk} to Jirō, brat ojca, który odszedł w czasie głodu i nigdy nie przestał patrzeć.`,mother:`Matka ${r.family[2].n} wymieniła ślubną kosode na ryż i nosiła wodę nocami, nie mówiąc nikomu.`,village:'Cała wieś odwdzięczała się po garści za wodę, ziarno i pieśni. Nikt nie chciał podziękowań.'};
+ return{t:m.t,name:myName(r,m.t),st:m.st,why:WHY[m.t],clues:m.clues.map(c=>({txt:c.txt,k:c.k,ex:c.ex||'',who:c.who}))};}
+function myWhatIf(r,who){const m=r.my,y=(ok,t)=>({ok:!!ok,t});
+ if(who==='mother')return[y(m.st==='solved','Rozwiązać sprawę węzła, zanim było za późno (do lata 1184)'),y(m.restN>=2,`Pozwalać matce odpoczywać, gdy gasła (było: ${m.restN} pór)`),y(false,'Zauważyć, kto odsuwa miskę przy każdym posiłku')];
+ if(who==='monk')return[y(m.st==='solved','Rozwiązać sprawę węzła i zaprowadzić mnicha do ojca'),y(m.clues.some(c=>c.who==='monk'&&c.k==='T'),'Zauważyć ślady przy chramie i paciorek w węźle')];
+ return[];}
+// późne odsłony przy śmierci
+const _sceneMentor=SCENE.mentor;
+SCENE.mentor=r=>{const S=_sceneMentor(r);if(r.my&&r.my.t==='mentor'&&r.my.st!=='solved')S.retro=MY_RETRO.mentor;return S;};
+SCENE.mother=r=>({m:`${r.hero.away?'List z domu dociera do obozu nad cieśniną.':'Wracasz do domu i drzwi są zamknięte od środka.'} Pisze ojciec, ${fatM(r).n}, nieudolnie, krzywymi znakami: matka zmarła w nocy, po tygodniu, gdy kaszel nie przeszedł. „Nie chciała, żebyśmy ci mówili. Mówiła, że masz wojnę.” Na końcu pisarz dopisał: pod jej matą znaleziono sznury od worków, wszystkie z tym samym płaskim węzłem.`,
+ th:'„Wiedziałam, że coś jest nie tak. Nie zapytałam.”'.replace('Wiedziałam',T(r,'Wiedziałem','Wiedziałam')).replace('zapytałam',T(r,'zapytałem','zapytałam')),retro:r.my.st==='solved'?[]:MY_RETRO.mother});
+SCENE.monk=r=>({m:`Do wsi dociera kupiec z gór. Kładzie na macie różaniec z drzewa i sznur z trzema paciorkami. „Zmarł w zimie pod Hakone, w drodze. Prosił, żeby oddać rodzinie ojca. Mówił: Jirō. Powiedzcie bratu.” Ojciec długo trzyma sznur w dłoni. Węzeł jest płaski, z wplecionym paciorkiem.`,
+ th:'„Mnich. Ten, który zostawiał ślady przy chramie. Znałem go z imienia i nie znałem wcale.”'.replace('Znałem',T(r,'Znałem','Znałam')).replace('znałem',T(r,'znałem','znałam')),retro:r.my.st==='solved'?[]:MY_RETRO.monk});
+MEMENTO.mother=r=>'Sznur matki z płaskim węzłem';
+MEMENTO.monk=r=>'Różaniec stryja Jirō';
+ECHO.mother=(r,k)=>[[1,'Na belce wisi sznur z płaskim węzłem. Nikt go nie zdejmuje.'],[2,'Ojciec odstawia jedną miskę za dużo. Potem ją zabiera.']];
+ECHO.monk=(r,k)=>[[1,'Ojciec chodzi na rozstaje i patrzy w stronę gór. Wraca bez słowa.']];
 
 /* ================= WIDOKI ================= */
 let UI={tab:'gra',confirm:null,setup:{sex:'m',name:''}};
@@ -822,6 +1019,8 @@ function villageSVG(r){const V=genVillage(r.mapSeed),S=30,sz=r.s%4;
   s+=`<rect x="${x+3}" y="${y+3}" width="${S-6}" height="${S-6}" fill="${k<r.plots&&(r.field.st==='planted'||r.field.st==='grown')&&k>=r.field.planted?'#6e5a3c':fieldCol}" stroke="#c9a227" stroke-width="2"/>`;});
  // mgła nad lasem: odkrywana pracą w lesie
  const seen=r.forest.length;V.forest.forEach((i,k)=>{if(k<seen)return;const x=(i%V.W)*S,y=Math.floor(i/V.W)*S;s+=`<rect x="${x}" y="${y}" width="${S}" height="${S}" fill="#0c0d0e" opacity=".72"/>`;});
+ if(r.my){const pls=[...new Set(r.my.clues.filter(c=>c.pl).map(c=>c.pl))],tp={dom:'home',dwor:'yakata',chram:'shrine'};
+  pls.forEach(p=>{let i=p==='las'?V.forest[0]:V.c.findIndex(t=>t===tp[p]);if(i==null||i<0)return;const x=(i%V.W)*S+S-8,y=Math.floor(i/V.W)*S+8;s+=`<g><circle cx="${x-2}" cy="${y-1}" r="5" fill="#0c0d0e" stroke="#e8c547" stroke-width="1.8"/><path d="M${x+2} ${y+3}L${x+7} ${y+8}" stroke="#e8c547" stroke-width="2.2" stroke-linecap="round"/></g>`;});}
  return s+'</svg>';}
 
 /* ---------- mapy regionu i Japonii ---------- */
@@ -855,7 +1054,7 @@ function mentorBox(r,i){const P=PR[i%PR.length];return`<div class="prin"><b>${P[
 function viewGame(){const r=G.run;
  if(!r)return viewSetup();ensureImm(r);
  if(r.pzOpen&&r.phase==='plan')return viewPuzzle();
- return({intro:viewIntro,hist:viewHist,histres:viewHistRes,brief:viewBrief,plan:viewPlan,exp:viewExp,report:viewReport,event:viewEvent,evres:viewEvRes,end:viewEnd,quiet:viewQuiet,quietres:viewQuietRes,death:viewDeath,deathres:viewDeathRes,ret:viewRet}[r.phase]||(()=>''))();}
+ return({intro:viewIntro,hist:viewHist,histres:viewHistRes,brief:viewBrief,plan:viewPlan,exp:viewExp,report:viewReport,event:viewEvent,evres:viewEvRes,end:viewEnd,quiet:viewQuiet,quietres:viewQuietRes,death:viewDeath,deathres:viewDeathRes,ret:viewRet,gift:viewGift,giftres:viewGiftRes,case:viewCase,reveal:viewReveal,caseres:viewCaseRes}[r.phase]||(()=>''))();}
 function viewSetup(){const S=UI.setup;return`<div class="card">${IMG('g1_okladka','cover')}<div class="xs mut">SERIA „RÓD” · GRA 1</div><h1>Ziemia i Łuk</h1><p class="mut">Sagami, 1180–1185. Wojna Genpei.</p>
  <p>Jesteś dzieckiem chłopskiej rodziny z wioski na półwyspie Miura. Uprawiasz ryż, służysz w dworze drobnego wojownika. Wielka historia jest stała — Yoritomo, Kamakura, Dan-no-ura. Twój los i los rodziny zależą od ciebie. Każda partia jest inna.</p>
  <h3>Kim jesteś</h3><div class="chips"><button class="chip ${S.sex==='m'?'on':''}" data-a="sx" data-v="m">Syn</button><button class="chip ${S.sex==='f'?'on':''}" data-a="sx" data-v="f">Córka</button></div>
@@ -877,17 +1076,17 @@ function kamonEditor(r){const k=r.kamon;return`<div style="text-align:center">${
 function viewHist(){const r=G.run,H=HIST[r.s];let h=`<div class="card"><div class="xs mut">KRONIKA · ${esc(H.dt)}</div><h2>${esc(H.t)}</h2>${H.img?IMG(H.img):''}<p>${esc(H.txt)}</p>${H.th?thought(H.th(r)):''}`;
  if(H.reveal||H.jp)h+=`<p class="xs acc">🗺 Nowe miejsca na mapie.</p>`;
  if(H.exp&&EXP[H.exp])h+=`<p class="xs mut">${T(r,'Wyprawa: ','Wydarzenie: ')}${EXP[H.exp].n}.</p>`;
- if(H.ch)h+=H.ch.map((c,i)=>`<button class="choice" data-a="hist" data-v="${i}">${esc(c.l)}${c.s?`<small>${esc(c.s)}</small>`:''}</button>`).join('');
+ if(H.ch)h+=H.ch.map((c,i)=>`<button class="choice" data-a="hist" data-v="${i}">${esc(lbl(c.l,r))}${c.s?`<small>${esc(c.s)}</small>`:''}</button>`).join('');
  else h+=`<button class="btn" data-a="hist" data-v="">Dalej</button>`;
  h+='</div>';if(H.lesson!=null)h+=`<div class="card">${mentorBox(r,H.lesson)}</div>`;return h;}
 function viewHistRes(){const r=G.run;return`<div class="card"><h2>${esc(HIST[r.s].t)}</h2>${nl(r.histRes)}<button class="btn" data-a="histNext">Dalej ▶</button></div>`;}
 function viewBrief(){const r=G.run;return`<div class="card"><div class="xs mut">LATO 1180 · DWÓR PANA</div><h2>Służba u pana</h2><p>Zarządca <b>${esc(r.steward)}</b> zabiera cię do dworu ${esc(r.lord)}. Od teraz każdej pory pan wymaga od waszej rodziny określonej pracy: przy wale, koniach, w spichrzu, na straży.</p>
  <div class="ok">Nowy obowiązek: <b>🏯 Służba u pana</b>. Spełnisz wymaganie — rośnie łaska. Twoja praca u pana daje też zasługę. Gdy łaska spadnie do zera, pan wypędzi rodzinę.</div></div>
- <div class="card"><h2>📜 Polecenia zarządcy — zapamiętaj</h2><p class="xs mut">Ktoś o nie kiedyś zapyta.</p>${r.intel.map(x=>`<p>• ${esc(x.f)}</p>`).join('')}<button class="btn" data-a="briefOk">Zapamiętałem</button></div>`;}
+ <div class="card"><h2>📜 Polecenia zarządcy — zapamiętaj</h2><p class="xs mut">Ktoś o nie kiedyś zapyta.</p>${r.intel.map(x=>`<p>• ${esc(x.f)}</p>`).join('')}<button class="btn" data-a="briefOk">${T(r,'Zapamiętałem','Zapamiętałam')}</button></div>`;}
 function viewPlan(){const r=G.run,fc=forecast(),sz=r.s%4,ws=present(r);
  const actsAll=['field','lord','forest','craft','bow'].filter(a=>ws.some(m=>acts(r,m).includes(a)));
  let h=`<div class="card"><div class="row"><h2 style="flex:3">${SEAS_I[sz]} ${seasonLabel(r.s)}</h2><span class="tag" style="flex:0 0 auto">${esc(rankName(r))}</span></div>`;
- h+=`<p class="sm">${['Wiosna: orka, rozsadniki i sadzenie ryżu. Na każde poletko 2 miary ziarna.','Lato: pielenie i woda. Od tego zależy, ile ryż urośnie.','Jesień: żniwa i danina dla pana. Potem zdecydujesz o ziarnie siewnym.','Zima: drewno na opał (las ≥2), słoma, naprawy. Pole odpoczywa.'][sz]}</p>`;
+ h+=`<p class="sm">${['Wiosna: orka i rozsadniki, a pod koniec pory sadzenie ryżu (taue). Na każde poletko 2 miary ziarna.','Lato: pielenie i woda. Od tego zależy, ile ryż urośnie.','Jesień: żniwa i danina dla pana. Potem zdecydujesz o ziarnie siewnym.','Zima: drewno na opał (las ≥2), słoma, naprawy. Pole odpoczywa.'][sz]}</p>`;
  h+=`<div class="kpi"><div><b>${fc.fneed?fc.fneed:'—'}</b><span class="xs mut">praca w polu</span></div><div><b>${fc.duty||'—'}</b><span class="xs mut">służba</span></div><div><b>${fc.eat}</b><span class="xs mut">jedzenie</span></div></div>`;
  h+=`<p class="xs mut" style="margin-top:6px">Ziarno siewne: ${r.seedR} · poletka: ${r.plots}${r.field.planted?` · obsadzone: ${r.field.planted}`:''}</p></div>`;
  h+=`<div class="card"><h2>Kto co robi</h2>`;
@@ -918,14 +1117,14 @@ function viewReport(){const r=G.run,R=r.rep;let h='';if(R.echo&&R.echo.length)h+
  if(R.away&&r.ex)h+=`<div class="log">${r.ex.log.filter(Boolean).map(l=>`<p class="sm acc">${esc(l)}</p>`).join('')}</div><h3>Rodzina sama</h3>`;
  h+=`<div class="log">${R.lines.map(l=>`<p>${esc(l)}</p>`).join('')}</div>`;
  if(R.errs.length){h+=`<h3>Błędy</h3>${R.errs.map(e=>`<p class="bad sm">❌ ${esc(e)}</p>`).join('')}`;
-  if(R.own==='pending')h+=`<h3>Czyja to wina?</h3><button class="choice" data-a="own" data-v="me">„Moja. Przepracowałem ich — źle ułożyłem pracę.”<small>Ekstremalna odpowiedzialność</small></button><button class="choice" data-a="own" data-v="them">„Powinni się bardziej starać.”<small>Szukanie winnych</small></button>`;
+  if(R.own==='pending')h+=`<h3>Czyja to wina?</h3><button class="choice" data-a="own" data-v="me">„Moja. ${T(r,'Przepracowałem','Przepracowałam')} ich — źle ${T(r,'ułożyłem','ułożyłam')} pracę.”<small>Ekstremalna odpowiedzialność</small></button><button class="choice" data-a="own" data-v="them">„Powinni się bardziej starać.”<small>Szukanie winnych</small></button>`;
   else if(R.ownTxt)h+=`<p class="sm acc">${esc(R.ownTxt)}</p>`;}
  if(R.seed==='pending')h+=`<h3>Ziarno siewne na wiosnę</h3><p class="xs mut">Każde poletko potrzebuje 2 miar ziarna. Masz ${r.seedR} ziarna i ${Math.floor(r.rice)} ryżu. To, co odłożysz, nie będzie jedzeniem w zimie.</p><div class="chips">${[6,4,2,0].map(n=>`<button class="chip" data-a="seed" data-v="${n}">Odłóż do ${n}</button>`).join('')}</div>`;
  else if(R.seedTxt)h+=`<p class="sm acc">${esc(R.seedTxt)}</p>`;
  h+=`<button class="btn" data-a="next" ${R.own==='pending'||R.seed==='pending'?'disabled':''}>Dalej</button></div>`;return h;}
 function viewEvent(){const r=G.run,e=r.ev;
  if(e.kind==='mem'){const it=r.intel[e.k];return`<div class="card"><div class="xs mut">TEST PAMIĘCI</div><h2>📜 Zarządca pyta</h2><p>${esc(it.q)}</p>${it.o.map(o=>`<button class="choice" data-a="ev" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;}
- const E=EV[e.k],v=evVars();return`<div class="card"><div class="xs mut">WIEŚ · decyzja ma skutki</div><h2>${E.t}</h2><p>${esc(E.d(v))}</p>${E.timed?timerBar('ev'):''}${E.ch.map((c,i)=>`<button class="choice" data-a="ev" data-v="${i}" ${c.need&&r.roz<c.need?'disabled':''}>${esc(c.l)}${c.s?`<small>${esc(c.s)}</small>`:''}</button>`).join('')}</div>`;}
+ const E=EV[e.k],v=evVars();return`<div class="card"><div class="xs mut">WIEŚ · decyzja ma skutki</div><h2>${E.t}</h2><p>${esc(E.d(v))}</p>${E.timed?timerBar('ev'):''}${E.ch.map((c,i)=>`<button class="choice" data-a="ev" data-v="${i}" ${c.need&&r.roz<c.need?'disabled':''}>${esc(lbl(c.l,r))}${c.s?`<small>${esc(c.s)}</small>`:''}</button>`).join('')}</div>`;}
 function viewEvRes(){return`<div class="card"><h2>Skutek</h2>${nl(G.run.evRes)}<button class="btn" data-a="evNext">Następna pora ▶</button></div>`;}
 function viewEnd(){const r=G.run,R=r.res,s=r.stats,code=legacy(r);return`<div class="card"><div class="xs mut">KONIEC GRY 1 · ${seasonLabel(r.s)}</div><h1 class="${R.win?'good':'bad'}">${R.win?'RÓD IDZIE W GÓRĘ':'RÓD PRZETRWAŁ… LEDWO'}</h1><p>${esc(R.reason)}</p>
  <div style="text-align:center">${kamonSVG(r.kamon,90)}</div>
@@ -933,7 +1132,7 @@ function viewEnd(){const r=G.run,R=r.res,s=r.stats,code=legacy(r);return`<div cl
  <p class="sm" style="margin-top:8px">Pozycja: <b>${esc(rankName(r))}</b>${r.items.length?` · pamiątki: ${r.items.map(esc).join(', ')}`:''}</p>
  <p class="sm mut">Odpowiedzialność ${s.owned}× · obwinianie ${s.blamed}× · treningi ${s.puz} · uczciwy spis ${s.honest}× · zawyżony ${s.lies}×</p>
  <h3>Odprawa po akcji</h3>${R.lessons.map(l=>`<p class="sm">• ${esc(l)}</p>`).join('')}
- <h3>Co JA mogłem zrobić lepiej?</h3><textarea id="lesson" data-in="lesson" placeholder="Następnym razem ja…">${esc(r.lesson||'')}</textarea>
+ <h3>Co JA ${T(r,'mogłem','mogłam')} zrobić lepiej?</h3><textarea id="lesson" data-in="lesson" placeholder="Następnym razem ja…">${esc(r.lesson||'')}</textarea>
  <h3>Motto rodu</h3><input type="text" data-in="motto" maxlength="60" value="${esc(r.motto)}" placeholder="np. Najpierw ziarno, potem strzała">
  <h3>Kod dziedzictwa do Gry 2</h3><p class="xs mut">Zapisz go w Notatkach. Gra 2 „Wiatr z Morza” wczyta ród, herb, pamiątki i lekcje. Przerywnik: wojna Jōkyū (1221).</p><textarea id="leg" readonly>${esc(code)}</textarea><button class="btn2" style="text-align:center" data-a="copyLeg">Skopiuj kod ROD1.</button>
  <button class="btn" data-a="finish">Zapisz lekcję i zakończ</button></div>`;}
@@ -952,8 +1151,8 @@ function viewPuzzle(){const r=G.run,z=r.pz,P=PZ[z.k];let h=`<div class="card"><b
  return h+'</div>';}
 
 function viewMap(){const r=G.run;if(!r)return`<div class="card"><p class="mut">Mapy pojawią się po rozpoczęciu gry.</p></div>`;
- let h=`<div class="card"><h2>🏡 Wieś ${esc(r.village)}</h2>${villageSVG(r)}<p class="xs mut">Złote ramki: wasze poletka (kolor = stan ryżu). Czerwona przerywana: dwór pana. Ciemne pola: nieznany las (${r.forest.length} odkrytych).</p></div>`;
- h+=`<div class="card"><h2>🗺 Sagami, Izu, Kamakura</h2>${IMG('g1_mapa_miura')}<div class="graph">${regionSVG(r)}</div><p class="xs mut">Mgła wojny: widzisz okolice, w których byłeś. Wieści dodają punkty na mapie. Dotknij punktu.</p></div>`;
+ let h=`<div class="card"><h2>🏡 Wieś ${esc(r.village)}</h2>${villageSVG(r)}<p class="xs mut">Złote ramki: wasze poletka (kolor = stan ryżu). Czerwona przerywana: dwór pana. Ciemne pola: nieznany las (${r.forest.length} odkrytych).${r.my&&r.my.clues.some(c=>c.pl)?' Złote lupy: miejsca śladów w sprawie węzła.':''}</p></div>`;
+ h+=`<div class="card"><h2>🗺 Sagami, Izu, Kamakura</h2>${IMG('g1_mapa_miura')}<div class="graph">${regionSVG(r)}</div><p class="xs mut">Mgła wojny: widzisz okolice, do których dotarła twoja stopa. Wieści dodają punkty na mapie. Dotknij punktu.</p></div>`;
  if(r.jpKnown.length>1)h+=`<div class="card"><h2>🗾 Dalekie wyprawy</h2>${japanSVG(r)}</div>`;
  return h;}
 function viewRod(){const r=G.run;if(!r)return`<div class="card"><p class="mut">Ród pojawi się po rozpoczęciu gry.</p></div>`;
@@ -1007,7 +1206,12 @@ const A={
  histNext:()=>{goAfter(G.run);toTop();},
  briefOk:()=>{const r=G.run;r.briefed=1;r.phase=planOrQuiet(r);toTop();},
  quiet:v=>{quietChoose(+v);toTop();},
- qNext:()=>{const r=G.run;r.phase='plan';toTop();},
+ qNext:()=>{const r=G.run;r.phase=myDue(r)||'plan';toTop();},
+ gift:v=>{giftChoose(v);toTop();},
+ gNext:()=>{giftNext();toTop();},
+ cs:v=>{caseChoose(v);toTop();},
+ rv:v=>{revChoose(+v);toTop();},
+ cNext:()=>{caseNext();toTop();},
  fw:v=>{farewell(v);toTop();},
  dNext:()=>{deathNext();toTop();},
  retOk:()=>{retDone();toTop();},
@@ -1084,7 +1288,7 @@ function viewQuiet(){const r=G.run,q=quietFor(r);if(!q){r.phase='plan';return vi
  return`<div class="card"><div class="xs mut">CICHA CHWILA · ${seasonLabel(r.s)}</div><h2>${esc(q.t)}</h2>${q.img?IMG(q.img):''}<p>${esc(q.d(r))}</p>${q.th?thought(q.th(r)):''}${q.ch.map((c,i)=>`<button class="choice" data-a="quiet" data-v="${i}">${esc(lbl(c.l,r))}${c.s?`<small>${esc(c.s)}</small>`:''}</button>`).join('')}</div>`;}
 function viewQuietRes(){const r=G.run;return`<div class="card"><h2>${esc(r.qRes.t)}</h2><p>${esc(r.qRes.txt)}</p><button class="btn" data-a="qNext">Do pracy ▶</button></div>`;}
 function viewDeath(){const r=G.run,d=curDeath(r);if(!d){deathNext();return viewGame();}const S=SCENE[d.who](r);
- return`<div class="card"><div class="xs mut">${esc(d.how.toUpperCase())}</div><div class="row" style="margin:6px 0"><div style="flex:0 0 auto">${portrait(d.who,d.n,1)}</div><h2 style="flex:3;margin:0">${esc(d.n)}</h2></div>${S.img?IMG(S.img):''}<p>${esc(S.m)}</p>${thought(S.th)}
+ return`<div class="card"><div class="xs mut">${esc(d.how.toUpperCase())}</div><div class="row" style="margin:6px 0"><div style="flex:0 0 auto">${portrait(d.who,d.n,1)}</div><h2 style="flex:3;margin:0">${esc(d.n)}</h2></div>${S.img?IMG(S.img):''}<p>${esc(S.m)}</p>${thought(S.th)}${(S.retro||[]).map(t=>thought(t)).join('')}
  <h3>Jak się pożegnasz?</h3>${farewells(r,d).map(([k,l,s])=>`<button class="choice" data-a="fw" data-v="${k}">${esc(l)}<small>${esc(s)}</small></button>`).join('')}</div>`;}
 function viewDeathRes(){const r=G.run;return`<div class="card"><h2>${esc(r.dRes.n)}</h2><p>${esc(r.dRes.t)}</p><button class="btn" data-a="dNext">Dalej</button></div>`;}
 function viewRet(){const r=G.run;return`<div class="card"><div class="xs mut">WIOSNA 1185 · POWRÓT</div><h2>Droga do domu</h2>${r.retL.map(t=>`<p>${esc(t)}</p>`).join('')}${thought(r.lost.length?T(r,'„Wracam. Nie wszyscy wracają. Będę to nosił jak drugi kołczan.”','„Wróciłam. Nie wszyscy. Policzę ich jak worki — każdego z imienia.”'):'„Wszyscy. Nie wierzę, dopóki nie dotknę każdej ręki.”')}<button class="btn" data-a="retOk">Koniec wojny ▶</button></div>`;}
@@ -1093,17 +1297,46 @@ function viewPam(){const r=G.run,M=G.meta.mem;
   let h=`<div class="card"><h2>🕯️ Pamięć rodu</h2><p class="sm mut">${esc(M.hero)} z ${esc(M.village)} — ostatnia partia.</p>`;
   h+=M.lost.length?M.lost.map(d=>`<div class="mem"><div class="row"><div style="flex:0 0 auto">${portrait(d.who,d.n,1)}</div><div style="flex:3"><b>${esc(d.n)}</b> <span class="tag">${esc(d.role)}</span><div class="xs mut">${esc(d.how)}</div>${d.item?`<div class="xs">🎴 ${esc(d.item)}</div>`:''}</div></div></div>`).join(''):'<p class="good">Wszyscy przeżyli.</p>';
   h+='</div>';
-  if(M.what.length)h+=`<div class="card"><h2>Co mogłem zrobić</h2>${M.what.map(w=>`<h3>${esc(w.n)}</h3>${w.w.map(x=>`<p class="wi"><span class="${x.ok?'good':'bad'}">${x.ok?'✓':'✗'}</span> ${esc(x.t)}</p>`).join('')}`).join('')}<p class="xs mut">Los ma najwyżej 20% udziału. Resztę decydowały twoje wcześniejsze wybory.</p></div>`;
+  if(M.what.length)h+=`<div class="card"><h2>Co można było zrobić</h2>${M.what.map(w=>`<h3>${esc(w.n)}</h3>${w.w.map(x=>`<p class="wi"><span class="${x.ok?'good':'bad'}">${x.ok?'✓':'✗'}</span> ${esc(x.t)}</p>`).join('')}`).join('')}<p class="xs mut">Los ma najwyżej 20% udziału. Resztę decydowały twoje wcześniejsze wybory.</p></div>`;
+  if(M.my)h+=sprawaEnd(M.my);
   if(r&&r.chap)h+=chapList(r);return h;}
- const C=r.comp,ppl=[['heiji','Heiji','towarzysz, pachołek z sąsiedniej wsi',C.heiji],['mentor',r.mentor,'stary rōtō, mentor',C.mentor],['father',fatM(r).n,'ojciec',C.father],['sib',sibM(r).n,sibM(r).role.toLowerCase(),C.sib]];
+ const C=r.comp,ppl=[['heiji','Heiji','towarzysz, pachołek z sąsiedniej wsi',C.heiji],['mentor',r.mentor,'stary rōtō, mentor',C.mentor],['father',fatM(r).n,'ojciec',C.father],['sib',sibM(r).n,sibM(r).role.toLowerCase(),C.sib],['mother',r.family[2].n,'matka',C.mother||{b:0,st:'alive'}]];
  let h=`<div class="card"><h2>🕯️ Pamięć rodu</h2><p class="xs mut">Więź rośnie w cichych chwilach. Zmienia to, jak ludzie odchodzą — i czy w ogóle.</p>`;
  ppl.forEach(([k,n,role,c])=>{if(k==='heiji'&&r.s<1)return;const st=c.st||'alive',d=r.lost.find(x=>x.who===k);
   h+=`<div class="mem"><div class="row"><div style="flex:0 0 auto">${portrait(k,n,st==='dead')}</div><div style="flex:3"><b>${esc(n)}</b> ${hearts(c.b||0)}<div class="xs mut">${esc(role)}</div><div class="xs ${st==='dead'?'bad':st==='hurt'?'acc':'good'}">${st==='dead'?'nie żyje — '+esc(d?d.how:''):st==='hurt'?'ranny, żyje':'żyje'}</div>${d&&d.item?`<div class="xs">🎴 ${esc(d.item)}</div>`:''}</div></div></div>`;});
- h+=`<p class="xs mut" style="margin-top:10px">„Co mogłem zrobić” odsłoni się po końcu gry.</p></div>`;
- return h+chapList(r);}
+ h+=`<p class="xs mut" style="margin-top:10px">„Co można było zrobić” odsłoni się po końcu gry.</p></div>`;
+ return h+sprawaCard(r)+chapList(r);}
 function chapList(r){const ks=Object.keys(r.chap||{}).filter(k=>k!=='E3');if(!ks.length)return'';return`<div class="card"><h2>Schematy wypraw</h2>${ks.map(k=>`<h3>${esc(EXP[k].n)}</h3>${chapterHTML(r,k)}`).join('')}</div>`;}
 
 if(typeof document!=='undefined'&&document.getElementById('main'))boot();
+
+
+/* ---------- Tajemnica: widoki ---------- */
+const paras=t=>String(t).split('\n\n').map(x=>`<p>${esc(x)}</p>`).join('');
+function viewGift(){const r=G.run,m=r.my,k=m.cur,g=GIFT[k];
+ return`<div class="card"><div class="xs mut">CICHY DAR · ${seasonLabel(r.s)}</div><h2>${esc(g.t)}</h2><p>${esc(g.d(r))}</p>${thought(g.th(r))}
+ <h3>Co robisz?</h3>
+ <button class="choice" data-a="gift" data-v="phys">Obejrzyj dokładnie ${esc(g.obj)}<small>Ślady na przedmiotach nie kłamią</small></button>
+ <button class="choice" data-a="gift" data-v="ask">Rozpytaj dyskretnie we wsi<small>Ludzie widzą różne rzeczy. Nie wszystkim warto wierzyć</small></button>
+ ${k<3&&!m.watch?`<button class="choice" data-a="gift" data-v="watch">Zaczekaj przy progu przy następnym darze<small>Kosztuje noc bez snu (siły −8)</small></button>`:''}
+ <button class="choice" data-a="gift" data-v="none">Przyjmij w milczeniu<small>Czasem dar ma zostać darem</small></button></div>`;}
+function viewGiftRes(){const r=G.run;return`<div class="card"><div class="xs mut">${esc(GIFT[r.my.cur].t.toUpperCase())}</div>${paras(r.my.res)}<button class="btn" data-a="gNext">Dalej ▶</button></div>`;}
+function viewCase(){const r=G.run,m=r.my,ops=caseOpts(r);
+ return`<div class="card"><div class="xs mut">WĘZEŁ NA WORKU · ${seasonLabel(r.s)}</div><h2>Kto zostawia worki?</h2>
+ <p>Od kilku pór ktoś po cichu pomaga waszemu domowi. Zebrane ślady: ${m.clues.length}. Czy wiesz już, kto to?</p>
+ ${m.clues.map(c=>`<div class="mem"><div class="xs">${c.pl?'🔍 ':'💬 '}${esc(c.txt)}</div></div>`).join('')}
+ <p class="xs mut">Ślady przy przedmiotach są pewne. Plotki i sylwetki w ciemności bywają mylące. Pomyłka kosztuje łaskę i zaufanie. W tej porze możesz zgadywać tylko raz.</p>
+ ${ops.map(t=>`<button class="choice" data-a="cs" data-v="${t}">${esc(myName(r,t))}<small>${esc(CASE_SUB[t])}</small></button>`).join('')}
+ <button class="btn2" style="text-align:center" data-a="cs" data-v="no">Jeszcze nie wiem. Poszukam dalej</button></div>`;}
+function viewReveal(){const r=G.run,m=r.my,R=REV[m.t];
+ return`<div class="card"><div class="xs mut">PRAWDA O WĘŹLE</div><h2>${esc(myName(r,m.t))}</h2>${paras(R.d(r))}${thought(R.th(r))}<h3>Co robisz?</h3>
+ ${R.ch.map((c,i)=>`<button class="choice" data-a="rv" data-v="${i}">${esc(lbl(c.l,r))}</button>`).join('')}</div>`;}
+function viewCaseRes(){const r=G.run;return`<div class="card">${paras(r.my.res)}<button class="btn" data-a="cNext">Dalej ▶</button></div>`;}
+function sprawaCard(r){const m=r.my;if(!m||!m.gd[0])return'';
+ return`<div class="card"><h2>🧵 Węzeł na worku</h2>${m.st==='solved'?`<p class="good">Rozwiązane: ${esc(myName(r,m.t))}.</p>`:`<p class="xs mut">Ktoś po cichu pomaga waszemu domowi. Zebrane ślady: ${m.clues.length}. Wskazać winowajcę możesz latem 1182, latem 1183 i jesienią 1184.</p>`}
+ ${m.clues.length?m.clues.map(c=>`<div class="mem"><div class="xs">${c.pl?'🔍 ':'💬 '}${esc(c.txt)}</div></div>`).join(''):'<p class="xs mut">Brak śladów. Oglądaj przedmioty, nasłuchuj, patrz uważniej.</p>'}</div>`;}
+function sprawaEnd(M){return`<div class="card"><h2>🧵 Co naprawdę się działo</h2><p>${esc(M.why)}</p><p class="${M.st==='solved'?'good':'bad'}">${M.st==='solved'?'Rozwiązana w trakcie gry.':'Nierozwiązana.'}</p>
+ ${M.clues.map(c=>`<p class="wi"><span class="${c.k==='T'?'good':'bad'}">${c.k==='T'?'✓':'✗'}</span> ${esc(c.txt)}${c.k==='D'&&c.ex?`<br><span class="xs mut">Zmyłka: ${esc(c.ex)}</span>`:''}</p>`).join('')||'<p class="xs mut">Nie zebrano śladów.</p>'}</div>`;}
 
 </script>
 </body>
